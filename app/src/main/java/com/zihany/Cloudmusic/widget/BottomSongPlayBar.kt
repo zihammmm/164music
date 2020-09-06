@@ -1,12 +1,15 @@
 package com.zihany.Cloudmusic.widget
 
 import android.content.Context
+import android.content.Intent
 import android.util.AttributeSet
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.zihany.Cloudmusic.databinding.LayoutBottomSongplayControlBinding
+import com.zihany.Cloudmusic.song.SongActivity
+import de.hdodenhof.circleimageview.CircleImageView
 import org.greenrobot.eventbus.EventBus
 
 class BottomSongPlayBar(context: Context, attrs: AttributeSet?, defStyleAttr: Int)
@@ -17,6 +20,7 @@ class BottomSongPlayBar(context: Context, attrs: AttributeSet?, defStyleAttr: In
 
     private var mContext: Context? = context
     private var rlSongController: RelativeLayout? = null
+    private var ivCover: CircleImageView? = null
     private var ivPlay: ImageView? = null
     private var ivController: ImageView? = null
     private var tvSongName: TextView? = null
@@ -40,7 +44,10 @@ class BottomSongPlayBar(context: Context, attrs: AttributeSet?, defStyleAttr: In
     }
 
     private fun initListener() {
-
+        ivCover!!.setOnClickListener { v ->
+            val intent = Intent(mContext, SongActivity::class.java)
+            intent.putExtra()
+        }
     }
 
     private fun initSongInfo() {
