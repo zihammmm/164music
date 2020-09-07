@@ -10,6 +10,7 @@ import com.zihany.Cloudmusic.manager.event.StopMusicEvent
 import com.zihany.Cloudmusic.song.bean.SongDetailBean
 import com.zihany.Cloudmusic.util.LogUtil
 import com.zihany.Cloudmusic.util.SharePreferenceUtil
+import okhttp3.Request
 import org.greenrobot.eventbus.EventBus
 import java.util.regex.Pattern
 
@@ -70,6 +71,8 @@ class SongPlayManager private constructor(){
 
     fun setOnSongCanPlayListener(id: String, listener: OnSongListener) {
         TODO("implementation")
+        val requestBuilder = Request.Builder()
+
     }
 
     fun playMusic(songId: String) {
