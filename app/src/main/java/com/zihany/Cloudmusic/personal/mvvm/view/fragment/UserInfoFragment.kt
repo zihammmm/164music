@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.zihany.Cloudmusic.base.BaseFragment
 import com.zihany.Cloudmusic.databinding.FragmentUserInfoBinding
+import com.zihany.Cloudmusic.personal.event.UserDetailEvent
 import org.greenrobot.eventbus.EventBus
 
 class UserInfoFragment: BaseFragment() {
@@ -22,7 +23,10 @@ class UserInfoFragment: BaseFragment() {
         EventBus.getDefault().unregister(this)
     }
 
-    fun onUserDetailEvent(event: UserD)
+    fun onUserDetailEvent(event: UserDetailEvent) {
+        val bean = event.userDetailBean
+        TODO("0910")
+    }
 
     override fun initVariables(bundle: Bundle) {
     }
