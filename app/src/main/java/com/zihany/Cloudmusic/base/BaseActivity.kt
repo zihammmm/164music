@@ -23,12 +23,9 @@ abstract class BaseActivity: AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context  = this
-        initData()
     }
-
-    protected abstract fun onCreateView(savedInstanceState: Bundle?)
-
     protected abstract fun initData()
+    protected abstract fun onCreateView(savedInstanceState: Bundle?)
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(newBase)
@@ -67,5 +64,21 @@ abstract class BaseActivity: AppCompatActivity(){
 
     fun disconnectMusicService() {
         MediaSessionConnection.getInstance().disconnect()
+    }
+
+    fun showDialog() {
+        diaLog?.let {
+            if (!it.isShowing) {
+                it.show()
+            }
+        }
+    }
+
+    fun hideDialog() {
+        diaLog?.let {
+            if (!it.isShowing) {
+                it.show()
+            }
+        }
     }
 }

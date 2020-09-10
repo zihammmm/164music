@@ -1,5 +1,7 @@
 package com.zihany.Cloudmusic.base
 
-interface BaseView {
+import android.view.View
+
+interface BaseView: View.OnClickListener {
 
 }

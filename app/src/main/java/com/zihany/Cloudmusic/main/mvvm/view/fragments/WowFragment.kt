@@ -1,6 +1,12 @@
 package com.zihany.Cloudmusic.main.mvvm.view.fragments
 
-class WowFragment {
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import com.zihany.Cloudmusic.base.BaseFragment
+
+class WowFragment: BaseFragment() {
     companion object {
         private const val TAG = "WowFragment"
         const val PLAYLIST_NAME = "playlistName"
@@ -8,5 +14,17 @@ class WowFragment {
         const val PLAYLIST_CREATOR_NICKNAME = "playlistCreatorNickname"
         const val PLAYLIST_CREATOR_AVATARURL = "playlistCreatorAvatarUrl"
         const val PLAYLIST_ID = "playlistId"
+    }
+
+    override fun initView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        TODO("Not yet implemented")
+    }
+
+    override fun initVariables(bundle: Bundle) {
+        TODO("Not yet implemented")
+    }
+
+    override fun initData() {
+        TODO("Not yet implemented")
     }
 }
