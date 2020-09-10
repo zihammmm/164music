@@ -44,8 +44,8 @@ class SharePreferenceUtil private constructor() {
         return getInt(Constants.TAG_LANGUAGE, 0)
     }
 
-    fun getUserInfo(defaultValue: String): String? {
-        return getString(Constants.USER_INFO, defaultValue)
+    fun getUserInfo(defaultValue: String): String {
+        return getString(Constants.USER_INFO, defaultValue)?:""
     }
 
     fun saveUserInfo(bean: LoginBean, phoneNumber: String) {

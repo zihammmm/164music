@@ -1,4 +1,4 @@
-package com.zihany.Cloudmusic.view
+package com.zihany.Cloudmusic.main.mvvm.view
 
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity

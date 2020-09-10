@@ -2,7 +2,7 @@ package com.zihany.Cloudmusic.util
 
 import android.app.Activity
 import android.content.Intent
-import com.zihany.Cloudmusic.MainActivity
+import com.zihany.Cloudmusic.main.mvvm.view.MainActivity
 import com.zihany.Cloudmusic.login.SelectLoginActivity
 
 class ActivityStarter private constructor(){
