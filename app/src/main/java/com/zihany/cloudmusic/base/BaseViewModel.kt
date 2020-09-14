@@ -1,7 +1,8 @@
 package com.zihany.cloudmusic.base
 
 import android.content.Context
+import androidx.lifecycle.ViewModel
 
-interface BaseViewModel {
-    fun initData(context: Context)
+abstract class BaseViewModel: ViewModel() {
+    abstract fun initData(context: Context)
 }

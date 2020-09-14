@@ -1,6 +1,7 @@
 package com.zihany.cloudmusic.base
 
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,14 +9,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.zihany.cloudmusic.widget.LoadingDialog
 
-abstract class BaseFragment : Fragment(), View.OnClickListener {
+abstract class BaseFragment<T: BaseViewModel> : Fragment(), View.OnClickListener {
     companion object {
         const val TAG = "BaseFragment"
         const val SONG_URL = "http://music.163.com/song/media/outer/url?id="
     }
 
     protected var diaLog: LoadingDialog? = null
-    protected var activity: Activity? = null
+    protected lateinit var activity: Activity
+    protected lateinit var viewModel: T
     var fragmentTitle: String? = null
     private var isFragmentVisible = false
     private var isFirstLoad = true
@@ -29,6 +31,11 @@ abstract class BaseFragment : Fragment(), View.OnClickListener {
         if (bundle != null && bundle.size() > 0) {
             initVariables(bundle)
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        activity = context as Activity
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

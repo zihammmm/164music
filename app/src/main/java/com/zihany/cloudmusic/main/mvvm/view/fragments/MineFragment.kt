@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lzx.starrysky.model.SongInfo
 import com.zihany.cloudmusic.base.BaseFragment
@@ -24,20 +25,19 @@ import com.zihany.cloudmusic.util.LogUtil
 import com.zihany.cloudmusic.util.SharePreferenceUtil
 import com.zihany.cloudmusic.util.ToastUtils
 
-class MineFragment : BaseFragment() {
+class MineFragment : BaseFragment<MineViewModel>() {
     private var _binding: FragmentMineBinding? = null
     private val binding get() = _binding
     private lateinit var adapter: UserPlaylistAdapter
-    private val viewmodel = MineViewModel()
     private val adapterList = ArrayList<PlayListItemBean>()
     private val listener = object : UserPlaylistAdapter.OnPlayListItemClickListener {
         override fun onPlayListItemClick(position: Int) {
             val intent = Intent(context, PlayListActivity::class.java)
-            intent.putExtra(WowFragment.PLAYLIST_PICURL, viewmodel.playListBeans.value!![position].coverImgUrl)
-            intent.putExtra(WowFragment.PLAYLIST_NAME, viewmodel.playListBeans.value!![position].name)
-            intent.putExtra(WowFragment.PLAYLIST_CREATOR_NICKNAME, viewmodel.playListBeans.value!![position].creator!!.nickname)
-            intent.putExtra(WowFragment.PLAYLIST_CREATOR_AVATARURL, viewmodel.playListBeans.value!![position].creator!!.avatarUrl)
-            intent.putExtra(WowFragment.PLAYLIST_ID, viewmodel.playListBeans.value!![position].id)
+            intent.putExtra(WowFragment.PLAYLIST_PICURL, viewModel.playListBeans.value!![position].coverImgUrl)
+            intent.putExtra(WowFragment.PLAYLIST_NAME, viewModel.playListBeans.value!![position].name)
+            intent.putExtra(WowFragment.PLAYLIST_CREATOR_NICKNAME, viewModel.playListBeans.value!![position].creator!!.nickname)
+            intent.putExtra(WowFragment.PLAYLIST_CREATOR_AVATARURL, viewModel.playListBeans.value!![position].creator!!.avatarUrl)
+            intent.putExtra(WowFragment.PLAYLIST_ID, viewModel.playListBeans.value!![position].id)
             context?.startActivity(intent)
         }
 
@@ -47,16 +47,17 @@ class MineFragment : BaseFragment() {
 
     }
 
-    init {
-        fragmentTitle = "我的"
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(this)[MineViewModel::class.java]
 
-        viewmodel.apply {
+        viewModel.apply {
             loginBean.observe(this@MineFragment, Observer<LoginBean> {
                 adapter.nickName = it.account?.userName
             })
 
             playListBeans.observe(this@MineFragment, Observer<ArrayList<UserPlayListBean.PlayListBean>> {
-                for (bean : UserPlayListBean.PlayListBean in it) {
+                for (bean: UserPlayListBean.PlayListBean in it) {
                     val beanInfo = PlayListItemBean()
                     beanInfo.coverUrl = bean.coverImgUrl
                     beanInfo.playListId = bean.id
@@ -116,6 +117,11 @@ class MineFragment : BaseFragment() {
         }
     }
 
+    init {
+        fragmentTitle = "我的"
+
+    }
+
     override fun initVariables(bundle: Bundle) {
     }
 
@@ -164,7 +170,7 @@ class MineFragment : BaseFragment() {
 
         showDialog()
 
-        viewmodel.initData(context!!)
+        viewModel.initData(context!!)
         //viewmodel.getUserPlaylist()
     }
 

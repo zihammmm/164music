@@ -25,7 +25,6 @@ class MainViewModel : BaseViewModel {
 
     var loginBean: MutableLiveData<LoginBean> = MutableLiveData()
     var logoutBean: MutableLiveData<LogoutBean> = MutableLiveData()
-    var songInfos: MutableList<SongInfo>? = null
     var likeListBean: MutableLiveData<LikeListBean> = MutableLiveData()
     var getLikeListError: MutableLiveData<Throwable> = MutableLiveData()
     var logoutError: MutableLiveData<Throwable> = MutableLiveData()

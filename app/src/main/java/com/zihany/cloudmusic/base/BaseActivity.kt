@@ -9,14 +9,14 @@ import com.lzx.starrysky.model.SongInfo
 import com.zihany.cloudmusic.util.LocaleManageUtil
 import com.zihany.cloudmusic.widget.LoadingDialog
 
-abstract class BaseActivity: AppCompatActivity(){
+abstract class BaseActivity<T: BaseViewModel>: AppCompatActivity(){
     companion object {
         val SONG_URL = "http://music.163.com/song/media/outer/url?id="
     }
 
     private val TAG = "BaseActivity"
     var context: Context? = null
-
+    protected lateinit var viewModel: T
     protected var diaLog: LoadingDialog? = null
     private var bottomSongInfo: SongInfo? = null
 

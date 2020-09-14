@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
 import com.gyf.immersionbar.ImmersionBar
@@ -33,7 +34,7 @@ import com.zihany.cloudmusic.search.mvvm.view.SearchActivity
 import com.zihany.cloudmusic.util.*
 import kotlin.system.exitProcess
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity<MainViewModel>() {
     companion object {
         const val TAG = "MainActivity"
         const val VIEWPAGER_OFF_SCREEN_PAGE_LIMIT = 2
@@ -41,7 +42,6 @@ class MainActivity : BaseActivity() {
     }
 
     private lateinit var binding: ActivityMainBinding
-    private var viewModel = MainViewModel()
 
     private var pagerAdapter: MultiFragmentPagerAdapter? = null
     private val fragments: MutableList<BaseFragment> = ArrayList()
@@ -51,6 +51,7 @@ class MainActivity : BaseActivity() {
         LogUtil.d(TAG, "onCreate")
         binding = ActivityMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
         viewModel.apply {
             loginBean.observe(this@MainActivity, Observer<LoginBean> {
