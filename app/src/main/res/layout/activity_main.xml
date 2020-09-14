@@ -6,7 +6,10 @@
     <data>
         <variable
             name="mainViewModel"
-            type="com.zihany.Cloudmusic.main.mvvm.viewmodel.MainViewModel"/>
+            type="com.zihany.cloudmusic.main.mvvm.viewmodel.MainViewModel"/>
+        <variable
+            name="mainPresenter"
+            type="com.zihany.cloudmusic.main.mvvm.view.MainActivity.MainActivityPresenter" />
     </data>
 
     <androidx.drawerlayout.widget.DrawerLayout
@@ -45,6 +48,7 @@
 
                         <RelativeLayout
                             android:id="@+id/rl_avatar_name"
+                            android:onClick="@{mainPresenter.onClickAvatarName}"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:paddingTop="@dimen/dp_20">
@@ -63,7 +67,7 @@
                                 android:layout_below="@id/iv_avatar"
                                 android:layout_marginStart="@dimen/dp_15"
                                 android:layout_marginTop="@dimen/dp_15"
-                                android:text="@{mainViewModel.userName}"
+                                android:text="@{mainViewModel.loginBean.profile.nickname}"
                                 android:textColor="#232323"
                                 android:textSize="@dimen/sp_16" />
                         </RelativeLayout>
@@ -251,6 +255,7 @@
                         android:id="@+id/rl_logout"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/dp_60"
+                        android:onClick="@{mainPresenter.onClickLogout}"
                         android:layout_gravity="center"
                         android:layout_weight="1">
 
@@ -277,5 +282,4 @@
         </com.google.android.material.navigation.NavigationView>
 
     </androidx.drawerlayout.widget.DrawerLayout>
-
 </layout>
