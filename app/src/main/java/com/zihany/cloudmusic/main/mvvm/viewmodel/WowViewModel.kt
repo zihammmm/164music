@@ -13,7 +13,9 @@ class WowViewModel: BaseViewModel() {
     val banners = MutableLiveData<ArrayList<BannerBean.BannersBean>>()
 
     override fun initData(context: Context) {
-        list.value.clear()
+        list.value?.clear()
+        recommends.value?.clear()
+
     }
 
     fun getBanner() {
