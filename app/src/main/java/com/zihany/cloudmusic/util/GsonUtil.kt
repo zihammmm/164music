@@ -18,7 +18,10 @@ class GsonUtil {
             return result
         }
 
-        fun <T> fromJSON(json: String): T? {
+        fun <T> fromJSON(json: String?): T? {
+            if (json == null) {
+                return null
+            }
             try {
                 val itemType = object : TypeToken<T>(){}.type
                 return instance.fromJson<T>(json, itemType)

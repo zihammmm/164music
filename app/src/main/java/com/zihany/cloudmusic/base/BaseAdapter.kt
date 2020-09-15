@@ -12,5 +12,5 @@ abstract class BaseAdapter<VH: RecyclerView.ViewHolder, T> constructor(context: 
 
     var inflater: LayoutInflater = LayoutInflater.from(context)
 
-    abstract fun notifyDataSetChanged(dataList: MutableList<T>)
+    abstract fun notifyDataSetChanged(dataList: ArrayList<T>)
 }

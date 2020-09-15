@@ -136,30 +136,6 @@ class MineFragment : BaseFragment<MineViewModel>() {
         _binding = null
     }
 
-    fun showDialog() {
-        diaLog?.let {
-            if (!it.isShowing) {
-                it.show()
-            }
-        }
-    }
-
-    fun hideDialog() {
-        diaLog?.let {
-            if (it.isShowing) {
-                it.dismiss()
-            }
-        }
-    }
-
-    fun refreshData() {
-        if (isFragmentVisible()) {
-            initData()
-        } else {
-            setForceLoad(true)
-        }
-    }
-
     override fun initData() {
         binding?.rvMinePlaylist?.let {
             it.layoutManager = LinearLayoutManager(context)

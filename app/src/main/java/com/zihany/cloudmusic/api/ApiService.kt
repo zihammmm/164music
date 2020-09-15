@@ -20,7 +20,7 @@ interface ApiService {
     fun logout(): Observable<LogoutBean>
 
     @GET("banner")
-    fun getBanner(@Query("type") type: String)
+    fun getBanner(@Query("type") type: String): Observable<BannerBean>
 
     @GET("recommend/resource")
     fun getRecommendPlayList(): Observable<MainRecommendPlayListBean>

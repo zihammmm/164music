@@ -2,6 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="wowPresenter"
+            type="com.zihany.cloudmusic.main.mvvm.view.fragments.WowFragment.WowPresenter" />
+    </data>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -51,6 +57,7 @@
                     android:id="@+id/rl_day_rec"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:onClick="@{wowPresenter.onClickRlDayRec}"
                     android:layout_weight="1">
 
                     <ImageView
@@ -75,6 +82,7 @@
                     android:id="@+id/rl_play_list"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:onClick="@{wowPresenter.onClickRlPlayList}"
                     android:layout_weight="1">
 
                     <ImageView
@@ -99,6 +107,7 @@
                     android:id="@+id/rl_rank"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:onClick="@{wowPresenter.onClickRlRank}"
                     android:layout_weight="1">
 
                     <ImageView
@@ -123,6 +132,7 @@
                     android:id="@+id/rl_radio"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:onClick="@{wowPresenter.onClickRlRadio}"
                     android:layout_weight="1">
 
                     <ImageView
@@ -147,6 +157,7 @@
                     android:id="@+id/rl_live"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:onClick="@{wowPresenter.onClickRlLive}"
                     android:layout_weight="1">
 
                     <ImageView
@@ -210,6 +221,7 @@
                     android:paddingBottom="@dimen/dp_8"
                     android:text="@string/playlist_playground"
                     android:textColor="#353636"
+                    android:onClick="@{wowPresenter.onClickPlaylistPlayground}"
                     android:textSize="@dimen/sp_11" />
             </RelativeLayout>
 

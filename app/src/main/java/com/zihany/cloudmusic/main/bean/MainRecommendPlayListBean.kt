@@ -10,15 +10,15 @@ class MainRecommendPlayListBean {
     inner class RecommendBean {
         var id = 0L
         var type = 0
-        var name: String? = null
-        var copywriter: String? = null
-        var picUrl: String? = null
+        var name = ""
+        var copywriter = ""
+        var picUrl = ""
         var playcount = 0
         var createTime = 0L
         var creator: CreatorBean? = null
         var trackCount = 0
         var userId = 0
-        var alg: String? = null
+        var alg = ""
 
         inner class CreatorBean {
             var description: String? = null

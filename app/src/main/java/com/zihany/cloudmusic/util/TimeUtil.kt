@@ -11,5 +11,10 @@ class TimeUtil {
             val format = SimpleDateFormat("mm:ss", Locale.getDefault())
             return format.format(time)
         }
+
+        fun getTimeStandardOnlyYMD(time: Long): String {
+            val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            return format.format(time)
+        }
     }
 }

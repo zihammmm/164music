@@ -10,13 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.zihany.cloudmusic.widget.LoadingDialog
 
-abstract class BaseFragment<T: BaseViewModel> : Fragment(), View.OnClickListener {
+abstract class BaseFragment<T: BaseViewModel> : Fragment() {
     companion object {
         const val TAG = "BaseFragment"
         const val SONG_URL = "http://music.163.com/song/media/outer/url?id="
     }
 
-    protected var diaLog: LoadingDialog? = null
+    protected lateinit var diaLog: LoadingDialog
     protected lateinit var activity: Activity
     protected lateinit var viewModel: T
     var fragmentTitle: String? = null
@@ -47,6 +47,11 @@ abstract class BaseFragment<T: BaseViewModel> : Fragment(), View.OnClickListener
         return view
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        isPrepared = false
+    }
+
     protected abstract fun initView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View
 
     protected abstract fun initVariables(bundle: Bundle)
@@ -63,13 +68,39 @@ abstract class BaseFragment<T: BaseViewModel> : Fragment(), View.OnClickListener
         }
     }
 
-    override fun onClick(v: View?) {
-        TODO("Not yet implemented")
+    protected fun onVisible() {
+        isFragmentVisible = true
+        lazyLoad()
+    }
+
+    protected fun onInvisible() {
+        isFragmentVisible = false
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden) {
+            onVisible()
+        }else {
+            onInvisible()
+        }
     }
 
     private fun createDialog() {
-        if (diaLog == null) {
+        if (!this::diaLog.isInitialized) {
             diaLog = LoadingDialog(context!!, "Loading...")
+        }
+    }
+
+    fun showDialog() {
+        if (this::diaLog.isInitialized && !diaLog.isShowing) {
+            diaLog.show()
+        }
+    }
+
+    fun hideDialog() {
+        if(this::diaLog.isInitialized && diaLog.isShowing) {
+            diaLog.dismiss()
         }
     }
 
@@ -87,6 +118,14 @@ abstract class BaseFragment<T: BaseViewModel> : Fragment(), View.OnClickListener
 
     fun isFirstLoad(): Boolean {
         return isFirstLoad
+    }
+
+    fun refreshData() {
+        if (isFragmentVisible()) {
+            initData()
+        } else {
+            setForceLoad(true)
+        }
     }
 
 }

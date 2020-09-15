@@ -151,7 +151,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
         pagerAdapter = MultiFragmentPagerAdapter(supportFragmentManager)
         fragments.add(MineFragment())
-        //fragments.add(WowFragment())
+        fragments.add(WowFragment())
         pagerAdapter!!.init(fragments)
     }
 
