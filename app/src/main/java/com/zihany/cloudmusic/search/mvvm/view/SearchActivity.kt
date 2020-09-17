@@ -3,8 +3,9 @@ package com.zihany.cloudmusic.search.mvvm.view
 import android.os.Bundle
 import com.zihany.cloudmusic.base.BaseActivity
 import com.zihany.cloudmusic.search.adapter.HotSearchAdapter
+import com.zihany.cloudmusic.search.mvvm.viewmodel.SearchViewModel
 
-class SearchActivity: BaseActivity() {
+class SearchActivity: BaseActivity<SearchViewModel>() {
     companion object {
         val TAG = "SearchActivity"
         const val KEYWORDS = "keywords"

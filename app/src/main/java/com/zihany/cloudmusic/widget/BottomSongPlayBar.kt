@@ -4,14 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.RelativeLayout
-import android.widget.TextView
 import com.zihany.cloudmusic.databinding.LayoutBottomSongplayControlBinding
-import com.zihany.cloudmusic.song.SongActivity
-import de.hdodenhof.circleimageview.CircleImageView
-import org.greenrobot.eventbus.EventBus
+import com.zihany.cloudmusic.song.mvvm.view.SongActivity
 
 class BottomSongPlayBar(context: Context, attrs: AttributeSet?, defStyleAttr: Int)
     : RelativeLayout(context, attrs, defStyleAttr) {

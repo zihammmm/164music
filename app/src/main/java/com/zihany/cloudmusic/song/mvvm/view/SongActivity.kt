@@ -1,4 +1,4 @@
-package com.zihany.cloudmusic.song
+package com.zihany.cloudmusic.song.mvvm.view
 
 import android.animation.ObjectAnimator
 import android.os.Bundle
@@ -12,25 +12,16 @@ import com.zihany.cloudmusic.base.BaseView
 import com.zihany.cloudmusic.databinding.ActivitySongBinding
 import com.zihany.cloudmusic.song.bean.LyricBean
 import com.zihany.cloudmusic.song.bean.SongDetailBean
+import com.zihany.cloudmusic.song.mvvm.viewmodel.SongViewModel
 import com.zihany.cloudmusic.util.TimeUtil
 
 
-class SongActivity : BaseActivity() {
+class SongActivity : BaseActivity<SongViewModel>() {
     companion object {
-        private val TAG = "SongActivity"
-        val SONG_INFO = "songInfo"
+        const val TAG = "SongActivity"
+        const val SONG_INFO = "songInfo"
     }
 
-    //    private var ivRecord: CircleImageView
-//    private var ivLike: ImageView
-//    private var tvPastTime: TextView
-//    private var tvTotalTime: TextView
-//    private var seekBar: AppCompatSeekBar
-//    private var ivPlay: ImageView
-//    private var ivBg: ImageView
-//    private var ivPlayMode: ImageView
-//    private var llInfo: LinearLayout
-//    private var lrc: LyricView
     private var binding: ActivitySongBinding = ActivitySongBinding.inflate(layoutInflater)
 
     private var currentSongInfo: SongInfo? = null

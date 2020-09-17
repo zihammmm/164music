@@ -1,5 +1,6 @@
 package com.zihany.cloudmusic.util
 
+import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
@@ -14,6 +15,7 @@ class BannerGlideImageAdapter constructor(list: BannerBean)
         if (holder == null || data == null) {
             return
         }
+        holder.imageView.scaleType = ImageView.ScaleType.FIT_XY
         Glide.with(holder.itemView)
                 .load(data.pic)
                 .apply(RequestOptions.bitmapTransform(RoundedCorners(30)))

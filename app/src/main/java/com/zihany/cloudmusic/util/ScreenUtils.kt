@@ -14,7 +14,7 @@ class ScreenUtils {
         }
 
         fun setStatusBarDarkFont(activity: Activity, darkFont: Boolean) {
-
+            //TODO
         }
 
         @SuppressLint("PrivateApi")

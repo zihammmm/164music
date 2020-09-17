@@ -2,7 +2,6 @@ package com.zihany.cloudmusic.personal.adapter
 
 import android.content.Context
 import android.content.Intent
-import android.nfc.Tag
 import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +16,7 @@ import com.zihany.cloudmusic.databinding.ItemUserEventBinding
 import com.zihany.cloudmusic.personal.bean.UserEventBean
 import com.zihany.cloudmusic.personal.bean.UserEventJsonBean
 import com.zihany.cloudmusic.personal.mvvm.view.PictureCheckActivity
-import com.zihany.cloudmusic.song.SongActivity
+import com.zihany.cloudmusic.song.mvvm.view.SongActivity
 import com.zihany.cloudmusic.util.GsonUtil
 import com.zihany.cloudmusic.util.LogUtil
 import com.zihany.cloudmusic.util.TimeUtil

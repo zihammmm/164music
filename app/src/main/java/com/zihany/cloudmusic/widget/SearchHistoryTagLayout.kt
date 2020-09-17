@@ -16,14 +16,10 @@ class SearchHistoryTagLayout constructor(private val mContext: Context, attrs: A
     private val stringList: MutableList<SearchHistoryBean> = ArrayList()
     private val textViewList: MutableList<TextView> = ArrayList()
     private lateinit var listener: OnHistoryTagClickListener
-    private lateinit var rlHsv: RelativeLayout
+    private val rlHsv: RelativeLayout = LayoutSearchhistoryTagBinding.inflate(LayoutInflater.from(mContext), this, false).rlHsv
 
     constructor(context: Context, attrs: AttributeSet?): this(context, attrs, 0)
     constructor(context: Context): this(context, null)
-
-    init {
-        this.rlHsv = LayoutSearchhistoryTagBinding.inflate(LayoutInflater.from(mContext), this, false).rlHsv
-    }
 
     private fun initListener() {
         val size = textViewList.size

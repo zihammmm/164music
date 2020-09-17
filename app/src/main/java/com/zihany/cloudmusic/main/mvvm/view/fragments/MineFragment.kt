@@ -49,8 +49,8 @@ class MineFragment : BaseFragment<MineViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this)[MineViewModel::class.java]
 
+        viewModel = ViewModelProvider(this)[MineViewModel::class.java]
         viewModel.apply {
             loginBean.observe(this@MineFragment, Observer<LoginBean> {
                 adapter.nickName = it.account?.userName

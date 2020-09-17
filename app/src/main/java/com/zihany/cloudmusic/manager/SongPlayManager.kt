@@ -73,7 +73,7 @@ class SongPlayManager private constructor(){
                 }
 
                 override fun onSongCanPlayFail(e: String) {
-                    App.getContext()?.let {
+                    App.getContext().let {
                         ToastUtils.show(it, e)
                     }
                 }
@@ -93,7 +93,7 @@ class SongPlayManager private constructor(){
     fun playMusic(songId: String) {
         if (musicCanPlayMap[songId]!! || containsStr(songId)) {
             MusicManager.getInstance().playMusic(songList, currentSongIndex)
-            App.getContext()?.let {
+            App.getContext().let {
                 SharePreferenceUtil.getInstance(it).saveLatestSong(songList[currentSongIndex]) }
         }else {
             Toast.makeText(App.getContext(), "本歌曲不能播放", Toast.LENGTH_LONG)
@@ -123,7 +123,7 @@ class SongPlayManager private constructor(){
 
     fun clickPlayAll(songList: MutableList<SongInfo>, position: Int) {
         cancelPlay()
-
+        addSongListAndPlay(songList, position)
     }
 
     fun addSongListAndPlay(songInfoList: MutableList<SongInfo>, index: Int) {

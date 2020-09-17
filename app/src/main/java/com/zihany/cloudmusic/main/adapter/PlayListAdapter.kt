@@ -41,11 +41,6 @@ class PlayListAdapter constructor(private val mContext: Context)
         }
     }
 
-    override fun notifyDataSetChanged(dataList: MutableList<PlaylistBean>) {
-        list = dataList
-        notifyDataSetChanged()
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         binding = ItemPlaylistBinding.inflate(inflater, parent, false)
         return ViewHolder(binding.root)
@@ -71,6 +66,11 @@ class PlayListAdapter constructor(private val mContext: Context)
                 list!!.size
             }
         }
+    }
+
+    override fun notifyDataSetChanged(dataList: ArrayList<PlaylistBean>) {
+        list = dataList
+        notifyDataSetChanged()
     }
 
 }

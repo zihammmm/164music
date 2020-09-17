@@ -20,7 +20,7 @@ import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-class MineViewModel : BaseViewModel {
+class MineViewModel : BaseViewModel() {
     companion object {
         const val TAG = "MineViewModel"
     }

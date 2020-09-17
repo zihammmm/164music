@@ -26,6 +26,7 @@ import com.zihany.cloudmusic.login.bean.LoginBean
 import com.zihany.cloudmusic.main.adapter.MultiFragmentPagerAdapter
 import com.zihany.cloudmusic.main.bean.LikeListBean
 import com.zihany.cloudmusic.main.bean.LogoutBean
+import com.zihany.cloudmusic.main.mvvm.view.fragments.CloudVillageFragment
 import com.zihany.cloudmusic.main.mvvm.view.fragments.MineFragment
 import com.zihany.cloudmusic.main.mvvm.view.fragments.WowFragment
 import com.zihany.cloudmusic.main.mvvm.viewmodel.MainViewModel
@@ -44,7 +45,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
     private lateinit var binding: ActivityMainBinding
 
     private var pagerAdapter: MultiFragmentPagerAdapter? = null
-    private val fragments: MutableList<BaseFragment> = ArrayList()
+    private val fragments: MutableList<BaseFragment<*>> = ArrayList()
     private var firstTime = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -152,6 +153,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
         pagerAdapter = MultiFragmentPagerAdapter(supportFragmentManager)
         fragments.add(MineFragment())
         fragments.add(WowFragment())
+        fragments.add(CloudVillageFragment())
         pagerAdapter!!.init(fragments)
     }
 

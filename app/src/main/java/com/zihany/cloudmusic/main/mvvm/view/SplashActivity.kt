@@ -14,21 +14,24 @@ import com.zihany.cloudmusic.util.LogUtil
 import com.zihany.cloudmusic.util.ScreenUtils
 import com.zihany.cloudmusic.util.SharePreferenceUtil
 
-class SplashActivity : BaseActivity() {
+class SplashActivity : AppCompatActivity() {
     companion object {
         const val TAG = "SplashActivity"
     }
     var countDownTimer: CountDownTimer? = null
 
-    override fun initData() {
+    fun initData() {
         startCountDownTime()
     }
 
-    override fun onCreateView(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
 
         setContentView(R.layout.activity_splash)
+
+        initData()
     }
 
     override fun onResume() {

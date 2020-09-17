@@ -34,11 +34,6 @@ class HotSearchAdapter constructor(context: Context)
         fun onHotSearchClick(position: Int)
     }
 
-    override fun notifyDataSetChanged(dataList: MutableList<HotSearchDetailBean>) {
-        list = dataList[0]
-        notifyDataSetChanged()
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         binding = ItemHotSearchBinding.inflate(inflater, parent, false)
         return ViewHolder(binding.root)
@@ -51,5 +46,10 @@ class HotSearchAdapter constructor(context: Context)
             holder.setBean(list, position)
             holder.setListener(listener, position)
         }
+    }
+
+    override fun notifyDataSetChanged(dataList: ArrayList<HotSearchDetailBean>) {
+        list = dataList[0]
+        notifyDataSetChanged()
     }
 }

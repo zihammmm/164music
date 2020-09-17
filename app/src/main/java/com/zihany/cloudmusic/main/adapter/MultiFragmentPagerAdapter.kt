@@ -13,9 +13,9 @@ class MultiFragmentPagerAdapter constructor(fragmentManager: FragmentManager)
         const val TAG = "MultiFragmentPagerAdapter"
     }
 
-    private val fragments: MutableList<BaseFragment> = ArrayList()
+    private val fragments: MutableList<BaseFragment<*>> = ArrayList()
 
-    fun init(fragmentList: MutableList<BaseFragment>) {
+    fun init(fragmentList: MutableList<BaseFragment<*>>) {
         fragments.clear()
         fragments.addAll(fragmentList)
     }
@@ -32,7 +32,7 @@ class MultiFragmentPagerAdapter constructor(fragmentManager: FragmentManager)
 
     override fun getPageTitle(position: Int): CharSequence? {
         val something = getItem(position)
-        return if (something is BaseFragment) {
+        return if (something is BaseFragment<*>) {
             something.fragmentTitle
         }else {
             super.getPageTitle(position)

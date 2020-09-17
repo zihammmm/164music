@@ -65,7 +65,6 @@ class WowFragment : BaseFragment<WowViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[WowViewModel::class.java]
-
         viewModel.apply {
             recommends.observe(this@WowFragment, Observer<MainRecommendPlayListBean>{
                 onGetRecommendPlayListSuccess(it)
@@ -236,7 +235,5 @@ class WowFragment : BaseFragment<WowViewModel>() {
     private fun onGetHighQualityFail(msg: String) {
 
     }
-
-
 
 }

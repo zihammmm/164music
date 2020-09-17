@@ -11,13 +11,13 @@ class NetUtil {
 
         fun isConnected(): Boolean {
             val connectivity: ConnectivityManager
-                    = App.getContext()?.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+                    = App.getContext().getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
             val activeNetwork = connectivity.activeNetworkInfo
             return activeNetwork != null
         }
 
         fun isWifi(): Boolean {
-            val cm = App.getContext()?.getSystemService(CONNECTIVITY_SERVICE)!! as ConnectivityManager
+            val cm = App.getContext().getSystemService(CONNECTIVITY_SERVICE)!! as ConnectivityManager
             val network = cm.activeNetwork
             val capabilities = cm.getNetworkCapabilities(network)
             return capabilities != null && capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)

@@ -35,8 +35,8 @@ class LyricView constructor(private val mContext: Context, private val attrs: At
         View(mContext, attrs, defStyleAttr) {
     companion object {
         private val TAG = "LyricView"
-        private val PLAY_DRAWABLE_WIDTH = App.getContext()!!.resources.getDimension(R.dimen.dp_30)
-        private val TIME_TEXT_WIDTH = App.getContext()!!.resources.getDimension(R.dimen.dp_40)
+        private val PLAY_DRAWABLE_WIDTH = App.getContext().resources.getDimension(R.dimen.dp_30)
+        private val TIME_TEXT_WIDTH = App.getContext().resources.getDimension(R.dimen.dp_40)
         const val ADJUST_DURATION = 100
         const val ANIMATION_DURARION = 1000
     }

@@ -7,9 +7,10 @@ import android.view.ViewGroup
 import com.zihany.cloudmusic.base.BaseFragment
 import com.zihany.cloudmusic.databinding.FragmentUserInfoBinding
 import com.zihany.cloudmusic.personal.event.UserDetailEvent
+import com.zihany.cloudmusic.personal.mvvm.viewmodel.PersonalViewModel
 import org.greenrobot.eventbus.EventBus
 
-class UserInfoFragment: BaseFragment() {
+class UserInfoFragment: BaseFragment<PersonalViewModel>() {
     private lateinit var binding: FragmentUserInfoBinding
 
     override fun initView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

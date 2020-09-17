@@ -3,9 +3,9 @@ package com.zihany.cloudmusic.dj.bean
 class DjRecommandBean {
     var name: String? = null
     var code: Int? = null
-    var djRadios: MutableList<DjRadioBean>? = null
+    var djRadios: MutableList<DjRadiosBean>? = null
 
-    inner class DjRadioBean {
+    class DjRadiosBean {
         var id: Long = 0
         var name: String? = null
         var picUrl: String? = null
@@ -23,7 +23,7 @@ class DjRecommandBean {
         var buyed = false
         var originalPrice = 0
 
-        inner class DjBean {
+        class DjBean {
             var defaultAvatar = false
             var province = 0
             var authStatus = 0

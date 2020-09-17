@@ -20,11 +20,6 @@ class UserPlaylistAdapter constructor(private val context: Context)
     var isShowSmartPlay = false
     private lateinit var binding: ItemPlaylistFragmentBinding
 
-    override fun notifyDataSetChanged(dataList: MutableList<PlayListItemBean>) {
-        list = dataList
-        notifyDataSetChanged()
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         binding = ItemPlaylistFragmentBinding.inflate(inflater, parent, false)
         return ViewHolder(binding.root)
@@ -83,5 +78,10 @@ class UserPlaylistAdapter constructor(private val context: Context)
     interface OnPlayListItemClickListener {
         fun onPlayListItemClick(position: Int)
         fun onSmartPlayClick(position: Int)
+    }
+
+    override fun notifyDataSetChanged(dataList: ArrayList<PlayListItemBean>) {
+        list = dataList
+        notifyDataSetChanged()
     }
 }

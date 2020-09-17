@@ -4,11 +4,11 @@ class UserSearchBean {
     var result: ResultBean? = null
     var code = 0
 
-    inner class ResultBean {
+    class ResultBean {
         var userprofileCount = 0
         var userprofiles:MutableList<UserprofilesBean>? = null
 
-        inner class UserprofilesBean {
+        class UserprofilesBean {
             var defaultAvatar = false
             var province = 0
             var authStatus = 0
