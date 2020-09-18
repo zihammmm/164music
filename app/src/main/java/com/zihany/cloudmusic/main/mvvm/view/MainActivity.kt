@@ -214,7 +214,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
     private fun exitApp(timeInterval: Long) {
         if (System.currentTimeMillis() - firstTime >= timeInterval) {
-            ToastUtils.show(this, "再按一次退出应用")
+            ToastUtils.show("再按一次退出应用")
             firstTime = System.currentTimeMillis()
         }else {
             finish()
@@ -234,12 +234,12 @@ class MainActivity : BaseActivity<MainViewModel>() {
     fun onLogoutFail(e: String) {
         hideDialog()
         LogUtil.e(TAG, "onLogoutFail: $e")
-        ToastUtils.show(this, e)
+        ToastUtils.show(e)
     }
 
     fun onGetLikeListFail(e: String) {
         LogUtil.d(TAG, "onGetLikeListFail")
-        ToastUtils.show(this, e)
+        ToastUtils.show(e)
     }
 
     fun onGetLikeListSuccess(bean: LikeListBean) {

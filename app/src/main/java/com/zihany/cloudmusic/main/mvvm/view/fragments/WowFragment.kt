@@ -135,7 +135,7 @@ class WowFragment : BaseFragment<WowViewModel>() {
             if (ClickUtil.isFastClick(1000, v)) {
                 return
             }
-            ToastUtils.show(this@WowFragment.context!!, "无服务")
+            ToastUtils.show("无服务")
         }
 
         fun onClickPlaylistPlayground(v: View) {
@@ -165,7 +165,7 @@ class WowFragment : BaseFragment<WowViewModel>() {
     }
 
     private fun onGetBannerFail(msg: String) {
-        ToastUtils.show(context!!, msg)
+        ToastUtils.show(msg)
         LogUtil.e(TAG, "onGetBannerFail: $msg")
     }
 

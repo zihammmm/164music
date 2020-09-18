@@ -4,6 +4,7 @@ import android.app.Application
 import com.lzx.starrysky.manager.MusicManager
 import com.zihany.cloudmusic.greendao.db.DaoMaster
 import com.zihany.cloudmusic.greendao.db.DaoSession
+import com.zihany.cloudmusic.util.ToastUtils
 import org.greenrobot.greendao.database.Database
 
 class App: Application() {
@@ -25,6 +26,7 @@ class App: Application() {
     override fun onCreate() {
         super.onCreate()
         context = this
+        ToastUtils.init(this)
         MusicManager.initMusicManager(this)
         initDataBase()
     }

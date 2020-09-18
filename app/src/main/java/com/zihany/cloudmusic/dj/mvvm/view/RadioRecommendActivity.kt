@@ -152,7 +152,7 @@ class RadioRecommendActivity: BaseActivity<DjViewModel>() {
     inner class RadioRecommendPresenter {
         private val intent = Intent()
         fun onClickRlDjRank(v: View?) {
-            ToastUtils.show(App.getContext(), "这版不做")
+            ToastUtils.show("这版不做")
         }
 
         fun onClickTvDjPlayground(v: View?) {

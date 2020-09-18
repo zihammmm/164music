@@ -18,7 +18,7 @@ import java.util.regex.Pattern
 class SongPlayManager private constructor(){
     companion object {
         val instance by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
-            SongPlayManager
+            SongPlayManager()
         }
         val TAG = "SongPlayManager"
         private val CHECK_MUSIC_URL = "check/music"
@@ -73,9 +73,7 @@ class SongPlayManager private constructor(){
                 }
 
                 override fun onSongCanPlayFail(e: String) {
-                    App.getContext().let {
-                        ToastUtils.show(it, e)
-                    }
+                    ToastUtils.show(e)
                 }
 
             })
@@ -111,13 +109,13 @@ class SongPlayManager private constructor(){
     }
 
     fun cancelPlay() {
-        if (isPlaying() || isPause()) {
+        if (isPlaying() || isPaused()) {
             LogUtil.d(TAG, "cancel play")
             MusicManager.getInstance().stopMusic()
         }
     }
 
-    fun isPause() = MusicManager.getInstance().isPaused
+    fun isPaused() = MusicManager.getInstance().isPaused
 
     fun isPlaying() = MusicManager.getInstance().isPlaying
 
@@ -149,6 +147,38 @@ class SongPlayManager private constructor(){
         val m = Pattern.compile(regex).matcher(cardNum)
         return m.matches()
     }
+
+    fun clickASong(songInfo: SongInfo) {
+        if (isPlaying()) {
+            LogUtil.d(TAG, "isPlaying")
+            if (!isCurMusicPlaying(songInfo.songId)) {
+                LogUtil.d(TAG, "!isCurMusicPlaying")
+                cancelPlay()
+                addSongAndPlay(songInfo)
+            }
+        }else if (isPaused()) {
+            LogUtil.d(TAG, "isPaused")
+            if (!isCurMusicPlaying(songInfo.songId)) {
+                cancelPlay()
+                addSongAndPlay(songInfo)
+            }
+        }else if (isIdle()) {
+            addSongAndPlay(songInfo)
+        }else {
+            LogUtil.d(TAG, "no idle, no playing, no paused. state: ${MusicManager.getInstance().state}")
+        }
+    }
+
+    fun isIdle() = MusicManager.getInstance().isIdea
+
+    fun isCurMusicPaused(songId: String) = MusicManager.getInstance().isCurrMusicIsPaused(songId)
+
+    fun addSongAndPlay(songInfo: SongInfo) {
+        currentSongIndex = addSong(songInfo)
+        checkMusic(songInfo.songId)
+    }
+
+    fun isCurMusicPlaying(songId: String) = MusicManager.getInstance().isCurrMusicIsPlayingMusic(songId)
 
     interface OnSongListener {
         fun onSongCanPlaySuccess(bean: MusicCanPlayBean)

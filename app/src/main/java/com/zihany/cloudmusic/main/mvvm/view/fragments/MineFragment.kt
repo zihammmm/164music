@@ -73,27 +73,27 @@ class MineFragment : BaseFragment<MineViewModel>() {
             getUserPlaylistError.observe(this@MineFragment, Observer<String> {
                 hideDialog()
                 LogUtil.d(TAG, "onGetUserPlaylistFail: + $it")
-                this@MineFragment.context?.let { it1 -> ToastUtils.show(it1, it) }
+                ToastUtils.show(it)
             })
 
             getIntelligenceBeanError.observe(this@MineFragment, Observer<String> {
                 hideDialog()
-                this@MineFragment.context?.let { it1 -> ToastUtils.show(it1, it) }
+                ToastUtils.show(it)
             })
 
             getMyFMError.observe(this@MineFragment, Observer<String> {
                 hideDialog()
-                this@MineFragment.context?.let { it1 -> ToastUtils.show(it1, it) }
+                ToastUtils.show(it)
             })
 
             getAlbumSublistError.observe(this@MineFragment, Observer<String> {
                 hideDialog()
-                this@MineFragment.context?.let { it1 -> ToastUtils.show(it1, it) }
+                ToastUtils.show(it)
             })
 
             getArtistSublistError.observe(this@MineFragment, Observer<String> {
                 hideDialog()
-                this@MineFragment.context?.let { it1 -> ToastUtils.show(it1, it) }
+                ToastUtils.show(it)
             })
 
             myFM.observe(this@MineFragment, Observer<MyFmBean> {

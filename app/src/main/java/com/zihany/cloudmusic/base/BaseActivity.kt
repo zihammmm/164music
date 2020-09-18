@@ -104,9 +104,9 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity() {
         }
     }
 
-    fun setLeftTitleText(resId: Int) {
+    fun setLeftTitleText(text: String) {
         baseBinding.tvLeftTitle.visibility = View.VISIBLE
-        baseBinding.tvLeftTitle.text = resId.toString()
+        baseBinding.tvLeftTitle.text = text
     }
 
     fun setLeftTitleText(titleText: String, textColor: String) {
