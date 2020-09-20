@@ -22,7 +22,7 @@ class DjViewModel: BaseViewModel() {
 
     }
 
-    fun getDjRecommendType() {
+    fun getDjRecommendType(type: Int) {
 
     }
 

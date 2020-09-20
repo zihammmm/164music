@@ -21,7 +21,10 @@
 
         <include
             android:id="@+id/content_main"
-            layout="@layout/content_main" />
+            layout="@layout/content_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
 
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/nav_view"
@@ -39,7 +42,8 @@
                     android:id="@+id/scroll_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_above="@id/tv_gap_1">
+                    android:layout_above="@id/tv_gap_1"
+                    android:layout_marginBottom="-20dp">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -48,9 +52,9 @@
 
                         <RelativeLayout
                             android:id="@+id/rl_avatar_name"
-                            android:onClick="@{mainPresenter.onClickAvatarName}"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:onClick="@{mainPresenter::onClickAvatarName}"
                             android:paddingTop="@dimen/dp_20">
 
                             <de.hdodenhof.circleimageview.CircleImageView
@@ -58,7 +62,7 @@
                                 android:layout_width="@dimen/dp_60"
                                 android:layout_height="@dimen/dp_60"
                                 android:layout_marginStart="@dimen/dp_15"
-                                android:src="@drawable/ic_head_default"/>
+                                android:src="@drawable/ic_head_default" />
 
                             <TextView
                                 android:id="@+id/tv_username"
@@ -92,7 +96,7 @@
                                     android:layout_width="@dimen/dp_35"
                                     android:layout_height="@dimen/dp_35"
                                     android:layout_centerHorizontal="true"
-                                    app:srcCompat="@drawable/ic_msg" />
+                                    android:src="@drawable/ic_msg"/>
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -114,7 +118,7 @@
                                     android:layout_width="@dimen/dp_35"
                                     android:layout_height="@dimen/dp_35"
                                     android:layout_centerHorizontal="true"
-                                    app:srcCompat="@drawable/ic_friend" />
+                                    android:src="@drawable/ic_friend" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -136,7 +140,7 @@
                                     android:layout_width="@dimen/dp_35"
                                     android:layout_height="@dimen/dp_35"
                                     android:layout_centerHorizontal="true"
-                                    app:srcCompat="@drawable/ic_theme" />
+                                    android:src="@drawable/ic_theme" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -158,7 +162,7 @@
                                     android:layout_width="@dimen/dp_35"
                                     android:layout_height="@dimen/dp_35"
                                     android:layout_centerHorizontal="true"
-                                    app:srcCompat="@drawable/iv_mi" />
+                                    android:src="@drawable/iv_mi" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -173,11 +177,11 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:layout_marginStart="@dimen/dp_15"
-                            android:layout_marginEnd="@dimen/dp_15"
                             android:layout_below="@id/ll_feature_four"
+                            android:layout_marginStart="@dimen/dp_15"
                             android:layout_marginTop="@dimen/dp_2"
-                            android:background="#f0f0f0"/>
+                            android:layout_marginEnd="@dimen/dp_15"
+                            android:background="#f0f0f0" />
 
                     </RelativeLayout>
                 </ScrollView>
@@ -209,7 +213,7 @@
                             android:layout_height="@dimen/dp_25"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/dp_10"
-                            app:srcCompat="@drawable/ic_night_mode" />
+                            android:src="@drawable/ic_night_mode" />
 
                         <TextView
                             android:id="@+id/tv_dayornight_mode"
@@ -237,7 +241,7 @@
                             android:layout_height="@dimen/dp_25"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/dp_10"
-                            app:srcCompat="@drawable/ic_setting" />
+                            android:src="@drawable/ic_setting" />
 
                         <TextView
                             android:id="@+id/tv_setting"
@@ -265,7 +269,7 @@
                             android:layout_height="@dimen/dp_25"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/dp_10"
-                            app:srcCompat="@drawable/ic_exit" />
+                            android:src="@drawable/ic_exit" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -280,6 +284,5 @@
                 </LinearLayout>
             </RelativeLayout>
         </com.google.android.material.navigation.NavigationView>
-
     </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

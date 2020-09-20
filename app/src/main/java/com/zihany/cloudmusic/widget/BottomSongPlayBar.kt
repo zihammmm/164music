@@ -8,13 +8,12 @@ import android.widget.RelativeLayout
 import com.zihany.cloudmusic.databinding.LayoutBottomSongplayControlBinding
 import com.zihany.cloudmusic.song.mvvm.view.SongActivity
 
-class BottomSongPlayBar(context: Context, attrs: AttributeSet?, defStyleAttr: Int)
-    : RelativeLayout(context, attrs, defStyleAttr) {
+class BottomSongPlayBar(private val mContext: Context, attrs: AttributeSet?, defStyleAttr: Int)
+    : RelativeLayout(mContext, attrs, defStyleAttr) {
     companion object {
-        private val TAG = "BottomSongPlayBar"
+        const val TAG = "BottomSongPlayBar"
     }
 
-    private var mContext: Context? = context
     private lateinit var binding: LayoutBottomSongplayControlBinding
 
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)

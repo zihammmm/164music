@@ -22,6 +22,7 @@ import com.zihany.cloudmusic.base.BaseFragment
 import com.zihany.cloudmusic.base.BaseView
 import com.zihany.cloudmusic.base.Constants
 import com.zihany.cloudmusic.databinding.ActivityMainBinding
+import com.zihany.cloudmusic.databinding.ContentMainBinding
 import com.zihany.cloudmusic.login.bean.LoginBean
 import com.zihany.cloudmusic.main.adapter.MultiFragmentPagerAdapter
 import com.zihany.cloudmusic.main.bean.LikeListBean
@@ -98,7 +99,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
         binding.contentMain.mainViewpager.offscreenPageLimit = VIEWPAGER_OFF_SCREEN_PAGE_LIMIT
         binding.contentMain.mainViewpager.currentItem = 1
 
-        //TODO pagerAdapter!!.getItem(1).userVisibleHint = true
+        pagerAdapter!!.getItem(1).userVisibleHint = true
         binding.contentMain.tabTitle.setupWithViewPager(binding.contentMain.mainViewpager)
         binding.contentMain.tabTitle.setTabTextColors(Color.parseColor("#e78c86"), Color.parseColor("#FFFDFD"))
 
@@ -125,7 +126,6 @@ class MainActivity : BaseActivity<MainViewModel>() {
                     setSelectTextBoldAndBig(it)
                 }
             }
-
         })
     }
 
@@ -156,14 +156,16 @@ class MainActivity : BaseActivity<MainViewModel>() {
         fragments.add(CloudVillageFragment())
         pagerAdapter!!.init(fragments)
     }
+    fun onClickNav(view: View) {
+        LogUtil.d(TAG, "onClickNav")
+        if (ClickUtil.isFastClick(1000, view)) {
+            return
+        }
+        binding.drawerLayout.openDrawer(GravityCompat.START)
+    }
 
     inner class MainActivityPresenter {
-        fun onClickNav(view: View) {
-            if (ClickUtil.isFastClick(1000, view)) {
-                return
-            }
-            binding.drawerLayout.openDrawer(GravityCompat.START)
-        }
+
 
         fun onClickLogout(view: View) {
             if (ClickUtil.isFastClick(1000, view)) {
