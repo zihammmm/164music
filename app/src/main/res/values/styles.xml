@@ -42,4 +42,13 @@
         <item name="android:textSize">@dimen/sp_15</item>
     </style>
 
+    <style name="BaseDialog" parent="android:Theme.Dialog">
+        <!--<item name="android:windowFrame">null</item>-->
+        <item name="android:windowFullscreen">true</item>
+        <!--<item name="windowNoTitle">true</item>-->
+        <item name="android:windowBackground">@drawable/bg_transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
 </resources>

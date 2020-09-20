@@ -2,6 +2,7 @@ package com.zihany.cloudmusic
 
 import android.app.Application
 import com.lzx.starrysky.manager.MusicManager
+import com.zihany.cloudmusic.database.DbManager
 import com.zihany.cloudmusic.greendao.db.DaoMaster
 import com.zihany.cloudmusic.greendao.db.DaoSession
 import com.zihany.cloudmusic.util.ToastUtils
@@ -28,13 +29,14 @@ class App: Application() {
         context = this
         ToastUtils.init(this)
         MusicManager.initMusicManager(this)
+        DbManager.init(this)
         initDataBase()
     }
 
     private fun initDataBase() {
         val helper: DaoMaster.DevOpenHelper = DaoMaster.DevOpenHelper(this, DATA_BASE_NAME)
         val db: Database = helper.writableDb
-        val daoMaster: DaoMaster = DaoMaster(db)
+        val daoMaster = DaoMaster(db)
         daoSession = daoMaster.newSession()
     }
 }

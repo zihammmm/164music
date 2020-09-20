@@ -51,7 +51,7 @@ class LoginBean {
         var userId = 0
         var defaultAvatar = false
         var avatarUrl: String? = null
-        var nickname: String? = null
+        var nickname = "null"
         var birthday: Long = 0
         var avatarImgId: Long = 0
         var province: Int = 0

@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.zihany.cloudmusic.main.mvvm.view.MainActivity.MainActivityPresenter"/>
         <variable
             name="mainPresenter"
             type="com.zihany.cloudmusic.main.mvvm.view.MainActivity.MainActivityPresenter" />
@@ -33,7 +32,6 @@
                     android:layout_height="@dimen/dp_45"
                     android:layout_centerVertical="true"
                     android:padding="@dimen/dp_13"
-                    android:onClick="@{mainPresenter::onClickNav}"
                     android:src="@drawable/shape_drawer" />
 
                 <com.google.android.material.tabs.TabLayout
@@ -55,7 +53,6 @@
                     android:layout_alignParentEnd="true"
                     android:padding="@dimen/dp_13"
                     android:src="@drawable/shape_search"
-                    android:onClick="@{mainPresenter::onClickSearch}"
                     android:layout_centerVertical="true"/>
             </RelativeLayout>
         </RelativeLayout>

@@ -39,7 +39,13 @@ class HotSearchAdapter constructor(context: Context)
         return ViewHolder(binding.root)
     }
 
-    override fun getItemCount(): Int = list.data?.size?:0
+    override fun getItemCount(): Int {
+        return if (this::list.isInitialized && list.data != null) {
+            list.data!!.size
+        }else {
+            0
+        }
+    }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is ViewHolder) {

@@ -55,9 +55,11 @@ class MainActivity : BaseActivity<MainViewModel>() {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
+        bindClickFun()
+
         viewModel.apply {
             loginBean.observe(this@MainActivity, Observer<LoginBean> {
-                it.profile?.avatarUrl?.let {it1 ->
+                it.profile?.avatarUrl?.let { it1 ->
                     Glide.with(this@MainActivity)
                             .load(it1)
                             .into(binding.ivAvatar)
@@ -72,20 +74,30 @@ class MainActivity : BaseActivity<MainViewModel>() {
             })
 
             getLikeListError.observe(this@MainActivity, Observer<Throwable> {
-                it.message?.let {
-                    it1 -> onGetLikeListFail(it1)
+                it.message?.let { it1 ->
+                    onGetLikeListFail(it1)
                 }
             })
 
             logoutError.observe(this@MainActivity, Observer<Throwable> {
-                it.message?.let {
-                    it1 -> onLogoutFail(it1)
+                it.message?.let { it1 ->
+                    onLogoutFail(it1)
                 }
             })
 
             logoutBean.observe(this@MainActivity, Observer<LogoutBean> {
                 onLogoutSuccess()
             })
+        }
+    }
+
+    fun bindClickFun() {
+        binding.contentMain.icNav.setOnClickListener { v ->
+            MainActivityPresenter().onClickNav(v)
+        }
+
+        binding.contentMain.ivSearch.setOnClickListener {
+            MainActivityPresenter().onClickSearch(it)
         }
     }
 
@@ -156,18 +168,17 @@ class MainActivity : BaseActivity<MainViewModel>() {
         fragments.add(CloudVillageFragment())
         pagerAdapter!!.init(fragments)
     }
-    fun onClickNav(view: View) {
-        LogUtil.d(TAG, "onClickNav")
-        if (ClickUtil.isFastClick(1000, view)) {
-            return
-        }
-        binding.drawerLayout.openDrawer(GravityCompat.START)
-    }
 
     inner class MainActivityPresenter {
+        fun onClickNav(view: View?) {
+            LogUtil.d(TAG, "onClickNav")
+            if (ClickUtil.isFastClick(1000, view)) {
+                return
+            }
+            binding.drawerLayout.openDrawer(GravityCompat.START)
+        }
 
-
-        fun onClickLogout(view: View) {
+        fun onClickLogout(view: View?) {
             if (ClickUtil.isFastClick(1000, view)) {
                 return
             }
@@ -186,7 +197,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
             startActivity(intent)
         }
 
-        fun onClickSearch(view: View) {
+        fun onClickSearch(view: View?) {
             if (ClickUtil.isFastClick(1000, view)) {
                 return
             }
@@ -196,7 +207,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
         }
     }
 
-    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean{
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         //按下返回键
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -206,7 +217,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
             exitApp(2000)
             return true
         }
-            return super.onKeyDown(keyCode, event)
+        return super.onKeyDown(keyCode, event)
     }
 
     override fun onDestroy() {
@@ -218,7 +229,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
         if (System.currentTimeMillis() - firstTime >= timeInterval) {
             ToastUtils.show("再按一次退出应用")
             firstTime = System.currentTimeMillis()
-        }else {
+        } else {
             finish()
             exitProcess(0)
         }
@@ -249,12 +260,13 @@ class MainActivity : BaseActivity<MainViewModel>() {
         val idsList = bean.ids
         val likeList = ArrayList<String>()
         idsList?.let {
-            for (i : Long in it) {
+            for (i: Long in it) {
                 likeList.add(i.toString())
             }
         }
         SharePreferenceUtil.getInstance(this)
                 .saveLikeList(likeList)
     }
+
 
 }
