@@ -5,8 +5,12 @@
 
     <data>
         <variable
-            name="mainPresenter"
-            type="com.zihany.cloudmusic.main.mvvm.view.MainActivity.MainActivityPresenter" />
+            name="vm"
+            type="com.zihany.cloudmusic.main.mvvm.viewmodel.MainViewModel" />
+
+        <variable
+            name="ma"
+            type="com.zihany.cloudmusic.main.mvvm.view.MainActivity" />
     </data>
 
     <RelativeLayout
@@ -43,7 +47,10 @@
                     android:layout_marginEnd="@dimen/dp_30"
                     android:layout_toStartOf="@id/iv_search"
                     android:layout_toEndOf="@id/ic_nav"
-                    app:tabIndicatorHeight="0dp" />
+                    app:tabIndicatorHeight="0dp"
+                    normalColor="@{@string/normalColor}"
+                    selectedColor="@{@string/selectedColor}"
+                    setupWithViewPager="@{mainViewpager}"/>
 
 
                 <ImageView
@@ -69,6 +76,9 @@
             android:layout_height="match_parent"
             android:layout_above="@id/bottom_controller"
             android:layout_below="@+id/title"
-            android:overScrollMode="always" />
+            android:overScrollMode="always"
+            setCurrentItem="@{1}"
+            setAdapter="@{vm.pagerAdapter}"
+            setOffscreenPageLimit="@{ma.VIEWPAGER_OFF_SCREEN_PAGE_LIMIT}"/>
     </RelativeLayout>
 </layout>

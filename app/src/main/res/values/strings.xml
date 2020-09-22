@@ -6,6 +6,8 @@
     <string name="colorBlack">#333333</string>
     <string name="colorBlue">#2196f3</string>
     <string name="colorTransWithe">#ccffffff</string>
+    <string name="normalColor">#e78c86</string>
+    <string name="selectedColor">#FFFDFD</string>
 
     <string name="app_name">网抑云音乐</string>
     <string name="language_cn">中文</string>

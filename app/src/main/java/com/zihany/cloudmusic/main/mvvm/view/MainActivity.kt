@@ -45,10 +45,6 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private var pagerAdapter: MultiFragmentPagerAdapter? = null
-    private val fragments: MutableList<BaseFragment<*>> = ArrayList()
-    private var firstTime = 0L
-
     override fun onCreate(savedInstanceState: Bundle?) {
         LogUtil.d(TAG, "onCreate")
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -103,22 +99,15 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
     override fun initData() {
         LogUtil.d(TAG, "initData")
-        binding.contentMain.tabTitle.setupWithViewPager(binding.contentMain.mainViewpager)
-        binding.contentMain.tabTitle.setTabTextColors(Color.parseColor("#e78c86"),
-                Color.parseColor("#FFFDFD"))
 
-        binding.contentMain.mainViewpager.adapter = pagerAdapter
-        binding.contentMain.mainViewpager.offscreenPageLimit = VIEWPAGER_OFF_SCREEN_PAGE_LIMIT
-        binding.contentMain.mainViewpager.currentItem = 1
-
-        pagerAdapter!!.getItem(1).userVisibleHint = true
-        binding.contentMain.tabTitle.setupWithViewPager(binding.contentMain.mainViewpager)
-        binding.contentMain.tabTitle.setTabTextColors(Color.parseColor("#e78c86"), Color.parseColor("#FFFDFD"))
+        viewModel.pagerAdapter!!.getItem(1).userVisibleHint = true
 
         binding.contentMain.tabTitle.getTabAt(1)?.let {
             setSelectTextBoldAndBig(it)
         }
         initTabListener()
+
+        viewModel.initData(this)
 
         //viewModel.getLikeList()
     }
@@ -162,11 +151,8 @@ class MainActivity : BaseActivity<MainViewModel>() {
                 .init()
         connectMusicService()
 
-        pagerAdapter = MultiFragmentPagerAdapter(supportFragmentManager)
-        fragments.add(MineFragment())
-        fragments.add(WowFragment())
-        fragments.add(CloudVillageFragment())
-        pagerAdapter!!.init(fragments)
+        viewModel.pagerAdapter = MultiFragmentPagerAdapter(supportFragmentManager)
+
     }
 
     inner class MainActivityPresenter {
@@ -226,9 +212,9 @@ class MainActivity : BaseActivity<MainViewModel>() {
     }
 
     private fun exitApp(timeInterval: Long) {
-        if (System.currentTimeMillis() - firstTime >= timeInterval) {
+        if (System.currentTimeMillis() - viewModel.firstTime >= timeInterval) {
             ToastUtils.show("再按一次退出应用")
-            firstTime = System.currentTimeMillis()
+            viewModel.firstTime = System.currentTimeMillis()
         } else {
             finish()
             exitProcess(0)

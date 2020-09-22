@@ -1,5 +1,6 @@
 package com.zihany.cloudmusic.search.mvvm.view
 
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gyf.immersionbar.ImmersionBar
@@ -9,20 +10,19 @@ import com.zihany.cloudmusic.database.SearchHistoryDaoOp
 import com.zihany.cloudmusic.databinding.ActivitySearchBinding
 import com.zihany.cloudmusic.search.adapter.HotSearchAdapter
 import com.zihany.cloudmusic.search.mvvm.viewmodel.SearchViewModel
+import com.zihany.cloudmusic.widget.MusicDialog
 
-class SearchActivity: BaseActivity<SearchViewModel>() {
+class SearchActivity : BaseActivity<SearchViewModel>() {
     companion object {
-        val TAG = "SearchActivity"
+        const val TAG = "SearchActivity"
         const val KEYWORDS = "keywords"
     }
+
     private lateinit var adapter: HotSearchAdapter
     private val stringList: MutableList<String> = ArrayList()
     private lateinit var binding: ActivitySearchBinding
-    private val searchListener = object : HotSearchAdapter.OnHotSearchAdapterClickListen {
-        override fun onHotSearchClick(position: Int) {
-
-        }
-    }
+    private val searchListener: HotSearchAdapter.OnHotSearchAdapterClickListen
+    private var isDeleteDialog: MusicDialog? = null
 
     override fun initData() {
         setBackBtn("#ffffff")
@@ -53,5 +53,27 @@ class SearchActivity: BaseActivity<SearchViewModel>() {
                 .statusBarColor(R.color.colorPrimary)
                 .statusBarDarkFont(false)
                 .init()
+    }
+
+    private fun showIsDeleteAllDialog() {
+        if (isDeleteDialog == null) {
+            isDeleteDialog = MusicDialog.Builder(this)
+                    .setMsg(R.string.should_delete_all_search_history)
+                    .setNegativeText(R.string.dialog_cancel)
+                    .setPositiveText(R.string.dialog_search_history_clear)
+                    .setNegativeClickListener(DialogInterface.OnClickListener { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    ).setPositiveClickListener(DialogInterface.OnClickListener {
+                        dialog, _ ->
+                        dialog.dismiss()
+                        SearchHistoryDaoOp.deleteAllData()
+
+                    })
+                    .create()
+        }
+        if (!isDeleteDialog!!.isShowing) {
+            isDeleteDialog!!.show()
+        }
     }
 }

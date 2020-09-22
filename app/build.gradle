@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'org.greenrobot.greendao'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'// apply plugin
 
 
@@ -98,4 +99,6 @@ dependencies {
     implementation 'com.youth.banner:banner:2.1.0'
 
     implementation 'jp.wasabeef:glide-transformations:4.0.1'
+
+    implementation 'com.blankj:utilcodex:1.29.0'
 }

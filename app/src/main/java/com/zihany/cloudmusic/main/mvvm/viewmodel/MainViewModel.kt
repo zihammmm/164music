@@ -4,11 +4,17 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 
 import com.lzx.starrysky.model.SongInfo
+import com.zihany.cloudmusic.base.BaseFragment
 import com.zihany.cloudmusic.base.BaseViewModel
+import com.zihany.cloudmusic.databinding.ActivityMainBinding
 import com.zihany.cloudmusic.login.bean.LoginBean
+import com.zihany.cloudmusic.main.adapter.MultiFragmentPagerAdapter
 import com.zihany.cloudmusic.main.bean.LikeListBean
 import com.zihany.cloudmusic.main.bean.LogoutBean
 import com.zihany.cloudmusic.main.mvvm.model.MainModel
+import com.zihany.cloudmusic.main.mvvm.view.fragments.CloudVillageFragment
+import com.zihany.cloudmusic.main.mvvm.view.fragments.MineFragment
+import com.zihany.cloudmusic.main.mvvm.view.fragments.WowFragment
 import com.zihany.cloudmusic.util.GsonUtil
 import com.zihany.cloudmusic.util.LogUtil
 import com.zihany.cloudmusic.util.SharePreferenceUtil
@@ -30,10 +36,18 @@ class MainViewModel : BaseViewModel() {
     var logoutError: MutableLiveData<Throwable> = MutableLiveData()
     private val model = MainModel()
 
+    var pagerAdapter: MultiFragmentPagerAdapter? = null
+    val fragments: MutableList<BaseFragment<*>> = ArrayList()
+    var firstTime = 0L
+
     override fun initData(context: Context) {
         val userLoginInfo = SharePreferenceUtil.getInstance(context).getUserInfo("")
         loginBean.value = GsonUtil.fromJSON<LoginBean>(userLoginInfo)
 
+        fragments.add(MineFragment())
+        fragments.add(WowFragment())
+        fragments.add(CloudVillageFragment())
+        pagerAdapter!!.init(fragments)
     }
 
     fun getLikeList() {

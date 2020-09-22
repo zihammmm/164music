@@ -17,6 +17,6 @@ object DbManager {
         context = newContext
         devOpenHelper = DaoMaster.DevOpenHelper(context, App.DATA_BASE_NAME)
         daoMaster = DaoMaster(devOpenHelper.writableDatabase!!)
-        daoSession = daoMaster!!.newSession()
+        daoSession = daoMaster.newSession()
     }
 }
