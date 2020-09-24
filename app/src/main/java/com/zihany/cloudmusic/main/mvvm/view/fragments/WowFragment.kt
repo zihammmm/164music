@@ -18,7 +18,7 @@ import com.zihany.cloudmusic.main.bean.MainRecommendPlayListBean
 import com.zihany.cloudmusic.main.bean.PlaylistBean
 import com.zihany.cloudmusic.main.mvvm.view.DailyRecommendActivity
 import com.zihany.cloudmusic.main.mvvm.view.PlayListActivity
-import com.zihany.cloudmusic.main.mvvm.view.PlaylistRecommendActivity
+import com.zihany.cloudmusic.main.mvvm.view.PlayListRecommendActivity
 import com.zihany.cloudmusic.main.mvvm.view.RankActivity
 import com.zihany.cloudmusic.main.mvvm.viewmodel.WowViewModel
 import com.zihany.cloudmusic.util.BannerGlideImageAdapter
@@ -114,7 +114,7 @@ class WowFragment : BaseFragment<WowViewModel>() {
             if (ClickUtil.isFastClick(1000, v)) {
                 return
             }
-            startActivity(Intent(activity, PlaylistRecommendActivity::class.java))
+            startActivity(Intent(activity, PlayListRecommendActivity::class.java))
         }
 
         fun onClickRlRank(v: View) {
@@ -142,7 +142,7 @@ class WowFragment : BaseFragment<WowViewModel>() {
             if (ClickUtil.isFastClick(1000, v)) {
                 return
             }
-            startActivity(Intent(activity, PlaylistRecommendActivity::class.java))
+            startActivity(Intent(activity, PlayListRecommendActivity::class.java))
         }
 
     }

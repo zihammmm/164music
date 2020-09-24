@@ -7,26 +7,30 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.appbar.AppBarLayout
+import com.lzx.starrysky.model.SongInfo
 import com.zihany.cloudmusic.base.BaseActivity
+import com.zihany.cloudmusic.database.DailyRecommendDaoOp
 import com.zihany.cloudmusic.databinding.ActivityDailyRecommendBinding
 import com.zihany.cloudmusic.login.bean.LoginBean
 import com.zihany.cloudmusic.main.adapter.SongListAdapter
+import com.zihany.cloudmusic.main.bean.DRGreenDaoBean
 import com.zihany.cloudmusic.main.mvvm.viewmodel.WowViewModel
-import com.zihany.cloudmusic.util.GsonUtil
-import com.zihany.cloudmusic.util.LogUtil
-import com.zihany.cloudmusic.util.SharePreferenceUtil
-import com.zihany.cloudmusic.util.TimeUtil
+import com.zihany.cloudmusic.util.*
 import jp.wasabeef.glide.transformations.BlurTransformation
 import java.sql.Time
 
-class DailyRecommendActivity: BaseActivity<WowViewModel>() {
+class DailyRecommendActivity : BaseActivity<WowViewModel>() {
     companion object {
         const val TAG = "DailyRecommendActivity"
     }
+
     private lateinit var binding: ActivityDailyRecommendBinding
     private var deltaDistance = 0
     private var minDistance = 0
     private lateinit var songAdapter: SongListAdapter
+    private lateinit var greenDaoList: List<DRGreenDaoBean>
+    private var songInfos = ArrayList<SongInfo>()
 
     @SuppressLint("SetTextI18n")
     override fun initData() {
@@ -61,11 +65,63 @@ class DailyRecommendActivity: BaseActivity<WowViewModel>() {
                 .getDailyUpdateTime()
         LogUtil.d(TAG, "上次日推更新时间: ${TimeUtil.getTimeStandard(System.currentTimeMillis())}")
         if (!TimeUtil.isOver7am(updateTime)) {
-            TODO("0918")
-        }else {
-
+            DailyRecommendDaoOp.deleteAllData()
+            showDialog()
+            TODO("getDailyRecommend")
+        } else {
+            greenDaoList = DailyRecommendDaoOp.queryAll()
+            notifyAdapter(greenDaoList)
         }
+        minDistance = DensityUtil.dp2px(this, 85f)
+        deltaDistance = DensityUtil.dp2px(this, 200f) - minDistance
+    }
 
+    private fun notifyAdapter(greenDaoList: List<DRGreenDaoBean>) {
+        songInfos.clear()
+        for (item: DRGreenDaoBean in greenDaoList) {
+            val songInfo = SongInfo()
+            songInfo.songCover = item.songCover
+            songInfo.songName = item.songName
+            songInfo.duration = item.duration
+            songInfo.artist = item.artist
+            songInfo.songId = item.songId
+            songInfo.songUrl = item.songUrl
+            songInfo.artistId = item.artistId
+            songInfo.artistKey = item.artistAvatar
+            songInfos.add(songInfo)
+        }
+        songAdapter.notifyDataSetChanged(songInfos)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initAppBarLayoutListener()
+    }
+
+    private fun initAppBarLayoutListener() {
+        binding.appbar.addOnOffsetChangedListener(object : AppBarStateChangeListener() {
+            override fun onOffsetChanged(appBarLayout: AppBarLayout?) {
+                val alphaPercent = (binding.rlPlay.top - minDistance) / deltaDistance.toFloat()
+                val alpha = alphaPercent * 255
+                binding.ivBackgroundCover.imageAlpha = alpha.toInt()
+                binding.tvMonth.alpha = alphaPercent
+                binding.tvDay.alpha = alphaPercent
+                setLeftTitleTextColorWhite()
+                if (alphaPercent < 0.2f) {
+                    val leftTitleAlpha = (1.0f - alphaPercent / 0.2f)
+                    setLeftTitleAlpha(leftTitleAlpha)
+                } else {
+                    setLeftTitleAlpha(0f)
+                }
+            }
+
+            override fun onStateChanged(appBarLayout: AppBarLayout?, state: State) {
+                if (state == State.COLLAPSED) {
+                    setLeftTitleAlpha(255f)
+                }
+            }
+
+        })
     }
 
     override fun onCreateView(savedInstanceState: Bundle?) {
