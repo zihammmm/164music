@@ -77,8 +77,7 @@
             android:layout_above="@id/bottom_controller"
             android:layout_below="@+id/title"
             android:overScrollMode="always"
-            setCurrentItem="@{1}"
-            setAdapter="@{vm.pagerAdapter}"
-            setOffscreenPageLimit="@{ma.VIEWPAGER_OFF_SCREEN_PAGE_LIMIT}"/>
+            android:currentItem="@{1}"
+            android:offscreenPageLimit="@{ma.VIEWPAGER_OFF_SCREEN_PAGE_LIMIT}"/>
     </RelativeLayout>
 </layout>

@@ -1,6 +1,7 @@
 package com.zihany.cloudmusic.search.mvvm.view
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gyf.immersionbar.ImmersionBar
@@ -9,6 +10,8 @@ import com.zihany.cloudmusic.base.BaseActivity
 import com.zihany.cloudmusic.database.SearchHistoryDaoOp
 import com.zihany.cloudmusic.databinding.ActivitySearchBinding
 import com.zihany.cloudmusic.search.adapter.HotSearchAdapter
+import com.zihany.cloudmusic.search.bean.HotSearchDetailBean
+import com.zihany.cloudmusic.search.bean.SearchHistoryBean
 import com.zihany.cloudmusic.search.mvvm.viewmodel.SearchViewModel
 import com.zihany.cloudmusic.widget.MusicDialog
 
@@ -19,9 +22,18 @@ class SearchActivity : BaseActivity<SearchViewModel>() {
     }
 
     private lateinit var adapter: HotSearchAdapter
-    private val stringList: MutableList<String> = ArrayList()
+    private var searchDetailBean: HotSearchDetailBean? = null
+    private val stringList = ArrayList<SearchHistoryBean>()
     private lateinit var binding: ActivitySearchBinding
-    private val searchListener: HotSearchAdapter.OnHotSearchAdapterClickListen
+    private val searchListener = object : HotSearchAdapter.OnHotSearchAdapterClickListen {
+        override fun onHotSearchClick(position: Int) {
+            searchDetailBean?.let {
+                val keywords = it.data!![position].searchWord
+
+            }
+        }
+
+    }
     private var isDeleteDialog: MusicDialog? = null
 
     override fun initData() {
@@ -64,8 +76,7 @@ class SearchActivity : BaseActivity<SearchViewModel>() {
                     .setNegativeClickListener(DialogInterface.OnClickListener { dialog, _ ->
                         dialog.dismiss()
                     }
-                    ).setPositiveClickListener(DialogInterface.OnClickListener {
-                        dialog, _ ->
+                    ).setPositiveClickListener(DialogInterface.OnClickListener { dialog, _ ->
                         dialog.dismiss()
                         SearchHistoryDaoOp.deleteAllData()
 
@@ -75,5 +86,24 @@ class SearchActivity : BaseActivity<SearchViewModel>() {
         if (!isDeleteDialog!!.isShowing) {
             isDeleteDialog!!.show()
         }
+    }
+
+    private fun searchSong(keywords: String) {
+        stringList.add(SearchHistoryBean(keywords))
+        if (stringList.size > 10) {
+            stringList.removeAt(0)
+        }
+
+        for (i: Int in 0 until stringList.size) {
+            if (stringList[i].keyowrds == keywords) {
+                stringList.removeAt(i)
+                break
+            }
+        }
+        SearchHistoryDaoOp.saveData(stringList)
+
+        val intent = Intent(this, SearchResultActivity::class.java)
+        intent.putExtra(KEYWORDS, keywords)
+        startActivity(intent)
     }
 }

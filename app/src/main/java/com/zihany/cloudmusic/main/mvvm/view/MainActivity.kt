@@ -44,47 +44,50 @@ class MainActivity : BaseActivity<MainViewModel>() {
     }
 
     private lateinit var binding: ActivityMainBinding
+    var pagerAdapter: MultiFragmentPagerAdapter? = null
+    val fragments: MutableList<BaseFragment<*>> = ArrayList()
+    var firstTime = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         LogUtil.d(TAG, "onCreate")
         binding = ActivityMainBinding.inflate(layoutInflater)
-        super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        super.onCreate(savedInstanceState)
 
         bindClickFun()
 
-        viewModel.apply {
-            loginBean.observe(this@MainActivity, Observer<LoginBean> {
-                it.profile?.avatarUrl?.let { it1 ->
-                    Glide.with(this@MainActivity)
-                            .load(it1)
-                            .into(binding.ivAvatar)
-                }
-                it.profile?.nickname?.let {
-                    binding.tvUsername.text = it
-                }
-            })
-
-            likeListBean.observe(this@MainActivity, Observer<LikeListBean> {
-                onGetLikeListSuccess(it)
-            })
-
-            getLikeListError.observe(this@MainActivity, Observer<Throwable> {
-                it.message?.let { it1 ->
-                    onGetLikeListFail(it1)
-                }
-            })
-
-            logoutError.observe(this@MainActivity, Observer<Throwable> {
-                it.message?.let { it1 ->
-                    onLogoutFail(it1)
-                }
-            })
-
-            logoutBean.observe(this@MainActivity, Observer<LogoutBean> {
-                onLogoutSuccess()
-            })
-        }
+//        viewModel.apply {
+//            loginBean.observe(this@MainActivity, Observer<LoginBean> {
+//                it.profile?.avatarUrl?.let { it1 ->
+//                    Glide.with(this@MainActivity)
+//                            .load(it1)
+//                            .into(binding.ivAvatar)
+//                }
+//                it.profile?.nickname?.let {
+//                    binding.tvUsername.text = it
+//                }
+//            })
+//
+//            likeListBean.observe(this@MainActivity, Observer<LikeListBean> {
+//                onGetLikeListSuccess(it)
+//            })
+//
+//            getLikeListError.observe(this@MainActivity, Observer<Throwable> {
+//                it.message?.let { it1 ->
+//                    onGetLikeListFail(it1)
+//                }
+//            })
+//
+//            logoutError.observe(this@MainActivity, Observer<Throwable> {
+//                it.message?.let { it1 ->
+//                    onLogoutFail(it1)
+//                }
+//            })
+//
+//            logoutBean.observe(this@MainActivity, Observer<LogoutBean> {
+//                onLogoutSuccess()
+//            })
+//        }
     }
 
     fun bindClickFun() {
@@ -100,14 +103,18 @@ class MainActivity : BaseActivity<MainViewModel>() {
     override fun initData() {
         LogUtil.d(TAG, "initData")
 
-        viewModel.pagerAdapter!!.getItem(1).userVisibleHint = true
+        viewModel.initData(this)
+
+        binding.contentMain.mainViewpager.adapter = pagerAdapter
+//        binding.contentMain.mainViewpager.offscreenPageLimit = VIEWPAGER_OFF_SCREEN_PAGE_LIMIT
+//        binding.contentMain.mainViewpager.currentItem = 1
+        pagerAdapter!!.getItem(1).userVisibleHint = true
 
         binding.contentMain.tabTitle.getTabAt(1)?.let {
             setSelectTextBoldAndBig(it)
         }
         initTabListener()
 
-        viewModel.initData(this)
 
         //viewModel.getLikeList()
     }
@@ -151,8 +158,11 @@ class MainActivity : BaseActivity<MainViewModel>() {
                 .init()
         connectMusicService()
 
-        viewModel.pagerAdapter = MultiFragmentPagerAdapter(supportFragmentManager)
-
+        pagerAdapter = MultiFragmentPagerAdapter(supportFragmentManager)
+        fragments.add(MineFragment())
+        fragments.add(WowFragment())
+        fragments.add(CloudVillageFragment())
+        pagerAdapter!!.init(fragments)
     }
 
     inner class MainActivityPresenter {
@@ -212,9 +222,9 @@ class MainActivity : BaseActivity<MainViewModel>() {
     }
 
     private fun exitApp(timeInterval: Long) {
-        if (System.currentTimeMillis() - viewModel.firstTime >= timeInterval) {
+        if (System.currentTimeMillis() - firstTime >= timeInterval) {
             ToastUtils.show("再按一次退出应用")
-            viewModel.firstTime = System.currentTimeMillis()
+            firstTime = System.currentTimeMillis()
         } else {
             finish()
             exitProcess(0)

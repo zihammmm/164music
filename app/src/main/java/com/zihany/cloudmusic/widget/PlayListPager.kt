@@ -37,12 +37,10 @@ class PlayListPager constructor(
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         measureChildren(widthMeasureSpec, heightMeasureSpec)
 
-        val heightSize = MeasureSpec.getSize(heightMeasureSpec)
-        val heightMode = MeasureSpec.getMode(heightMeasureSpec)
+        val width = measureWidth(widthMeasureSpec)
+        val height = measureHeight(heightMeasureSpec)
 
-        if (heightMode == MeasureSpec.EXACTLY) {
-
-        }
+        setMeasuredDimension(width, height)
     }
 
     private fun measureWidth(widthMeasureSpec: Int): Int {
@@ -53,7 +51,7 @@ class PlayListPager constructor(
         if (widthMode == MeasureSpec.EXACTLY) {
             totalWidth = widthSize
         } else {
-            for (i: Int in 0..childCount) {
+            for (i: Int in 0 until childCount) {
                 val lp = getChildAt(i).layoutParams as LayoutParams
                 totalWidth += getChildAt(i).measuredWidth + lp.leftMargin + lp.rightMargin
             }
@@ -70,7 +68,7 @@ class PlayListPager constructor(
         if (heightMode == MeasureSpec.EXACTLY) {
             maxHeight = heightSize
         } else {
-            for (i: Int in 0..childCount) {
+            for (i: Int in 0 until childCount) {
                 val lp = getChildAt(i).layoutParams as LayoutParams
                 maxHeight = max(maxHeight, getChildAt(i).measuredHeight + lp.topMargin + lp.bottomMargin)
             }
@@ -91,9 +89,24 @@ class PlayListPager constructor(
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        for (i: Int in 0..childCount) {
+        for (i: Int in 0 until childCount) {
             val baseLineX = calBaseLine(i)
-            TODO("0924")
+            val baseLineY = height / 2
+
+            val child = getChildAt(i)
+            val lp = child.layoutParams as LayoutParams
+            child.scaleX = lp.scale
+            child.scaleY = lp.scale
+            child.alpha = lp.alpha
+            val left = baseLineX - child.measuredWidth / 2
+            val top = baseLineY - child.measuredHeight / 2
+            val right = left + child.measuredWidth
+            val bottom = top + child.measuredHeight
+
+            child.layout(left + lp.leftMargin + paddingLeft,
+                    top + lp.topMargin + paddingTop,
+                    right + lp.rightMargin + paddingRight,
+                    bottom + lp.bottomMargin + paddingBottom)
         }
     }
 
@@ -203,7 +216,7 @@ class PlayListPager constructor(
     }
 
     private fun changeAlphaAndScale() {
-        for (i: Int in 0..childCount) {
+        for (i: Int in 0 until childCount) {
             val lp = getChildAt(i).layoutParams as LayoutParams
             when (lp.from) {
                 0 -> {
@@ -233,14 +246,14 @@ class PlayListPager constructor(
     private fun setViewFromAndTo() {
         if (abs(offsetPercent) >= 1f) {
             isReordered = false
-            for (i: Int in 0..childCount) {
+            for (i: Int in 0 until childCount) {
                 val lp = getChildAt(i).layoutParams as LayoutParams
                 lp.from = lp.to
             }
             totalOffsetX %= width
             offsetPercent %= 1f
         } else {
-            for (i: Int in 0..childCount) {
+            for (i: Int in 0 until childCount) {
                 val lp = getChildAt(i).layoutParams as LayoutParams
                 lp.to =
                         when (lp.from) {

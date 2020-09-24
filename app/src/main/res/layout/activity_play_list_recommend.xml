@@ -43,7 +43,7 @@
         android:background="#f0f0f0"/>
 
 
-    <com.rikkathewrold.rikkamusic.widget.PlayListRecommendViewPager
+    <com.zihany.cloudmusic.widget.PlayListRecommendViewPager
         android:id="@+id/vp_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

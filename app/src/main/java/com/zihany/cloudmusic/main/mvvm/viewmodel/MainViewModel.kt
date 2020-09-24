@@ -36,18 +36,12 @@ class MainViewModel : BaseViewModel() {
     var logoutError: MutableLiveData<Throwable> = MutableLiveData()
     private val model = MainModel()
 
-    var pagerAdapter: MultiFragmentPagerAdapter? = null
-    val fragments: MutableList<BaseFragment<*>> = ArrayList()
-    var firstTime = 0L
 
     override fun initData(context: Context) {
         val userLoginInfo = SharePreferenceUtil.getInstance(context).getUserInfo("")
         loginBean.value = GsonUtil.fromJSON<LoginBean>(userLoginInfo)
 
-        fragments.add(MineFragment())
-        fragments.add(WowFragment())
-        fragments.add(CloudVillageFragment())
-        pagerAdapter!!.init(fragments)
+
     }
 
     fun getLikeList() {
