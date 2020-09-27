@@ -28,7 +28,7 @@ class SearchEditText constructor(context: Context, attrs: AttributeSet?, defStyl
     }
 
     private fun initView(context: Context) {
-        binding = LayoutSearchEtBinding.inflate(LayoutInflater.from(context), this, false)
+        binding = LayoutSearchEtBinding.inflate(LayoutInflater.from(context), this, true)
     }
 
     private fun initListener() {

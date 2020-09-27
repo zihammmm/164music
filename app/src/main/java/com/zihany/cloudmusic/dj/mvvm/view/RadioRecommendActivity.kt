@@ -121,15 +121,14 @@ class RadioRecommendActivity: BaseActivity<DjViewModel>() {
         binding.rvEntertainmentDj.layoutManager = GridLayoutManager(this, 3)
         binding.rvEntertainmentDj.adapter = electricAdapter
 
-        showDialog()
-        viewModel.getDjRecommend()
-        viewModel.getDjPayGift(3, 0)
-        viewModel.getDjCategoryRecommend()
+//        showDialog()
+//        viewModel.getDjRecommend()
+//        viewModel.getDjPayGift(3, 0)
+//        viewModel.getDjCategoryRecommend()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityRadioBinding.inflate(layoutInflater)
 
         viewModel = ViewModelProvider(this)[DjViewModel::class.java]
         viewModel.apply {
@@ -140,6 +139,8 @@ class RadioRecommendActivity: BaseActivity<DjViewModel>() {
     }
 
     override fun onCreateView(savedInstanceState: Bundle?) {
+        binding = ActivityRadioBinding.inflate(layoutInflater)
+        binding.radioPresenter = RadioRecommendPresenter()
         setContentView(binding.root)
 
         ImmersionBar.with(this)

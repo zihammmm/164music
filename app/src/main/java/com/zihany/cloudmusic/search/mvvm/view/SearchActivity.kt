@@ -14,6 +14,7 @@ import com.zihany.cloudmusic.search.bean.HotSearchDetailBean
 import com.zihany.cloudmusic.search.bean.SearchHistoryBean
 import com.zihany.cloudmusic.search.mvvm.viewmodel.SearchViewModel
 import com.zihany.cloudmusic.widget.MusicDialog
+import com.zihany.cloudmusic.widget.SearchHistoryTagLayout
 
 class SearchActivity : BaseActivity<SearchViewModel>() {
     companion object {
@@ -23,17 +24,23 @@ class SearchActivity : BaseActivity<SearchViewModel>() {
 
     private lateinit var adapter: HotSearchAdapter
     private var searchDetailBean: HotSearchDetailBean? = null
-    private val stringList = ArrayList<SearchHistoryBean>()
+    private var stringList = ArrayList<SearchHistoryBean>()
     private lateinit var binding: ActivitySearchBinding
     private val searchListener = object : HotSearchAdapter.OnHotSearchAdapterClickListen {
         override fun onHotSearchClick(position: Int) {
             searchDetailBean?.let {
                 val keywords = it.data!![position].searchWord
-
+                searchSong(keywords)
             }
         }
-
     }
+    private val tagListener = object : SearchHistoryTagLayout.OnHistoryTagClickListener {
+        override fun onItemClick(position: Int) {
+            val keywords = stringList[position].keyowrds
+            searchSong(keywords)
+        }
+    }
+
     private var isDeleteDialog: MusicDialog? = null
 
     override fun initData() {
@@ -45,15 +52,15 @@ class SearchActivity : BaseActivity<SearchViewModel>() {
         binding.rvHotsearch.layoutManager = LinearLayoutManager(this)
         binding.rvHotsearch.adapter = adapter
         adapter.listener = searchListener
-
     }
 
     override fun onResume() {
         super.onResume()
 
         if (SearchHistoryDaoOp.queryAll() != null) {
-
+            stringList = SearchHistoryDaoOp.queryAll() as ArrayList<SearchHistoryBean>
         }
+        binding.tlSearchhistory.addHistoryText(stringList, tagListener)
     }
 
     override fun onCreateView(savedInstanceState: Bundle?) {

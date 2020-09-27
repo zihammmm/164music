@@ -26,4 +26,10 @@
             <enum name="right" value="2" />
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="MusicDrawerItemView">
+        <attr name="item_icon" format="reference" />
+        <attr name="item_name" format="reference" />
+        <attr name="is_show_gap" format="boolean" />
+    </declare-styleable>
 </resources>

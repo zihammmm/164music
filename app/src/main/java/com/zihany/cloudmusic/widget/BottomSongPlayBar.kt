@@ -27,7 +27,7 @@ class BottomSongPlayBar(private val mContext: Context, attrs: AttributeSet?, def
     }
 
     private fun initView() {
-        binding = LayoutBottomSongplayControlBinding.inflate(LayoutInflater.from(context), this, false)
+        binding = LayoutBottomSongplayControlBinding.inflate(LayoutInflater.from(context), this, true)
     }
 
     private fun initListener() {

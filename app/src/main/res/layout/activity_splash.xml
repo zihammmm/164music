@@ -6,6 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".main.mvvm.view.SplashActivity"
     android:fitsSystemWindows="true"
-    android:background="@drawable/splash_view">
+    android:background="@drawable/wangyiyun">
 
 </androidx.constraintlayout.widget.ConstraintLayout>

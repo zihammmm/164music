@@ -29,7 +29,7 @@ class SongListAdapter constructor(private val mContext: Context)
 
     private lateinit var list: ArrayList<SongInfo>
     var type = 0
-    private var keywords = ""
+    var keywords: String? = null
     private lateinit var binding: ItemSonglistBinding
 
     override fun notifyDataSetChanged(dataList: ArrayList<SongInfo>) {
@@ -59,7 +59,7 @@ class SongListAdapter constructor(private val mContext: Context)
         if (holder is ViewHolder) {
             val bean = list[position]
             if (type == 3) {
-                holder.setSongInfo(mContext, bean, keywords)
+                holder.setSongInfo(mContext, bean, keywords!!)
             } else {
                 holder.setSongInfo(mContext, bean, position, type)
             }

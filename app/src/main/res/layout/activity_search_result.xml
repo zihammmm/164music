@@ -15,6 +15,7 @@
 
             <include
                 layout="@layout/common_title"
+                android:id="@+id/common_title"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_45"
                 android:layout_marginTop="@dimen/dp_30" />

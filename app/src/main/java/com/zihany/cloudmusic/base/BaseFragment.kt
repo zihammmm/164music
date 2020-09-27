@@ -68,7 +68,7 @@ abstract class BaseFragment<T: BaseViewModel> : Fragment() {
         }
     }
 
-    protected fun onVisible() {
+    protected open fun onVisible() {
         isFragmentVisible = true
         lazyLoad()
     }

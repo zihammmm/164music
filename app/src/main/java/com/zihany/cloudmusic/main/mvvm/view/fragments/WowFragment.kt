@@ -87,7 +87,7 @@ class WowFragment : BaseFragment<WowViewModel>() {
     override fun initView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         LogUtil.d(TAG, "initView isPrepared:${isPrepared()}, isFragmentVisible:${isFragmentVisible()}")
         binding = FragmentWowBinding.inflate(inflater, container, false)
-
+        binding.wowPresenter = WowPresenter()
         return binding.root
     }
 
@@ -102,8 +102,8 @@ class WowFragment : BaseFragment<WowViewModel>() {
     }
 
     inner class WowPresenter {
-
         fun onClickRlDayRec(v: View) {
+            LogUtil.d(TAG, "onClickRlDayRec")
             if (ClickUtil.isFastClick(1000, v)) {
                 return
             }
@@ -111,6 +111,7 @@ class WowFragment : BaseFragment<WowViewModel>() {
         }
 
         fun onClickRlPlayList(v: View) {
+            LogUtil.d(TAG, "onClickRlPlayList")
             if (ClickUtil.isFastClick(1000, v)) {
                 return
             }
@@ -118,6 +119,7 @@ class WowFragment : BaseFragment<WowViewModel>() {
         }
 
         fun onClickRlRank(v: View) {
+            LogUtil.d(TAG, "onClickRlRank")
             if (ClickUtil.isFastClick(1000, v)) {
                 return
             }

@@ -66,8 +66,8 @@ class DailyRecommendActivity : BaseActivity<WowViewModel>() {
         LogUtil.d(TAG, "上次日推更新时间: ${TimeUtil.getTimeStandard(System.currentTimeMillis())}")
         if (!TimeUtil.isOver7am(updateTime)) {
             DailyRecommendDaoOp.deleteAllData()
-            showDialog()
-            TODO("getDailyRecommend")
+
+
         } else {
             greenDaoList = DailyRecommendDaoOp.queryAll()
             notifyAdapter(greenDaoList)

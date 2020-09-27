@@ -47,15 +47,15 @@ class PlayListRecommendActivity: BaseActivity<WowViewModel>() {
 
         binding.vpContainer.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
-                TODO("Not yet implemented")
+
             }
 
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-                TODO("Not yet implemented")
+
             }
 
             override fun onPageSelected(position: Int) {
-                TODO("Not yet implemented")
+
             }
 
         })
