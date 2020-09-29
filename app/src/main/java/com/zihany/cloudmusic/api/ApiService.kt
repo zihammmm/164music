@@ -1,10 +1,10 @@
 package com.zihany.cloudmusic.api
 
+import androidx.lifecycle.LiveData
 import com.zihany.cloudmusic.login.bean.LoginBean
 import com.zihany.cloudmusic.main.bean.*
 import com.zihany.cloudmusic.personal.bean.UserPlayListBean
 import com.zihany.cloudmusic.search.bean.*
-import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -14,68 +14,68 @@ interface ApiService {
     }
 
     @GET("login/cellphone")
-    fun login(@Query("phone") phone: String, @Query("password") password: String): Observable<LoginBean>
+    fun login(@Query("phone") phone: String, @Query("password") password: String): LiveData<LoginBean>
 
     @GET("layout")
-    fun logout(): Observable<LogoutBean>
+    fun logout(): LiveData<LogoutBean>
 
     @GET("banner")
-    fun getBanner(@Query("type") type: String): Observable<BannerBean>
+    fun getBanner(@Query("type") type: String): LiveData<BannerBean>
 
     @GET("recommend/resource")
-    fun getRecommendPlayList(): Observable<MainRecommendPlayListBean>
+    fun getRecommendPlayList(): LiveData<MainRecommendPlayListBean>
 
     @GET("recommend/songs")
-    fun getDailyRecommend(): Observable<DailyRecommendBean>
+    fun getDailyRecommend(): LiveData<DailyRecommendBean>
 
     @GET("likelist")
-    fun getLikeList(@Query("id") uid: Long): Observable<LikeListBean>
+    fun getLikeList(@Query("id") uid: Long): LiveData<LikeListBean>
 
     @GET("recommend/songs")
-    fun getRecommendPlay(): Observable<DailyRecommendBean>
+    fun getRecommendPlay(): LiveData<DailyRecommendBean>
 
     @GET("search/hot/detail")
-    fun getSearchHotDetail(): Observable<HotSearchDetailBean>
+    fun getSearchHotDetail(): LiveData<HotSearchDetailBean>
 
     @GET("search")
-    fun getSongSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): io.reactivex.Observable<SongSearchBean>
+    fun getSongSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): LiveData<SongSearchBean>
 
     @GET("search")
-    fun getFeedSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): io.reactivex.Observable<FeedSearchBean>
+    fun getFeedSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): LiveData<FeedSearchBean>
 
     @GET("search")
-    fun getSingerSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): io.reactivex.Observable<SingerSearchBean>
+    fun getSingerSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): LiveData<SingerSearchBean>
 
     @GET("search")
-    fun getAlbumSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): io.reactivex.Observable<AlbumSearchBean>
+    fun getAlbumSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): LiveData<AlbumSearchBean>
 
     @GET("search")
-    fun getPlayListSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): io.reactivex.Observable<PlayListSearchBean>
+    fun getPlayListSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): LiveData<PlayListSearchBean>
 
     @GET("search")
-    fun getRadioSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): io.reactivex.Observable<RadioSearchBean>
+    fun getRadioSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): LiveData<RadioSearchBean>
 
     @GET("search")
-    fun getUserSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): io.reactivex.Observable<UserSearchBean>
+    fun getUserSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): LiveData<UserSearchBean>
 
     @GET("search")
-    fun getSynthesisSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): io.reactivex.Observable<SynthesisSearchBean>
+    fun getSynthesisSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): LiveData<SynthesisSearchBean>
 
     @GET("user/playlist")
-    fun getUserPlaylist(@Query("uid") uid: Long): Observable<UserPlayListBean>
+    fun getUserPlaylist(@Query("uid") uid: Long): LiveData<UserPlayListBean>
 
     @GET("playmode/intelligence/list")
-    fun getIntelligenceList(@Query("id") id: Long, @Query("pid") pid: Long): Observable<PlayModeIntelligenceBean>
+    fun getIntelligenceList(@Query("id") id: Long, @Query("pid") pid: Long): LiveData<PlayModeIntelligenceBean>
 
     @GET("mv/sublist")
-    fun getMvSublist(): Observable<MvSublistBean>
+    fun getMvSublist(): LiveData<MvSublistBean>
 
     @GET("artist/sublist")
-    fun getArtistSublist(): Observable<ArtistSublistBean>
+    fun getArtistSublist(): LiveData<ArtistSublistBean>
 
     @GET("album/sublist")
-    fun getAlbumSublist(): Observable<AlbumSublistBean>
+    fun getAlbumSublist(): LiveData<AlbumSublistBean>
 
     @GET("personal_fm")
-    fun getMyFm(): Observable<MyFmBean>
+    fun getMyFm(): LiveData<MyFmBean>
 }

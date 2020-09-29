@@ -6,7 +6,7 @@ import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersisto
 import com.google.gson.Gson
 import com.zihany.cloudmusic.App
 import okhttp3.OkHttpClient
-import retrofit2.Retrofit
+import retrofit2.*
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -38,7 +38,7 @@ class ApiEngine {
                 .baseUrl(ApiService.BASE_URL)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addCallAdapterFactory(LiveDataCallAdapterFactory())
                 .build()
     }
 
