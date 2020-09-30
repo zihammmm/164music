@@ -2,9 +2,7 @@ package com.zihany.cloudmusic.main.mvvm.view.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -84,13 +82,6 @@ class WowFragment : BaseFragment<WowViewModel>() {
         }
     }
 
-    override fun initView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        LogUtil.d(TAG, "initView isPrepared:${isPrepared()}, isFragmentVisible:${isFragmentVisible()}")
-        binding = FragmentWowBinding.inflate(inflater, container, false)
-        binding.wowPresenter = WowPresenter()
-        return binding.root
-    }
-
     private fun onGetBannerSuccess(bean: BannerBean) {
         LogUtil.d(TAG, "onGetBannerSuccess $bean")
         bean.banners?.let { banners.addAll(it) }
@@ -146,10 +137,6 @@ class WowFragment : BaseFragment<WowViewModel>() {
             }
             startActivity(Intent(activity, PlayListRecommendActivity::class.java))
         }
-
-    }
-
-    override fun initVariables(bundle: Bundle) {
 
     }
 

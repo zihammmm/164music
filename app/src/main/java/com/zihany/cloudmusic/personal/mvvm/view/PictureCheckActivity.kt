@@ -2,11 +2,8 @@ package com.zihany.cloudmusic.personal.mvvm.view
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.os.Bundle
-import android.view.WindowManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import com.zihany.cloudmusic.base.BaseActivity
 import com.zihany.cloudmusic.databinding.ActivityAvatarCheckBinding
@@ -42,12 +39,6 @@ class PictureCheckActivity: BaseActivity<PictureCheckViewModel>() {
 
                     })
         }
-    }
-
-    override fun onCreateView(savedInstanceState: Bundle?) {
-        binding = ActivityAvatarCheckBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
     }
 
     override fun onDestroy() {

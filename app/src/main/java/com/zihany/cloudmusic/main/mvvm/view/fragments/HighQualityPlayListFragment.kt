@@ -1,10 +1,6 @@
 package com.zihany.cloudmusic.main.mvvm.view.fragments
 
 import android.content.Intent
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.zihany.cloudmusic.base.BaseFragment
 import com.zihany.cloudmusic.databinding.FragmentHighQualityBinding
@@ -50,14 +46,6 @@ class HighQualityPlayListFragment constructor(private var type: String): BaseFra
 
     init {
         fragmentTitle = type
-    }
-
-    override fun initView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentHighQualityBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun initVariables(bundle: Bundle) {
     }
 
     override fun initData() {

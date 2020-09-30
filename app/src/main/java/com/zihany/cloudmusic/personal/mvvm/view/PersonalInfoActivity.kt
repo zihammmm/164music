@@ -1,13 +1,10 @@
 package com.zihany.cloudmusic.personal.mvvm.view
 
 import android.annotation.SuppressLint
-import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.appbar.AppBarLayout
-import com.google.gson.Gson
 import com.zihany.cloudmusic.R
 import com.zihany.cloudmusic.base.BaseActivity
 import com.zihany.cloudmusic.base.BaseFragment
@@ -15,9 +12,7 @@ import com.zihany.cloudmusic.databinding.ActivityPersonalInfoBinding
 import com.zihany.cloudmusic.login.bean.LoginBean
 import com.zihany.cloudmusic.main.adapter.MultiFragmentPagerAdapter
 import com.zihany.cloudmusic.main.mvvm.view.MainActivity
-import com.zihany.cloudmusic.personal.mvvm.view.fragment.UserDynamicsFragment
 import com.zihany.cloudmusic.personal.mvvm.view.fragment.UserInfoFragment
-import com.zihany.cloudmusic.personal.mvvm.view.fragment.UserPlayListFragment
 import com.zihany.cloudmusic.personal.mvvm.viewmodel.PersonalViewModel
 import com.zihany.cloudmusic.search.bean.UserSearchBean
 import com.zihany.cloudmusic.util.AppBarStateChangeListener
@@ -141,20 +136,6 @@ class PersonalInfoActivity : BaseActivity<PersonalViewModel>() {
                 .into(binding.ivBackground)
         binding.tvNickname.text = loginBean?.nickname
 
-    }
-
-    override fun onCreateView(savedInstanceState: Bundle?) {
-        binding = ActivityPersonalInfoBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-
-        pagerAdapter = MultiFragmentPagerAdapter(supportFragmentManager)
-        fragments.add(UserPlayListFragment())
-        fragments.add(UserDynamicsFragment())
-        userInfoFragment = UserInfoFragment()
-        fragments.add(userInfoFragment!!)
-        pagerAdapter.init(fragments)
     }
 
 }

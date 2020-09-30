@@ -14,28 +14,20 @@ class SharePreferenceUtil private constructor() {
         private val TAG = "SharePreferenceUtil"
         private var sp: SharedPreferences? = null
         private lateinit var editor: SharedPreferences.Editor
-        private var instance: SharePreferenceUtil? = null
-
-        fun getInstance(context: Context): SharePreferenceUtil {
-            if (instance == null) {
-                synchronized(SharePreferenceUtil::class.java) {
-                    if (instance == null) {
-                        init(context)
-                        instance = SharePreferenceUtil()
-                    }
-                }
-            }
-            return instance!!
+        val instance: SharePreferenceUtil by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
+            SharePreferenceUtil()
         }
 
-        @SuppressLint("CommitPrefEdits")
-        private fun init(context: Context) {
-            if (sp == null) {
-                sp = context.getSharedPreferences(Constants.SHARED_PREFERENCE_FILE_NAME, Context.MODE_PRIVATE)
-            }
-            editor = sp!!.edit()
-        }
     }
+
+    @SuppressLint("CommitPrefEdits")
+    fun init(context: Context) {
+        if (sp == null) {
+            sp = context.getSharedPreferences(Constants.SHARED_PREFERENCE_FILE_NAME, Context.MODE_PRIVATE)
+        }
+        editor = sp!!.edit()
+    }
+
     private val systemCurrentLocal: Locale = Locale.CHINESE
 
     fun getSelectLanguage(): Int {
@@ -118,6 +110,10 @@ class SharePreferenceUtil private constructor() {
 
     private fun getInt(key: String, defaultValue: Int): Int {
         return sp!!.getInt(key, defaultValue)
+    }
+
+    fun getAccountNum(): String? {
+        return getString(Constants.PHONE_NUMBER, "")
     }
 
     fun getSystemCurrentLocal(): Locale {

@@ -1,6 +1,5 @@
 package com.zihany.cloudmusic.api
 
-import androidx.lifecycle.LiveData
 import com.zihany.cloudmusic.login.bean.LoginBean
 import com.zihany.cloudmusic.main.bean.*
 import com.zihany.cloudmusic.personal.bean.UserPlayListBean
@@ -14,68 +13,68 @@ interface ApiService {
     }
 
     @GET("login/cellphone")
-    fun login(@Query("phone") phone: String, @Query("password") password: String): LiveData<LoginBean>
+    fun login(@Query("phone") phone: String, @Query("password") password: String): ApiResponse<LoginBean>
 
     @GET("layout")
-    fun logout(): LiveData<LogoutBean>
+    fun logout(): ApiResponse<LogoutBean>
 
     @GET("banner")
-    fun getBanner(@Query("type") type: String): LiveData<BannerBean>
+    fun getBanner(@Query("type") type: String): ApiResponse<BannerBean>
 
     @GET("recommend/resource")
-    fun getRecommendPlayList(): LiveData<MainRecommendPlayListBean>
+    fun getRecommendPlayList(): ApiResponse<MainRecommendPlayListBean>
 
     @GET("recommend/songs")
-    fun getDailyRecommend(): LiveData<DailyRecommendBean>
+    fun getDailyRecommend(): ApiResponse<DailyRecommendBean>
 
     @GET("likelist")
-    fun getLikeList(@Query("id") uid: Long): LiveData<LikeListBean>
+    fun getLikeList(@Query("id") uid: Long): ApiResponse<LikeListBean>
 
     @GET("recommend/songs")
-    fun getRecommendPlay(): LiveData<DailyRecommendBean>
+    fun getRecommendPlay(): ApiResponse<DailyRecommendBean>
 
     @GET("search/hot/detail")
-    fun getSearchHotDetail(): LiveData<HotSearchDetailBean>
+    fun getSearchHotDetail(): ApiResponse<HotSearchDetailBean>
 
     @GET("search")
-    fun getSongSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): LiveData<SongSearchBean>
+    fun getSongSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): ApiResponse<SongSearchBean>
 
     @GET("search")
-    fun getFeedSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): LiveData<FeedSearchBean>
+    fun getFeedSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): ApiResponse<FeedSearchBean>
 
     @GET("search")
-    fun getSingerSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): LiveData<SingerSearchBean>
+    fun getSingerSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): ApiResponse<SingerSearchBean>
 
     @GET("search")
-    fun getAlbumSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): LiveData<AlbumSearchBean>
+    fun getAlbumSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): ApiResponse<AlbumSearchBean>
 
     @GET("search")
-    fun getPlayListSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): LiveData<PlayListSearchBean>
+    fun getPlayListSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): ApiResponse<PlayListSearchBean>
 
     @GET("search")
-    fun getRadioSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): LiveData<RadioSearchBean>
+    fun getRadioSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): ApiResponse<RadioSearchBean>
 
     @GET("search")
-    fun getUserSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): LiveData<UserSearchBean>
+    fun getUserSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): ApiResponse<UserSearchBean>
 
     @GET("search")
-    fun getSynthesisSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): LiveData<SynthesisSearchBean>
+    fun getSynthesisSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): ApiResponse<SynthesisSearchBean>
 
     @GET("user/playlist")
-    fun getUserPlaylist(@Query("uid") uid: Long): LiveData<UserPlayListBean>
+    fun getUserPlaylist(@Query("uid") uid: Long): ApiResponse<UserPlayListBean>
 
     @GET("playmode/intelligence/list")
-    fun getIntelligenceList(@Query("id") id: Long, @Query("pid") pid: Long): LiveData<PlayModeIntelligenceBean>
+    fun getIntelligenceList(@Query("id") id: Long, @Query("pid") pid: Long): ApiResponse<PlayModeIntelligenceBean>
 
     @GET("mv/sublist")
-    fun getMvSublist(): LiveData<MvSublistBean>
+    fun getMvSublist(): ApiResponse<MvSublistBean>
 
     @GET("artist/sublist")
-    fun getArtistSublist(): LiveData<ArtistSublistBean>
+    fun getArtistSublist(): ApiResponse<ArtistSublistBean>
 
     @GET("album/sublist")
-    fun getAlbumSublist(): LiveData<AlbumSublistBean>
+    fun getAlbumSublist(): ApiResponse<AlbumSublistBean>
 
     @GET("personal_fm")
-    fun getMyFm(): LiveData<MyFmBean>
+    fun getMyFm(): ApiResponse<MyFmBean>
 }

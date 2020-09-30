@@ -7,7 +7,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.lzx.starrysky.manager.MediaSessionConnection
 import com.lzx.starrysky.model.SongInfo
@@ -17,27 +20,36 @@ import com.zihany.cloudmusic.util.LocaleManageUtil
 import com.zihany.cloudmusic.widget.LoadingDialog
 import com.zihany.cloudmusic.widget.SearchEditText
 
-abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity() {
+abstract class BaseActivity : AppCompatActivity() {
     companion object {
         val SONG_URL = "http://music.163.com/song/media/outer/url?id="
     }
 
     private val TAG = "BaseActivity"
     var context: Context? = null
-    protected lateinit var viewModel: T
-    protected var diaLog: LoadingDialog? = null
+    private var diaLog: LoadingDialog? = null
     private var bottomSongInfo: SongInfo? = null
+
+    protected inline fun <reified T : ViewDataBinding> binding(
+            @LayoutRes resId: Int
+    ): Lazy<T> = lazy {
+        DataBindingUtil.setContentView<T>(this, resId).apply {
+            lifecycleOwner = this@BaseActivity
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context = this
         createDialog()
-        onCreateView(savedInstanceState)
+        startObserve()
+        initView()
         initData()
     }
 
     protected abstract fun initData()
-    protected abstract fun onCreateView(savedInstanceState: Bundle?)
+    protected abstract fun initView()
+    protected abstract fun startObserve()
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(newBase?.let { LocaleManageUtil.setLocal(it) })

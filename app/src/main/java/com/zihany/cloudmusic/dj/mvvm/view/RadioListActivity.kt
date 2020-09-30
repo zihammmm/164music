@@ -1,10 +1,6 @@
 package com.zihany.cloudmusic.dj.mvvm.view
 
-import android.os.Bundle
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.gyf.immersionbar.ImmersionBar
-import com.zihany.cloudmusic.R
 import com.zihany.cloudmusic.base.BaseActivity
 import com.zihany.cloudmusic.databinding.ActivityRadioListBinding
 import com.zihany.cloudmusic.dj.adapter.RadioListAdapter
@@ -42,18 +38,6 @@ class RadioListActivity: BaseActivity<DjViewModel>() {
                 viewModel.getDjPayGift(30, 1)
             }
         }
-    }
-
-    override fun onCreateView(savedInstanceState: Bundle?) {
-        viewModel = ViewModelProvider(this)[DjViewModel::class.java]
-        binding = ActivityRadioListBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        ImmersionBar.with(this)
-                .transparentBar()
-                .statusBarColor(R.color.colorPrimary)
-                .statusBarDarkFont(false)
-                .init()
     }
 
     fun onGetDjPayGiftSuccess(bean: DjPayGiftBean) {

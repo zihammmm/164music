@@ -1,8 +1,6 @@
 package com.zihany.cloudmusic.main.mvvm.view
 
 import android.annotation.SuppressLint
-import android.os.Bundle
-import android.view.WindowManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -18,7 +16,6 @@ import com.zihany.cloudmusic.main.bean.DRGreenDaoBean
 import com.zihany.cloudmusic.main.mvvm.viewmodel.WowViewModel
 import com.zihany.cloudmusic.util.*
 import jp.wasabeef.glide.transformations.BlurTransformation
-import java.sql.Time
 
 class DailyRecommendActivity : BaseActivity<WowViewModel>() {
     companion object {
@@ -122,13 +119,6 @@ class DailyRecommendActivity : BaseActivity<WowViewModel>() {
             }
 
         })
-    }
-
-    override fun onCreateView(savedInstanceState: Bundle?) {
-        binding = ActivityDailyRecommendBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
     }
 
 

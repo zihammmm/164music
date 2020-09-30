@@ -8,8 +8,8 @@ import java.nio.charset.StandardCharsets
 
 class ResponseInterceptor: Interceptor{
     companion object{
-        private val TAG = "ResponseInterceptor"
-        private val UTF8 = StandardCharsets.UTF_8
+        const val TAG = "ResponseInterceptor"
+        val UTF8 = StandardCharsets.UTF_8
     }
 
     override fun intercept(chain: Interceptor.Chain): Response {

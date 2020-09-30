@@ -2,9 +2,7 @@ package com.zihany.cloudmusic.search.mvvm.view
 
 import android.content.DialogInterface
 import android.content.Intent
-import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.gyf.immersionbar.ImmersionBar
 import com.zihany.cloudmusic.R
 import com.zihany.cloudmusic.base.BaseActivity
 import com.zihany.cloudmusic.database.SearchHistoryDaoOp
@@ -61,17 +59,6 @@ class SearchActivity : BaseActivity<SearchViewModel>() {
             stringList = SearchHistoryDaoOp.queryAll() as ArrayList<SearchHistoryBean>
         }
         binding.tlSearchhistory.addHistoryText(stringList, tagListener)
-    }
-
-    override fun onCreateView(savedInstanceState: Bundle?) {
-        binding = ActivitySearchBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        ImmersionBar.with(this)
-                .transparentBar()
-                .statusBarColor(R.color.colorPrimary)
-                .statusBarDarkFont(false)
-                .init()
     }
 
     private fun showIsDeleteAllDialog() {

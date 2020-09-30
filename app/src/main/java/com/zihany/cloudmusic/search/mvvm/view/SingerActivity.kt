@@ -1,7 +1,5 @@
 package com.zihany.cloudmusic.search.mvvm.view
 
-import android.os.Bundle
-import android.view.WindowManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
@@ -11,10 +9,6 @@ import com.zihany.cloudmusic.base.BaseActivity
 import com.zihany.cloudmusic.base.BaseFragment
 import com.zihany.cloudmusic.databinding.ActivitySingerBinding
 import com.zihany.cloudmusic.main.adapter.MultiFragmentPagerAdapter
-import com.zihany.cloudmusic.search.mvvm.view.fragments.SingerAlbumSearchFragment
-import com.zihany.cloudmusic.search.mvvm.view.fragments.SingerFeedSearchFragment
-import com.zihany.cloudmusic.search.mvvm.view.fragments.SingerInfoSearchFragment
-import com.zihany.cloudmusic.search.mvvm.view.fragments.SingerSongSearchFragment
 import com.zihany.cloudmusic.search.mvvm.viewmodel.SingerViewModel
 import com.zihany.cloudmusic.util.AppBarStateChangeListener
 import com.zihany.cloudmusic.util.DensityUtil
@@ -89,17 +83,4 @@ class SingerActivity: BaseActivity<SingerViewModel>() {
         })
     }
 
-    override fun onCreateView(savedInstanceState: Bundle?) {
-        binding = ActivitySingerBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-
-        pagerAdapter = MultiFragmentPagerAdapter(supportFragmentManager)
-        fragments.add(SingerSongSearchFragment())
-        fragments.add(SingerAlbumSearchFragment())
-        fragments.add(SingerFeedSearchFragment())
-        fragments.add(SingerInfoSearchFragment())
-        pagerAdapter.init(fragments)
-    }
 }

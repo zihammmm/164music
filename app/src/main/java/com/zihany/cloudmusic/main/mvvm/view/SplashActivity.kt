@@ -4,11 +4,8 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.text.TextUtils
 import android.view.WindowManager
 import com.zihany.cloudmusic.R
-import com.zihany.cloudmusic.base.BaseActivity
-import com.zihany.cloudmusic.base.BaseView
 import com.zihany.cloudmusic.util.ActivityStarter
 import com.zihany.cloudmusic.util.LogUtil
 import com.zihany.cloudmusic.util.ScreenUtils
@@ -46,7 +43,7 @@ class SplashActivity : AppCompatActivity() {
             }
 
             override fun onFinish() {
-                val authToken = SharePreferenceUtil.getInstance(this@SplashActivity).getAuthToken("")
+                val authToken = SharePreferenceUtil.instance.getAuthToken("")
                 /*if (TextUtils.isEmpty(authToken)) {
                     ActivityStarter.instance.startLoginActivity(this@SplashActivity)
                 }else {*/

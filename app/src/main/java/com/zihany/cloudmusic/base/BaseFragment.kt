@@ -6,32 +6,40 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.zihany.cloudmusic.widget.LoadingDialog
 
-abstract class BaseFragment<T: BaseViewModel> : Fragment() {
+abstract class BaseFragment<T: ViewDataBinding>(@LayoutRes val layoutId: Int) : Fragment(layoutId) {
     companion object {
         const val TAG = "BaseFragment"
         const val SONG_URL = "http://music.163.com/song/media/outer/url?id="
     }
 
-    protected lateinit var diaLog: LoadingDialog
+    lateinit var binding: T
+
+    private lateinit var diaLog: LoadingDialog
     protected lateinit var activity: Activity
-    protected lateinit var viewModel: T
     var fragmentTitle: String? = null
     private var isFragmentVisible = false
     private var isFirstLoad = true
     private var forceLoad = false
     private var isPrepared = false
 
+    protected fun <T : ViewDataBinding> binding(
+            inflater: LayoutInflater,
+            @LayoutRes layoutId: Int,
+            container: ViewGroup?
+    ): T = DataBindingUtil.inflate<T>(inflater, layoutId, container, false).apply {
+        lifecycleOwner = this@BaseFragment
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         createDialog()
-        val bundle = arguments
-        if (bundle != null && bundle.size() > 0) {
-            initVariables(bundle)
-        }
     }
 
     override fun onAttach(context: Context) {
@@ -42,9 +50,9 @@ abstract class BaseFragment<T: BaseViewModel> : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         isFirstLoad = true
         isPrepared = true
-        val view = initView(inflater, container, savedInstanceState)
+        binding = binding(inflater, layoutId, container)
         lazyLoad()
-        return view
+        return binding.root
     }
 
     override fun onDestroyView() {
@@ -52,10 +60,16 @@ abstract class BaseFragment<T: BaseViewModel> : Fragment() {
         isPrepared = false
     }
 
-    protected abstract fun initView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.lifecycleOwner = this
+        startObserve()
+        initView()
+        initData()
+        super.onViewCreated(view, savedInstanceState)
+    }
 
-    protected abstract fun initVariables(bundle: Bundle)
-
+    protected abstract fun initView()
+    protected abstract fun startObserve()
     protected abstract fun initData()
 
     protected fun lazyLoad() {

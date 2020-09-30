@@ -1,14 +1,10 @@
 package com.zihany.cloudmusic.song.mvvm.view
 
 import android.animation.ObjectAnimator
-import android.os.Bundle
-import android.widget.SeekBar
-import androidx.appcompat.app.AppCompatActivity
 import com.lzx.starrysky.manager.MusicManager
 import com.lzx.starrysky.model.SongInfo
 import com.lzx.starrysky.utils.TimerTaskManager
 import com.zihany.cloudmusic.base.BaseActivity
-import com.zihany.cloudmusic.base.BaseView
 import com.zihany.cloudmusic.databinding.ActivitySongBinding
 import com.zihany.cloudmusic.song.bean.LyricBean
 import com.zihany.cloudmusic.song.bean.SongDetailBean
@@ -52,10 +48,6 @@ class SongActivity : BaseActivity<SongViewModel>() {
     }
 
     override fun initData() {
-
-    }
-
-    override fun onCreateView(savedInstanceState: Bundle?) {
 
     }
 

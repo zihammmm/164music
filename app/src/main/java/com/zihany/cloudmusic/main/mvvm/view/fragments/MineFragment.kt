@@ -2,10 +2,6 @@ package com.zihany.cloudmusic.main.mvvm.view.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,9 +16,7 @@ import com.zihany.cloudmusic.manager.SongPlayManager
 import com.zihany.cloudmusic.personal.adapter.UserPlaylistAdapter
 import com.zihany.cloudmusic.personal.bean.PlayListItemBean
 import com.zihany.cloudmusic.personal.bean.UserPlayListBean
-import com.zihany.cloudmusic.util.GsonUtil
 import com.zihany.cloudmusic.util.LogUtil
-import com.zihany.cloudmusic.util.SharePreferenceUtil
 import com.zihany.cloudmusic.util.ToastUtils
 
 class MineFragment : BaseFragment<MineViewModel>() {
@@ -120,15 +114,6 @@ class MineFragment : BaseFragment<MineViewModel>() {
     init {
         fragmentTitle = "我的"
 
-    }
-
-    override fun initVariables(bundle: Bundle) {
-    }
-
-    override fun initView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FragmentMineBinding.inflate(inflater, container, false)
-        adapter = UserPlaylistAdapter(context!!)
-        return binding!!.root
     }
 
     override fun onDestroyView() {

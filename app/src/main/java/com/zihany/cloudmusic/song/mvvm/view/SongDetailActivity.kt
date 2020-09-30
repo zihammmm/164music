@@ -2,12 +2,7 @@ package com.zihany.cloudmusic.song.mvvm.view
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.os.Bundle
-import android.view.ViewGroup
-import android.view.Window
-import android.view.WindowManager
 import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import com.bumptech.glide.Glide
 import com.lzx.starrysky.model.SongInfo
 import com.zihany.cloudmusic.R
@@ -42,24 +37,6 @@ class SongDetailActivity: BaseActivity<SongViewModel>() {
         binding.mdSinger.setText("歌手:${singerName}")
         binding.tvSinger.text = singerName
         songId = songInfo.songId.toLong()
-    }
-
-    override fun onCreateView(savedInstanceState: Bundle?) {
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
-        binding = ActivitySongDetailBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-        window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-
-        if (toTranslateIn == null) {
-            toTranslateIn = AnimationUtils.loadAnimation(this, R.anim.view_to_translate_in)
-            toTranslateIn!!.fillAfter = true
-            toTranslateIn!!.startOffset = 200
-        }
-        if (toTranslateOut == null) {
-            toTranslateOut = AnimationUtils.loadAnimation(this, R.anim.view_to_translate_out)
-            toTranslateOut!!.fillAfter = true
-        }
     }
 
     override fun onStart() {

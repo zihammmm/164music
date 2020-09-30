@@ -1,9 +1,5 @@
 package com.zihany.cloudmusic.search.mvvm.view.fragments
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.zihany.cloudmusic.base.BaseFragment
 import com.zihany.cloudmusic.databinding.LayoutSingerInfoBinding
@@ -33,15 +29,6 @@ class SingerInfoSearchFragment: BaseFragment<SingerViewModel>() {
 
     init {
         fragmentTitle = "歌手信息"
-    }
-
-    override fun initView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = LayoutSingerInfoBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun initVariables(bundle: Bundle) {
-
     }
 
     override fun initData() {

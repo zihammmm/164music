@@ -6,8 +6,6 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import com.gyf.immersionbar.ImmersionBar
-import com.zihany.cloudmusic.App
 import com.zihany.cloudmusic.R
 import com.zihany.cloudmusic.base.BaseActivity
 import com.zihany.cloudmusic.databinding.ActivityRadioBinding
@@ -136,18 +134,6 @@ class RadioRecommendActivity: BaseActivity<DjViewModel>() {
                 onGetDjRecommendSuccess(it)
             })
         }
-    }
-
-    override fun onCreateView(savedInstanceState: Bundle?) {
-        binding = ActivityRadioBinding.inflate(layoutInflater)
-        binding.radioPresenter = RadioRecommendPresenter()
-        setContentView(binding.root)
-
-        ImmersionBar.with(this)
-                .transparentBar()
-                .statusBarColor(R.color.colorPrimary)
-                .statusBarDarkFont(false)
-                .init()
     }
 
     inner class RadioRecommendPresenter {

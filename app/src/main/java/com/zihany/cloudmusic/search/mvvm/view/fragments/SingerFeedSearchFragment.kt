@@ -1,9 +1,5 @@
 package com.zihany.cloudmusic.search.mvvm.view.fragments
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zihany.cloudmusic.base.BaseFragment
 import com.zihany.cloudmusic.databinding.FragmentRecyclerviewBinding
@@ -29,15 +25,6 @@ class SingerFeedSearchFragment : BaseFragment<SingerViewModel>() {
 
     init {
         fragmentTitle = "相关视频"
-    }
-
-    override fun initView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentRecyclerviewBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun initVariables(bundle: Bundle) {
-
     }
 
     override fun initData() {

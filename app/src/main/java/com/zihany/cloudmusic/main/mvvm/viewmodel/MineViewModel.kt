@@ -2,15 +2,13 @@ package com.zihany.cloudmusic.main.mvvm.viewmodel
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import com.zihany.cloudmusic.base.BaseModel
 import com.zihany.cloudmusic.base.BaseViewModel
 import com.zihany.cloudmusic.login.bean.LoginBean
 import com.zihany.cloudmusic.main.bean.AlbumSublistBean
 import com.zihany.cloudmusic.main.bean.ArtistSublistBean
 import com.zihany.cloudmusic.main.bean.MyFmBean
 import com.zihany.cloudmusic.main.bean.PlayModeIntelligenceBean
-import com.zihany.cloudmusic.main.mvvm.model.MineModel
-import com.zihany.cloudmusic.personal.bean.PlayListItemBean
+import com.zihany.cloudmusic.main.mvvm.model.MineRepository
 import com.zihany.cloudmusic.personal.bean.UserPlayListBean
 import com.zihany.cloudmusic.util.GsonUtil
 import com.zihany.cloudmusic.util.LogUtil
@@ -28,7 +26,7 @@ class MineViewModel : BaseViewModel() {
     var uid = 0L
     val loginBean = MutableLiveData<LoginBean>()
     val playListBeans = MutableLiveData<ArrayList<UserPlayListBean.PlayListBean>>()
-    val model = MineModel()
+    val model = MineRepository()
 
     val getUserPlaylistError = MutableLiveData<String>()
     val getIntelligenceBeanError = MutableLiveData<String>()

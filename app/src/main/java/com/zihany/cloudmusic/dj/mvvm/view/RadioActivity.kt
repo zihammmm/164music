@@ -1,9 +1,7 @@
 package com.zihany.cloudmusic.dj.mvvm.view
 
 import android.annotation.SuppressLint
-import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
@@ -13,8 +11,6 @@ import com.zihany.cloudmusic.base.BaseFragment
 import com.zihany.cloudmusic.databinding.ActivityRadioDetailBinding
 import com.zihany.cloudmusic.dj.bean.DjSubBean
 import com.zihany.cloudmusic.dj.event.RidEvent
-import com.zihany.cloudmusic.dj.mvvm.view.fragments.RadioDetailFragment
-import com.zihany.cloudmusic.dj.mvvm.view.fragments.RadioProgramFragment
 import com.zihany.cloudmusic.dj.mvvm.viewmodel.DjViewModel
 import com.zihany.cloudmusic.main.adapter.MultiFragmentPagerAdapter
 import com.zihany.cloudmusic.util.AppBarStateChangeListener
@@ -22,7 +18,6 @@ import com.zihany.cloudmusic.util.ClickUtil
 import com.zihany.cloudmusic.util.DensityUtil
 import com.zihany.cloudmusic.util.LogUtil
 import jp.wasabeef.glide.transformations.BlurTransformation
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_radio_detail.*
 import org.greenrobot.eventbus.EventBus
 
@@ -118,16 +113,6 @@ class RadioActivity: BaseActivity<DjViewModel>() {
             }
 
         })
-    }
-
-    override fun onCreateView(savedInstanceState: Bundle?) {
-        binding = ActivityRadioDetailBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-        fragments.add(RadioDetailFragment())
-        fragments.add(RadioProgramFragment())
-        pagerAdapter.init(fragments)
     }
 
     fun onSubDjSuccess(bean: DjSubBean) {

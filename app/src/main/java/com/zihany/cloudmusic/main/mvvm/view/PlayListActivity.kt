@@ -4,8 +4,6 @@ import android.animation.ObjectAnimator
 import android.graphics.BitmapFactory
 import android.graphics.Rect
 import android.graphics.drawable.BitmapDrawable
-import android.os.Bundle
-import android.view.WindowManager
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -50,12 +48,6 @@ class PlayListActivity : BaseActivity<WowViewModel>() {
     private var playlistPicUrl: String? = null
     private var creatorName: String? = null
     private lateinit var binding: ActivityPlayListBinding
-
-    override fun onCreateView(savedInstanceState: Bundle?) {
-        binding = ActivityPlayListBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-    }
 
     override fun initData() {
         setBackBtn("#ffffff")

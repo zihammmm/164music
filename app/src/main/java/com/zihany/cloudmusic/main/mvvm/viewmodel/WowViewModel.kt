@@ -1,13 +1,11 @@
 package com.zihany.cloudmusic.main.mvvm.viewmodel
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.zihany.cloudmusic.base.BaseViewModel
 import com.zihany.cloudmusic.main.bean.BannerBean
 import com.zihany.cloudmusic.main.bean.MainRecommendPlayListBean
-import com.zihany.cloudmusic.main.bean.PlaylistBean
-import com.zihany.cloudmusic.main.mvvm.model.WowModel
+import com.zihany.cloudmusic.main.mvvm.model.WowRepository
 import com.zihany.cloudmusic.util.LogUtil
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observer
@@ -21,7 +19,7 @@ class WowViewModel: BaseViewModel() {
     val recommends = MutableLiveData<MainRecommendPlayListBean>()
     val bannerBean = MutableLiveData<BannerBean>()
 
-    val model = WowModel()
+    val model = WowRepository()
 
     val getBannerError = MutableLiveData<String>()
     val getRecommendPlayListError = MutableLiveData<String>()

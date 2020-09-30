@@ -3,8 +3,6 @@ package com.zihany.cloudmusic.dj.mvvm.view
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import com.gyf.immersionbar.ImmersionBar
-import com.zihany.cloudmusic.R
 import com.zihany.cloudmusic.base.BaseActivity
 import com.zihany.cloudmusic.databinding.ActivityRadioCatBinding
 import com.zihany.cloudmusic.dj.adapter.DjCateAdapter
@@ -34,14 +32,4 @@ class RadioCatActivity: BaseActivity<DjViewModel>() {
         viewModel = ViewModelProvider(this)[DjViewModel::class.java]
     }
 
-    override fun onCreateView(savedInstanceState: Bundle?) {
-        binding = ActivityRadioCatBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        ImmersionBar.with(this)
-                .transparentBar()
-                .statusBarColor(R.color.colorPrimary)
-                .statusBarDarkFont(false)
-                .init()
-    }
 }

@@ -11,50 +11,40 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import androidx.core.view.GravityCompat
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
-import com.gyf.immersionbar.ImmersionBar
 import com.zihany.cloudmusic.R
 import com.zihany.cloudmusic.base.BaseActivity
 import com.zihany.cloudmusic.base.BaseFragment
-import com.zihany.cloudmusic.base.BaseView
 import com.zihany.cloudmusic.base.Constants
 import com.zihany.cloudmusic.databinding.ActivityMainBinding
-import com.zihany.cloudmusic.databinding.ContentMainBinding
-import com.zihany.cloudmusic.login.bean.LoginBean
 import com.zihany.cloudmusic.main.adapter.MultiFragmentPagerAdapter
 import com.zihany.cloudmusic.main.bean.LikeListBean
-import com.zihany.cloudmusic.main.bean.LogoutBean
-import com.zihany.cloudmusic.main.mvvm.view.fragments.CloudVillageFragment
-import com.zihany.cloudmusic.main.mvvm.view.fragments.MineFragment
-import com.zihany.cloudmusic.main.mvvm.view.fragments.WowFragment
 import com.zihany.cloudmusic.main.mvvm.viewmodel.MainViewModel
 import com.zihany.cloudmusic.personal.mvvm.view.PersonalInfoActivity
 import com.zihany.cloudmusic.search.mvvm.view.SearchActivity
 import com.zihany.cloudmusic.util.*
 import kotlin.system.exitProcess
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : BaseActivity<MainViewModel>() {
+class MainActivity : BaseActivity() {
     companion object {
         const val TAG = "MainActivity"
         const val VIEWPAGER_OFF_SCREEN_PAGE_LIMIT = 2
         const val LOGIN_BEAN = "loginBean"
     }
 
-    private lateinit var binding: ActivityMainBinding
-    var pagerAdapter: MultiFragmentPagerAdapter? = null
+    val pagerAdapter by lazy { MultiFragmentPagerAdapter() }
     val fragments: MutableList<BaseFragment<*>> = ArrayList()
     var firstTime = 0L
 
+    private val mainViewModel by viewModel<MainViewModel>()
+    private val binding by binding<ActivityMainBinding>(R.layout.activity_main)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         LogUtil.d(TAG, "onCreate")
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        binding.lifecycleOwner = this
         super.onCreate(savedInstanceState)
-
-        bindClickFun()
 
 //        viewModel.apply {
 //            loginBean.observe(this@MainActivity, Observer<LoginBean> {
@@ -90,32 +80,26 @@ class MainActivity : BaseActivity<MainViewModel>() {
 //        }
     }
 
-    fun bindClickFun() {
-        binding.contentMain.icNav.setOnClickListener { v ->
-            MainActivityPresenter().onClickNav(v)
-        }
 
-        binding.contentMain.ivSearch.setOnClickListener {
-            MainActivityPresenter().onClickSearch(it)
+    override fun initView() {
+        binding.apply {
+            viewModel = mainViewModel
+            mainPresenter = MainActivityPresenter()
         }
+    }
+
+    override fun startObserve() {
+        TODO("Not yet implemented")
     }
 
     override fun initData() {
         LogUtil.d(TAG, "initData")
 
-        viewModel.initData(this)
-
-        binding.contentMain.mainViewpager.adapter = pagerAdapter
-//        binding.contentMain.mainViewpager.offscreenPageLimit = VIEWPAGER_OFF_SCREEN_PAGE_LIMIT
-//        binding.contentMain.mainViewpager.currentItem = 1
-        pagerAdapter!!.getItem(1).userVisibleHint = true
-
+        pagerAdapter.getItem(1).userVisibleHint = true
         binding.contentMain.tabTitle.getTabAt(1)?.let {
             setSelectTextBoldAndBig(it)
         }
         initTabListener()
-
-
         //viewModel.getLikeList()
     }
 
@@ -148,23 +132,6 @@ class MainActivity : BaseActivity<MainViewModel>() {
         tab.customView = textview
     }
 
-    override fun onCreateView(savedInstanceState: Bundle?) {
-        LogUtil.d(TAG, "onCreateView")
-        setContentView(binding.root)
-        ImmersionBar.with(this)
-                .transparentBar()
-                .statusBarColor(R.color.colorPrimary)
-                .statusBarDarkFont(false)
-                .init()
-        connectMusicService()
-
-        pagerAdapter = MultiFragmentPagerAdapter(supportFragmentManager)
-        fragments.add(MineFragment())
-        fragments.add(WowFragment())
-        fragments.add(CloudVillageFragment())
-        pagerAdapter!!.init(fragments)
-    }
-
     inner class MainActivityPresenter {
         fun onClickNav(view: View?) {
             LogUtil.d(TAG, "onClickNav")
@@ -179,7 +146,6 @@ class MainActivity : BaseActivity<MainViewModel>() {
                 return
             }
             showDialog()
-            viewModel.logout()
         }
 
         fun onClickAvatarName(view: View) {
@@ -263,6 +229,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
         SharePreferenceUtil.getInstance(this)
                 .saveLikeList(likeList)
     }
+
 
 
 }

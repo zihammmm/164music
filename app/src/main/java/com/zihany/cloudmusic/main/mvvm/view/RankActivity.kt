@@ -1,9 +1,7 @@
 package com.zihany.cloudmusic.main.mvvm.view
 
 import android.content.Intent
-import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
-import com.gyf.immersionbar.ImmersionBar
 import com.zihany.cloudmusic.R
 import com.zihany.cloudmusic.base.BaseActivity
 import com.zihany.cloudmusic.databinding.ActivityRankBinding
@@ -47,14 +45,4 @@ class RankActivity: BaseActivity<WowViewModel>() {
 
     }
 
-    override fun onCreateView(savedInstanceState: Bundle?) {
-        binding = ActivityRankBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        ImmersionBar.with(this)
-                .transparentBar()
-                .statusBarColor(R.color.colorPrimary)
-                .statusBarDarkFont(false)
-                .init()
-    }
 }
