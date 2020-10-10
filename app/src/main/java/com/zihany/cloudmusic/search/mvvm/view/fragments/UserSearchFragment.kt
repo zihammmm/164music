@@ -1,7 +1,9 @@
 package com.zihany.cloudmusic.search.mvvm.view.fragments
 
 import android.content.Intent
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.zihany.cloudmusic.R
 import com.zihany.cloudmusic.base.BaseFragment
 import com.zihany.cloudmusic.databinding.FragmentRecyclerviewBinding
 import com.zihany.cloudmusic.personal.mvvm.view.PersonalInfoActivity
@@ -13,7 +15,7 @@ import com.zihany.cloudmusic.util.ToastUtils
 
 class UserSearchFragment constructor(
         private val type: String?
-): BaseFragment<SearchViewModel>() {
+): BaseFragment<FragmentRecyclerviewBinding>(R.layout.fragment_recyclerview) {
     companion object {
         const val TAG = "UserSearchFragment"
     }
@@ -24,8 +26,6 @@ class UserSearchFragment constructor(
     private lateinit var adapter: UserSearchAdapter
     private var needRefresh = false
     private var userBean: UserSearchBean? = null
-
-    private lateinit var binding: FragmentRecyclerviewBinding
 
     private val listener = object : UserSearchAdapter.OnUserClickListener {
         override fun onUserClick(position: Int, type: Int) {
@@ -60,5 +60,17 @@ class UserSearchFragment constructor(
             needRefresh = false
             showDialog()
         }
+    }
+
+    override fun initView() {
+        TODO("Not yet implemented")
+    }
+
+    override fun startObserve() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClick(view: View) {
+        TODO("Not yet implemented")
     }
 }

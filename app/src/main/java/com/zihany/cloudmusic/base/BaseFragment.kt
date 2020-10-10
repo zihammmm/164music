@@ -71,6 +71,7 @@ abstract class BaseFragment<T: ViewDataBinding>(@LayoutRes val layoutId: Int) : 
     protected abstract fun initView()
     protected abstract fun startObserve()
     protected abstract fun initData()
+    protected abstract fun onClick(view: View)
 
     protected fun lazyLoad() {
         if (isPrepared && isFragmentVisible) {

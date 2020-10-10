@@ -1,6 +1,8 @@
 package com.zihany.cloudmusic.search.mvvm.view.fragments
 
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.zihany.cloudmusic.R
 import com.zihany.cloudmusic.base.BaseFragment
 import com.zihany.cloudmusic.databinding.FragmentRecyclerviewBinding
 import com.zihany.cloudmusic.search.adapter.RadioSearchAdapter
@@ -10,7 +12,7 @@ import com.zihany.cloudmusic.util.ToastUtils
 
 class RadioSearchFragment constructor(
         private val type: String?
-): BaseFragment<SearchViewModel>() {
+): BaseFragment<FragmentRecyclerviewBinding>(R.layout.fragment_recyclerview) {
 
     companion object {
         const val TAG = "RadioSearchFragment"
@@ -21,7 +23,6 @@ class RadioSearchFragment constructor(
     private var needRefresh = false
     private var djList = ArrayList<RadioSearchBean.ResultBean.DjRadiosBean>()
     private lateinit var adapter: RadioSearchAdapter
-    private lateinit var binding: FragmentRecyclerviewBinding
     private val listener = object : RadioSearchAdapter.OnRadioClickListener {
         override fun onRadioClick(position: Int) {
             ToastUtils.show("点击了:${position}")
@@ -50,5 +51,17 @@ class RadioSearchFragment constructor(
             needRefresh = false
             showDialog()
         }
+    }
+
+    override fun initView() {
+        TODO("Not yet implemented")
+    }
+
+    override fun startObserve() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClick(view: View) {
+        TODO("Not yet implemented")
     }
 }

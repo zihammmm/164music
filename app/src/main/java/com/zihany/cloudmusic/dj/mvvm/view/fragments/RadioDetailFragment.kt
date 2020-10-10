@@ -1,5 +1,7 @@
 package com.zihany.cloudmusic.dj.mvvm.view.fragments
 
+import android.view.View
+import com.zihany.cloudmusic.R
 import com.zihany.cloudmusic.base.BaseFragment
 import com.zihany.cloudmusic.databinding.FragmentRadioDetailBinding
 import com.zihany.cloudmusic.dj.bean.DjDetailBean
@@ -10,13 +12,12 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class RadioDetailFragment: BaseFragment<DjViewModel>() {
+class RadioDetailFragment: BaseFragment<FragmentRadioDetailBinding>(R.layout.fragment_radio_detail) {
 
     init {
         fragmentTitle = "详情"
     }
     private var rid = 0L
-    private lateinit var binding: FragmentRadioDetailBinding
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onGetRidEvent(event: RidEvent) {
@@ -27,7 +28,7 @@ class RadioDetailFragment: BaseFragment<DjViewModel>() {
     override fun initData() {
         if (rid != 0L) {
             showDialog()
-            viewModel.getDjDetail(rid)
+            //viewModel.getDjDetail(rid)
         }
     }
 
@@ -45,5 +46,17 @@ class RadioDetailFragment: BaseFragment<DjViewModel>() {
     fun onGetDjDetailFail(e: String) {
         hideDialog()
         LogUtil.e(TAG, "onGetDjDetailFail: $e")
+    }
+
+    override fun initView() {
+        TODO("Not yet implemented")
+    }
+
+    override fun startObserve() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClick(view: View) {
+        TODO("Not yet implemented")
     }
 }

@@ -4,9 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable
-            name="vm"
-            type="com.zihany.cloudmusic.main.mvvm.viewmodel.MainViewModel" />
 
         <variable
             name="ma"
@@ -30,7 +27,7 @@
                 android:layout_height="@dimen/dp_45"
                 android:layout_alignParentBottom="true">
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ic_nav"
                     android:layout_width="@dimen/dp_45"
                     android:layout_height="@dimen/dp_45"
@@ -77,7 +74,6 @@
             android:layout_above="@id/bottom_controller"
             android:layout_below="@+id/title"
             android:overScrollMode="always"
-            android:currentItem="@{1}"
             android:adapter="@{ma.pagerAdapter}"
             android:offscreenPageLimit="@{ma.VIEWPAGER_OFF_SCREEN_PAGE_LIMIT}"/>
     </RelativeLayout>

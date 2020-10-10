@@ -1,6 +1,8 @@
 package com.zihany.cloudmusic.search.mvvm.view.fragments
 
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.zihany.cloudmusic.R
 import com.zihany.cloudmusic.base.BaseFragment
 import com.zihany.cloudmusic.databinding.FragmentRecyclerviewBinding
 import com.zihany.cloudmusic.search.adapter.FeedAdapter
@@ -10,7 +12,7 @@ import com.zihany.cloudmusic.search.mvvm.viewmodel.SearchViewModel
 
 class FeedSearchFragment constructor(
         private var type: String?
-): BaseFragment<SearchViewModel>() {
+): BaseFragment<FragmentRecyclerviewBinding>(R.layout.fragment_recyclerview) {
 
     constructor(): this(null)
 
@@ -19,7 +21,6 @@ class FeedSearchFragment constructor(
     private lateinit var adapter: FeedAdapter
     private var mvList = ArrayList<MvBean>()
     private var videoList = ArrayList<FeedSearchBean.ResultBean.VideosBean>()
-    private lateinit var binding: FragmentRecyclerviewBinding
     private var needRefresh = false
 
     init {
@@ -44,6 +45,18 @@ class FeedSearchFragment constructor(
             needRefresh = false
             showDialog()
         }
+    }
+
+    override fun initView() {
+        TODO("Not yet implemented")
+    }
+
+    override fun startObserve() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClick(view: View) {
+        TODO("Not yet implemented")
     }
 
 }

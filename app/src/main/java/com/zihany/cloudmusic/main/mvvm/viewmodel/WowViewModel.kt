@@ -24,57 +24,12 @@ class WowViewModel: BaseViewModel() {
     val getBannerError = MutableLiveData<String>()
     val getRecommendPlayListError = MutableLiveData<String>()
 
-    override fun initData(context: Context) {
-
-    }
-
     fun getBanner() {
-        model.getBanner().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { object : Observer<BannerBean> {
-                    override fun onComplete() {
-                        LogUtil.d(TAG, "getBanner onComplete")
-                    }
 
-                    override fun onSubscribe(d: Disposable?) {
-                        LogUtil.d(TAG, "getBanner onSubscribe")
-                    }
-
-                    override fun onNext(t: BannerBean?) {
-                        LogUtil.d(TAG, "BannerBean : $t")
-                        bannerBean.value = t
-                    }
-
-                    override fun onError(e: Throwable?) {
-                        getBannerError.value = e?.message
-                    }
-
-                } }
     }
 
     fun getRecommendPlayList() {
-        model.getRecommendPlayList().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { object : Observer<MainRecommendPlayListBean> {
-                    override fun onComplete() {
-                        LogUtil.d(TAG, "getRecommendPlayList onSubscribe")
-                    }
 
-                    override fun onSubscribe(d: Disposable?) {
-                        LogUtil.d(TAG, "getRecommendPlayList onSubscribe")
-                    }
-
-                    override fun onNext(t: MainRecommendPlayListBean?) {
-                        LogUtil.d(TAG, "onNext $t")
-                        recommends.value = t
-                    }
-
-                    override fun onError(e: Throwable?) {
-                        LogUtil.d(TAG, "onError: $e")
-                        getRecommendPlayListError.value = e?.message
-                    }
-
-                } }
     }
 
     fun getDailyRecommend() {

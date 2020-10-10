@@ -2,6 +2,7 @@ package com.zihany.cloudmusic.personal.mvvm.view
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
@@ -12,7 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class PictureCheckActivity: BaseActivity<PictureCheckViewModel>() {
+class PictureCheckActivity: BaseActivity() {
     companion object {
         const val TAG = "PictureCheckActivity"
         const val PIC_URL = "picUrl"
@@ -39,6 +40,18 @@ class PictureCheckActivity: BaseActivity<PictureCheckViewModel>() {
 
                     })
         }
+    }
+
+    override fun initView() {
+        TODO("Not yet implemented")
+    }
+
+    override fun startObserve() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClick(view: View) {
+        TODO("Not yet implemented")
     }
 
     override fun onDestroy() {

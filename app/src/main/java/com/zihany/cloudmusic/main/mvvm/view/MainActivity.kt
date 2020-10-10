@@ -5,21 +5,23 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 
-import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import androidx.core.view.GravityCompat
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
+import com.gyf.immersionbar.ImmersionBar
 import com.zihany.cloudmusic.R
-import com.zihany.cloudmusic.base.BaseActivity
-import com.zihany.cloudmusic.base.BaseFragment
-import com.zihany.cloudmusic.base.Constants
+import com.zihany.cloudmusic.base.*
 import com.zihany.cloudmusic.databinding.ActivityMainBinding
 import com.zihany.cloudmusic.main.adapter.MultiFragmentPagerAdapter
 import com.zihany.cloudmusic.main.bean.LikeListBean
+import com.zihany.cloudmusic.main.mvvm.view.fragments.CloudVillageFragment
+import com.zihany.cloudmusic.main.mvvm.view.fragments.MineFragment
+import com.zihany.cloudmusic.main.mvvm.view.fragments.WowFragment
 import com.zihany.cloudmusic.main.mvvm.viewmodel.MainViewModel
 import com.zihany.cloudmusic.personal.mvvm.view.PersonalInfoActivity
 import com.zihany.cloudmusic.search.mvvm.view.SearchActivity
@@ -34,68 +36,119 @@ class MainActivity : BaseActivity() {
         const val LOGIN_BEAN = "loginBean"
     }
 
-    val pagerAdapter by lazy { MultiFragmentPagerAdapter() }
+    val pagerAdapter by lazy { MultiFragmentPagerAdapter(supportFragmentManager) }
+    private val mineFragment by lazy { MineFragment() }
+    private val wowFragment by lazy { WowFragment() }
+    private val cloudVillageFragment by lazy { CloudVillageFragment() }
     val fragments: MutableList<BaseFragment<*>> = ArrayList()
-    var firstTime = 0L
+    private var firstTime = 0L
 
-    private val mainViewModel by viewModel<MainViewModel>()
+    private val viewModel by viewModel<MainViewModel>()
     private val binding by binding<ActivityMainBinding>(R.layout.activity_main)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        LogUtil.d(TAG, "onCreate")
-        binding.lifecycleOwner = this
-        super.onCreate(savedInstanceState)
+    private var likeList by PreferenceUtils(LIKE_LIST, listOf<String>())
+    private val authToken by PreferenceUtils(AUTH_TOKEN, "")
 
-//        viewModel.apply {
-//            loginBean.observe(this@MainActivity, Observer<LoginBean> {
-//                it.profile?.avatarUrl?.let { it1 ->
-//                    Glide.with(this@MainActivity)
-//                            .load(it1)
-//                            .into(binding.ivAvatar)
-//                }
-//                it.profile?.nickname?.let {
-//                    binding.tvUsername.text = it
-//                }
-//            })
-//
-//            likeListBean.observe(this@MainActivity, Observer<LikeListBean> {
-//                onGetLikeListSuccess(it)
-//            })
-//
-//            getLikeListError.observe(this@MainActivity, Observer<Throwable> {
-//                it.message?.let { it1 ->
-//                    onGetLikeListFail(it1)
-//                }
-//            })
-//
-//            logoutError.observe(this@MainActivity, Observer<Throwable> {
-//                it.message?.let { it1 ->
-//                    onLogoutFail(it1)
-//                }
-//            })
-//
-//            logoutBean.observe(this@MainActivity, Observer<LogoutBean> {
-//                onLogoutSuccess()
-//            })
-//        }
+
+    init {
+        fragments.add(mineFragment)
+        fragments.add(wowFragment)
+        fragments.add(cloudVillageFragment)
     }
 
+    override fun onClick(view: View) {
+        if (ClickUtil.isFastClick(1000, view)) {
+            return
+        }
+        val intent = Intent()
+        when (view.id) {
+            R.id.ic_nav -> {
+                binding.drawerLayout.openDrawer(GravityCompat.START)
+            }
+            R.id.rl_logout -> {
+                showDialog()
+            }
+            R.id.rl_avatar_name -> {
+                binding.drawerLayout.closeDrawer(GravityCompat.START)
+                intent.setClass(this, PersonalInfoActivity::class.java)
+                intent.putExtra(LOGIN_BEAN, GsonUtil.toJson(viewModel.loginBean.value!!.profile))
+                startActivity(intent)
+            }
+            R.id.iv_search -> {
+                intent.setClass(this, SearchActivity::class.java)
+                startActivity(intent)
+            }
+        }
+    }
 
     override fun initView() {
+        ImmersionBar.with(this)
+                .transparentBar()
+                .statusBarColor(R.color.colorPrimary)
+                .statusBarDarkFont(false)
+                .init()
         binding.apply {
-            viewModel = mainViewModel
-            mainPresenter = MainActivityPresenter()
+            viewModel = this@MainActivity.viewModel
+            contentMain.ma = this@MainActivity
+
+            contentMain.icNav.setOnClickListener {
+                onClick(it)
+            }
+
+            rlLogout.setOnClickListener {
+                onClick(it)
+            }
+
+            rlAvatarName.setOnClickListener {
+                onClick(it)
+            }
+
+            contentMain.ivSearch.setOnClickListener {
+                onClick(it)
+            }
         }
     }
 
     override fun startObserve() {
-        TODO("Not yet implemented")
+        viewModel.apply {
+            loginBean.observe(this@MainActivity, Observer {
+                it.profile.avatarUrl.let { url ->
+                    Glide.with(this@MainActivity)
+                            .load(url)
+                            .into(binding.ivAvatar)
+                }
+                it.profile.nickname.let { string ->
+                    binding.tvUsername.text = string
+                }
+            })
+
+            likeListBean.observe(this@MainActivity, Observer {
+                onGetLikeListSuccess(it)
+            })
+
+            getLikeListError.observe(this@MainActivity, Observer {
+                it.message?.let { it1 ->
+                    onGetLikeListFail(it1)
+                }
+            })
+
+            logoutError.observe(this@MainActivity, Observer {
+                it.message?.let { it1 ->
+                    onLogoutFail(it1)
+                }
+            })
+
+            logoutBean.observe(this@MainActivity, Observer {
+                onLogoutSuccess()
+            })
+        }
     }
 
     override fun initData() {
         LogUtil.d(TAG, "initData")
-
+        pagerAdapter.init(fragments)
         pagerAdapter.getItem(1).userVisibleHint = true
+        connectMusicService()
         binding.contentMain.tabTitle.getTabAt(1)?.let {
             setSelectTextBoldAndBig(it)
         }
@@ -132,43 +185,6 @@ class MainActivity : BaseActivity() {
         tab.customView = textview
     }
 
-    inner class MainActivityPresenter {
-        fun onClickNav(view: View?) {
-            LogUtil.d(TAG, "onClickNav")
-            if (ClickUtil.isFastClick(1000, view)) {
-                return
-            }
-            binding.drawerLayout.openDrawer(GravityCompat.START)
-        }
-
-        fun onClickLogout(view: View?) {
-            if (ClickUtil.isFastClick(1000, view)) {
-                return
-            }
-            showDialog()
-        }
-
-        fun onClickAvatarName(view: View) {
-            if (ClickUtil.isFastClick(1000, view)) {
-                return
-            }
-            binding.drawerLayout.closeDrawer(GravityCompat.START)
-            val intent = Intent()
-            intent.setClass(this@MainActivity, PersonalInfoActivity::class.java)
-            intent.putExtra(LOGIN_BEAN, GsonUtil.toJson(viewModel.loginBean.value!!.profile!!))
-            startActivity(intent)
-        }
-
-        fun onClickSearch(view: View?) {
-            if (ClickUtil.isFastClick(1000, view)) {
-                return
-            }
-            val intent = Intent()
-            intent.setClass(this@MainActivity, SearchActivity::class.java)
-            startActivity(intent)
-        }
-    }
-
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         //按下返回键
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -199,8 +215,7 @@ class MainActivity : BaseActivity() {
 
     fun onLogoutSuccess() {
         hideDialog()
-        SharePreferenceUtil.getInstance(this)
-                .remove(Constants.AUTH_TOKEN)
+        PreferenceUtils(AUTH_TOKEN, "").remove(AUTH_TOKEN)
         ActivityStarter.instance
                 .startLoginActivity(this)
         this.finish()
@@ -226,10 +241,8 @@ class MainActivity : BaseActivity() {
                 likeList.add(i.toString())
             }
         }
-        SharePreferenceUtil.getInstance(this)
-                .saveLikeList(likeList)
+        this.likeList = likeList
     }
-
 
 
 }

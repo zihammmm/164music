@@ -9,9 +9,6 @@ class CloudVillageViewModel: BaseViewModel() {
     val bean = MutableLiveData<MainEventBean>()
     val getMainEventError = MutableLiveData<String>()
 
-    override fun initData(context: Context) {
-    }
-
     fun getMainEvent() {
 
     }

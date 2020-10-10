@@ -7,9 +7,6 @@
         <variable
             name="viewModel"
             type="com.zihany.cloudmusic.main.mvvm.viewmodel.MainViewModel"/>
-        <variable
-            name="mainPresenter"
-            type="com.zihany.cloudmusic.main.mvvm.view.MainActivity.MainActivityPresenter" />
     </data>
 
     <androidx.drawerlayout.widget.DrawerLayout
@@ -54,7 +51,6 @@
                             android:id="@+id/rl_avatar_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:onClick="@{mainPresenter::onClickAvatarName}"
                             android:paddingTop="@dimen/dp_20">
 
                             <de.hdodenhof.circleimageview.CircleImageView
@@ -259,7 +255,6 @@
                         android:id="@+id/rl_logout"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/dp_60"
-                        android:onClick="@{mainPresenter.onClickLogout}"
                         android:layout_gravity="center"
                         android:layout_weight="1">
 

@@ -1,10 +1,11 @@
 package com.zihany.cloudmusic.util
 
 import android.util.Log
+import com.zihany.cloudmusic.BuildConfig
 
 class LogUtil {
     companion object {
-        private val isDebug = true
+        private val isDebug = BuildConfig.DEBUG
 
         fun i(tag: String, msg: String) {
             Log.i(tag, msg)

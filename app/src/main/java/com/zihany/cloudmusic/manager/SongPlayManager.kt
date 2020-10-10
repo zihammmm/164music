@@ -5,17 +5,18 @@ import com.lzx.starrysky.manager.MusicManager
 import com.lzx.starrysky.manager.OnPlayerEventListener
 import com.lzx.starrysky.model.SongInfo
 import com.zihany.cloudmusic.App
+import com.zihany.cloudmusic.base.LATEST_SONG
 import com.zihany.cloudmusic.manager.bean.MusicCanPlayBean
 import com.zihany.cloudmusic.manager.event.StopMusicEvent
 import com.zihany.cloudmusic.song.bean.SongDetailBean
 import com.zihany.cloudmusic.util.LogUtil
-import com.zihany.cloudmusic.util.SharePreferenceUtil
+import com.zihany.cloudmusic.util.PreferenceUtils
 import com.zihany.cloudmusic.util.ToastUtils
 import okhttp3.Request
 import org.greenrobot.eventbus.EventBus
 import java.util.regex.Pattern
 
-class SongPlayManager private constructor(){
+class SongPlayManager private constructor() {
     companion object {
         val instance by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
             SongPlayManager()
@@ -33,6 +34,7 @@ class SongPlayManager private constructor(){
     private var musicCanPlayMap: HashMap<String, Boolean> = HashMap()
     private var songListener: SongPlayListener
     private var songDetailMap: HashMap<Long, SongDetailBean> = HashMap()
+    private var lateSong by PreferenceUtils(LATEST_SONG, SongInfo())
 
     init {
         musicCanPlayMap.clear()
@@ -49,7 +51,7 @@ class SongPlayManager private constructor(){
                     return i
                 }
             }
-        }else {
+        } else {
             songList.add(songInfo)
         }
         return songList.size - 1
@@ -77,7 +79,7 @@ class SongPlayManager private constructor(){
                 }
 
             })
-        }else {
+        } else {
             playMusic(songId)
         }
     }
@@ -92,13 +94,14 @@ class SongPlayManager private constructor(){
         if (musicCanPlayMap[songId]!! || containsStr(songId)) {
             MusicManager.getInstance().playMusic(songList, currentSongIndex)
             App.getContext().let {
-                SharePreferenceUtil.getInstance(it).saveLatestSong(songList[currentSongIndex]) }
-        }else {
+                lateSong = songList[currentSongIndex]
+            }
+        } else {
             Toast.makeText(App.getContext(), "本歌曲不能播放", Toast.LENGTH_LONG)
                     .show()
             if (mode != MODE_SINGLE_LOOP_PLAY) {
                 playNextMusic()
-            }else {
+            } else {
                 EventBus.getDefault().post(StopMusicEvent(songList[currentSongIndex]))
             }
         }
@@ -137,7 +140,7 @@ class SongPlayManager private constructor(){
         songList.addAll(songInfoList)
         currentSongIndex = if (index >= songInfoList.size) {
             songInfoList.size - 1
-        }else {
+        } else {
             index
         }
     }
@@ -156,15 +159,15 @@ class SongPlayManager private constructor(){
                 cancelPlay()
                 addSongAndPlay(songInfo)
             }
-        }else if (isPaused()) {
+        } else if (isPaused()) {
             LogUtil.d(TAG, "isPaused")
             if (!isCurMusicPlaying(songInfo.songId)) {
                 cancelPlay()
                 addSongAndPlay(songInfo)
             }
-        }else if (isIdle()) {
+        } else if (isIdle()) {
             addSongAndPlay(songInfo)
-        }else {
+        } else {
             LogUtil.d(TAG, "no idle, no playing, no paused. state: ${MusicManager.getInstance().state}")
         }
     }
@@ -185,7 +188,7 @@ class SongPlayManager private constructor(){
         fun onSongCanPlayFail(e: String)
     }
 
-    inner class SongPlayListener: OnPlayerEventListener {
+    inner class SongPlayListener : OnPlayerEventListener {
         override fun onPlayerStop() {
             TODO("Not yet implemented")
         }

@@ -6,7 +6,6 @@ import com.zihany.cloudmusic.database.DbManager
 import com.zihany.cloudmusic.di.appModule
 import com.zihany.cloudmusic.greendao.db.DaoMaster
 import com.zihany.cloudmusic.greendao.db.DaoSession
-import com.zihany.cloudmusic.util.SharePreferenceUtil
 import com.zihany.cloudmusic.util.ToastUtils
 import org.greenrobot.greendao.database.Database
 import org.koin.android.ext.koin.androidContext
@@ -15,7 +14,7 @@ import org.koin.core.context.startKoin
 class App: Application() {
     companion object {
         const val TAG = "App"
-        val DATA_BASE_NAME = "164MusicDao"
+        const val DATA_BASE_NAME = "164MusicDao"
         private lateinit var context: App
         private var daoSession: DaoSession? = null
 
@@ -31,7 +30,6 @@ class App: Application() {
     override fun onCreate() {
         super.onCreate()
         context = this
-        SharePreferenceUtil.instance.init(this)
         ToastUtils.init(this)
         MusicManager.initMusicManager(this)
         DbManager.init(this)

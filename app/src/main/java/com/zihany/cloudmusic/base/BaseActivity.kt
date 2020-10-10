@@ -17,6 +17,7 @@ import com.lzx.starrysky.model.SongInfo
 import com.zihany.cloudmusic.R
 import com.zihany.cloudmusic.databinding.CommonTitleBinding
 import com.zihany.cloudmusic.util.LocaleManageUtil
+import com.zihany.cloudmusic.util.LogUtil
 import com.zihany.cloudmusic.widget.LoadingDialog
 import com.zihany.cloudmusic.widget.SearchEditText
 
@@ -50,6 +51,7 @@ abstract class BaseActivity : AppCompatActivity() {
     protected abstract fun initData()
     protected abstract fun initView()
     protected abstract fun startObserve()
+    protected abstract fun onClick(view: View)
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(newBase?.let { LocaleManageUtil.setLocal(it) })
@@ -93,6 +95,7 @@ abstract class BaseActivity : AppCompatActivity() {
     fun showDialog() {
         diaLog?.let {
             if (!it.isShowing) {
+                LogUtil.d(TAG, "${context?.packageName}: showDialog")
                 it.show()
             }
         }
@@ -100,8 +103,8 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun hideDialog() {
         diaLog?.let {
-            if (!it.isShowing) {
-                it.show()
+            if (it.isShowing) {
+                it.dismiss()
             }
         }
     }

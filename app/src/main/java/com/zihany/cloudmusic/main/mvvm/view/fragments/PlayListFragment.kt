@@ -1,7 +1,9 @@
 package com.zihany.cloudmusic.main.mvvm.view.fragments
 
 import android.content.Intent
+import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
+import com.zihany.cloudmusic.R
 import com.zihany.cloudmusic.base.BaseFragment
 import com.zihany.cloudmusic.databinding.FragmentRecyclerviewBinding
 import com.zihany.cloudmusic.main.adapter.EndlessRecyclerOnScrollListener
@@ -11,7 +13,9 @@ import com.zihany.cloudmusic.main.bean.RecommendPlayListBean
 import com.zihany.cloudmusic.main.mvvm.view.PlayListActivity
 import com.zihany.cloudmusic.main.mvvm.viewmodel.WowViewModel
 
-class PlayListFragment constructor(private val type: String) : BaseFragment<WowViewModel>() {
+class PlayListFragment constructor(
+        private val type: String
+) : BaseFragment<FragmentRecyclerviewBinding>(R.layout.fragment_recyclerview) {
     companion object {
         const val TAG = "PlayListFragment"
         private val INIT_LOAD_LINE = 3
@@ -22,7 +26,6 @@ class PlayListFragment constructor(private val type: String) : BaseFragment<WowV
     private var playList = ArrayList<RecommendPlayListBean.PlaylistsBean>()
     private var list = ArrayList<PlaylistBean>()
     private lateinit var manager: GridLayoutManager
-    private lateinit var binding: FragmentRecyclerviewBinding
     private var totalPage = 0
 
     private val listener = object : PlayListAdapter.OnPlayListClickListener {
@@ -81,5 +84,17 @@ class PlayListFragment constructor(private val type: String) : BaseFragment<WowV
         }
         totalPage += page * INIT_LOAD_LINE
         adapter.notifyDataSetChanged(list)
+    }
+
+    override fun initView() {
+        TODO("Not yet implemented")
+    }
+
+    override fun startObserve() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClick(view: View) {
+        TODO("Not yet implemented")
     }
 }

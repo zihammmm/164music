@@ -1,6 +1,7 @@
 package com.zihany.cloudmusic.main.mvvm.view
 
 import android.content.Intent
+import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import com.zihany.cloudmusic.R
 import com.zihany.cloudmusic.base.BaseActivity
@@ -10,7 +11,7 @@ import com.zihany.cloudmusic.main.bean.TopListBean
 import com.zihany.cloudmusic.main.mvvm.view.fragments.WowFragment
 import com.zihany.cloudmusic.main.mvvm.viewmodel.WowViewModel
 
-class RankActivity: BaseActivity<WowViewModel>() {
+class RankActivity: BaseActivity() {
     companion object {
         const val TAG = "RankActivity"
     }
@@ -43,6 +44,18 @@ class RankActivity: BaseActivity<WowViewModel>() {
         binding.rvToplist.layoutManager = GridLayoutManager(this, 3)
         binding.rvToplist.adapter = adapter
 
+    }
+
+    override fun initView() {
+        TODO("Not yet implemented")
+    }
+
+    override fun startObserve() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClick(view: View) {
+        TODO("Not yet implemented")
     }
 
 }

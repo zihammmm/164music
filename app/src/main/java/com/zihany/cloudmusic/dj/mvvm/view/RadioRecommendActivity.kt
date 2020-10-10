@@ -17,7 +17,7 @@ import com.zihany.cloudmusic.main.bean.PlaylistBean
 import com.zihany.cloudmusic.util.LogUtil
 import com.zihany.cloudmusic.util.ToastUtils
 
-class RadioRecommendActivity: BaseActivity<DjViewModel>() {
+class RadioRecommendActivity: BaseActivity() {
     companion object {
         const val TAG = "RadioRecommendActivity"
     }
@@ -125,15 +125,27 @@ class RadioRecommendActivity: BaseActivity<DjViewModel>() {
 //        viewModel.getDjCategoryRecommend()
     }
 
+    override fun initView() {
+        TODO("Not yet implemented")
+    }
+
+    override fun startObserve() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClick(view: View) {
+        TODO("Not yet implemented")
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProvider(this)[DjViewModel::class.java]
-        viewModel.apply {
-            viewModel.djPayGiftBean.observe(this@RadioRecommendActivity, Observer<DjPayGiftBean> {
-                onGetDjRecommendSuccess(it)
-            })
-        }
+//        viewModel = ViewModelProvider(this)[DjViewModel::class.java]
+//        viewModel.apply {
+//            viewModel.djPayGiftBean.observe(this@RadioRecommendActivity, Observer<DjPayGiftBean> {
+//                onGetDjRecommendSuccess(it)
+//            })
+//        }
     }
 
     inner class RadioRecommendPresenter {

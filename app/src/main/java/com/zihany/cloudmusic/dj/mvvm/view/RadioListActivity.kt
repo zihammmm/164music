@@ -1,5 +1,6 @@
 package com.zihany.cloudmusic.dj.mvvm.view
 
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zihany.cloudmusic.base.BaseActivity
 import com.zihany.cloudmusic.databinding.ActivityRadioListBinding
@@ -9,7 +10,7 @@ import com.zihany.cloudmusic.dj.bean.DjPayGiftBean
 import com.zihany.cloudmusic.dj.mvvm.viewmodel.DjViewModel
 import com.zihany.cloudmusic.util.LogUtil
 
-class RadioListActivity: BaseActivity<DjViewModel>() {
+class RadioListActivity: BaseActivity() {
     companion object {
         const val TAG = "RadioListActivity"
         const val TITLE_NAME = "titleName"
@@ -21,23 +22,35 @@ class RadioListActivity: BaseActivity<DjViewModel>() {
 
     override fun initData() {
         val intent = intent
-        intent?.let {
-            val titleName = it.getStringExtra(TITLE_NAME)
+        intent?.apply {
+            val titleName = this.getStringExtra(TITLE_NAME)
             setLeftTitleText(titleName, "#ffffff")
             setBackBtn("#ffffff")
 
-            binding.rvDjList.layoutManager = LinearLayoutManager(this)
-            adapter = RadioListAdapter(this)
+            binding.rvDjList.layoutManager = LinearLayoutManager(this@RadioListActivity)
+            adapter = RadioListAdapter(this@RadioListActivity)
             binding.rvDjList.adapter = adapter
 
             val type = intent.getIntExtra(TYPE, 0)
             showDialog()
-            if (type != 0) {
-                viewModel.getDjRecommendType(type)
-            }else {
-                viewModel.getDjPayGift(30, 1)
-            }
+//            if (type != 0) {
+//                viewModel.getDjRecommendType(type)
+//            }else {
+//                viewModel.getDjPayGift(30, 1)
+//            }
         }
+    }
+
+    override fun initView() {
+        TODO("Not yet implemented")
+    }
+
+    override fun startObserve() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClick(view: View) {
+        TODO("Not yet implemented")
     }
 
     fun onGetDjPayGiftSuccess(bean: DjPayGiftBean) {

@@ -4,18 +4,18 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.text.TextUtils
 import android.view.WindowManager
 import com.zihany.cloudmusic.R
-import com.zihany.cloudmusic.util.ActivityStarter
-import com.zihany.cloudmusic.util.LogUtil
-import com.zihany.cloudmusic.util.ScreenUtils
-import com.zihany.cloudmusic.util.SharePreferenceUtil
+import com.zihany.cloudmusic.base.AUTH_TOKEN
+import com.zihany.cloudmusic.util.*
 
 class SplashActivity : AppCompatActivity() {
     companion object {
         const val TAG = "SplashActivity"
     }
     var countDownTimer: CountDownTimer? = null
+    private var authToken by PreferenceUtils(AUTH_TOKEN, "")
 
     fun initData() {
         startCountDownTime()
@@ -36,19 +36,18 @@ class SplashActivity : AppCompatActivity() {
         ScreenUtils.setStatusBarColor(this, Color.parseColor("#Db2C1F"))
     }
 
-    fun startCountDownTime() {
+    private fun startCountDownTime() {
         countDownTimer = object : CountDownTimer(2000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
 
             }
 
             override fun onFinish() {
-                val authToken = SharePreferenceUtil.instance.getAuthToken("")
-                /*if (TextUtils.isEmpty(authToken)) {
+                if (TextUtils.isEmpty(authToken)) {
                     ActivityStarter.instance.startLoginActivity(this@SplashActivity)
-                }else {*/
+                }else {
                     ActivityStarter.instance.startMainActivity(this@SplashActivity)
-                /*}*/
+                }
                 this@SplashActivity.finish()
             }
         }

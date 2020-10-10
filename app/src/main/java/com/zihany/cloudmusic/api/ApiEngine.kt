@@ -5,6 +5,7 @@ import com.franmontiel.persistentcookiejar.cache.SetCookieCache
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor
 import com.google.gson.Gson
 import com.zihany.cloudmusic.App
+import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory
 import okhttp3.OkHttpClient
 import retrofit2.*
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -33,12 +34,12 @@ class ApiEngine {
                 .cookieJar(cookieJar)
                 .build()
 
-        val gson = Gson()
         retrofit = Retrofit.Builder()
                 .baseUrl(ApiService.BASE_URL)
                 .client(client)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(LiveDataCallAdapterFactory())
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+//                .addCallAdapterFactory(LiveDataCallAdapterFactory())
                 .build()
     }
 

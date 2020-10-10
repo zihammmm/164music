@@ -7,15 +7,14 @@ import java.lang.Exception
 
 class GsonUtil {
     companion object {
-        val TAG = "GsonUtil"
+        const val TAG = "GsonUtil"
         val instance: Gson by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
             GsonBuilder().serializeNulls().create()
         }
 
         fun toJson(any: Any): String {
-            val result = instance.toJson(any)
-            LogUtil.d(TAG, "toJson:${result}")
-            return result
+            //LogUtil.d(TAG, "toJson:${result}")
+            return instance.toJson(any)
         }
 
         fun <T> fromJSON(json: String?): T? {

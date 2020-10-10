@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.graphics.BitmapFactory
 import android.graphics.Rect
 import android.graphics.drawable.BitmapDrawable
+import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -28,7 +29,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 import java.util.*
 
-class PlayListActivity : BaseActivity<WowViewModel>() {
+class PlayListActivity : BaseActivity() {
     companion object {
         const val TAG = "PlayListActivity"
     }
@@ -86,6 +87,18 @@ class PlayListActivity : BaseActivity<WowViewModel>() {
 
         minDistance = DensityUtil.dp2px(this, 85f)
         deltaDistance = DensityUtil.dp2px(application.applicationContext, 300f) - minDistance
+    }
+
+    override fun initView() {
+        TODO("Not yet implemented")
+    }
+
+    override fun startObserve() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClick(view: View) {
+        TODO("Not yet implemented")
     }
 
     fun calculateColors(url: String) {

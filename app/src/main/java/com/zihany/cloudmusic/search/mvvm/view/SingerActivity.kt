@@ -1,5 +1,6 @@
 package com.zihany.cloudmusic.search.mvvm.view
 
+import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
@@ -15,7 +16,7 @@ import com.zihany.cloudmusic.util.DensityUtil
 import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.activity_singer.*
 
-class SingerActivity: BaseActivity<SingerViewModel>() {
+class SingerActivity: BaseActivity() {
     companion object {
         const val TAG = "SingerActivity"
         const val SINGER_ID = "singerId"
@@ -58,6 +59,18 @@ class SingerActivity: BaseActivity<SingerViewModel>() {
 
         minDistance = DensityUtil.dp2px(this, 85f).toFloat()
         deltaDistance = DensityUtil.dp2px(this, 250f).toFloat()
+    }
+
+    override fun initView() {
+        TODO("Not yet implemented")
+    }
+
+    override fun startObserve() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClick(view: View) {
+        TODO("Not yet implemented")
     }
 
     override fun onResume() {

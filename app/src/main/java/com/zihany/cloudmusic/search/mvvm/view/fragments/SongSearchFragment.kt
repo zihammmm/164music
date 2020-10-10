@@ -1,7 +1,9 @@
 package com.zihany.cloudmusic.search.mvvm.view.fragments
 
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lzx.starrysky.model.SongInfo
+import com.zihany.cloudmusic.R
 import com.zihany.cloudmusic.base.BaseFragment
 import com.zihany.cloudmusic.databinding.FragmentSearchSongBinding
 import com.zihany.cloudmusic.main.adapter.SongListAdapter
@@ -10,11 +12,9 @@ import com.zihany.cloudmusic.search.mvvm.viewmodel.SearchViewModel
 
 class SongSearchFragment constructor(
         private val type: String?
-) : BaseFragment<SearchViewModel>() {
+) : BaseFragment<FragmentSearchSongBinding>(R.layout.fragment_search_song) {
 
     constructor() : this(null)
-
-    private lateinit var binding: FragmentSearchSongBinding
 
     private var keywords: String? = null
     private var searchType = 1
@@ -52,6 +52,18 @@ class SongSearchFragment constructor(
 
     override fun onDestroy() {
         super.onDestroy()
+    }
+
+    override fun initView() {
+        TODO("Not yet implemented")
+    }
+
+    override fun startObserve() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClick(view: View) {
+        TODO("Not yet implemented")
     }
 
 }

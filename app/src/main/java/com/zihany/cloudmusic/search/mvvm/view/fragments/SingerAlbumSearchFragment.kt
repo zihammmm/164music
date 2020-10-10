@@ -1,6 +1,8 @@
 package com.zihany.cloudmusic.search.mvvm.view.fragments
 
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.zihany.cloudmusic.R
 import com.zihany.cloudmusic.base.BaseFragment
 import com.zihany.cloudmusic.databinding.FragmentRecyclerviewBinding
 import com.zihany.cloudmusic.search.adapter.AlbumAdapter
@@ -9,12 +11,12 @@ import com.zihany.cloudmusic.search.bean.SingerAlbumSearchBean
 import com.zihany.cloudmusic.search.mvvm.viewmodel.SingerViewModel
 import com.zihany.cloudmusic.util.ToastUtils
 
-class SingerAlbumSearchFragment : BaseFragment<SingerViewModel>() {
+class SingerAlbumSearchFragment
+    : BaseFragment<FragmentRecyclerviewBinding>(R.layout.fragment_recyclerview) {
     companion object {
         const val TAG = "SingerAlbumSearchFragment"
     }
 
-    private lateinit var binding: FragmentRecyclerviewBinding
     private lateinit var adapter: AlbumAdapter
     private var hotAlbumList = ArrayList<SingerAlbumSearchBean.HotAlbumsBean>()
     private var adapterList = ArrayList<AlbumAdapterBean>()
@@ -40,5 +42,17 @@ class SingerAlbumSearchFragment : BaseFragment<SingerViewModel>() {
         if (singerId != -1L) {
             showDialog()
         }
+    }
+
+    override fun initView() {
+        TODO("Not yet implemented")
+    }
+
+    override fun startObserve() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClick(view: View) {
+        TODO("Not yet implemented")
     }
 }

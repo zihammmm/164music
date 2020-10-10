@@ -1,162 +1,81 @@
 package com.zihany.cloudmusic.login.bean
 
-class LoginBean {
-    var loginType: Int = 0
-    var code: Int = 0
-    var account: AccountBean? = null
-    var profile: ProfileBean? = null
-    var binding: List<BindingBean>? = null
+import java.io.Serializable
 
-    inner class AccountBean {
-        var id: Long = 0
-        var userName = ""
-        var type: Int = 0
-        var status: Int = 0
-        var whiteListAuthority: Int = 0
-        var createTime: Long = 0
-        var salt: String? = null
-        var tokenVersion: Int = 0
-        var ban: Int = 0
-        var baoyueVersion: Int = 0
-        var donateVersion: Int = 0
-        var vipType: Int = 0
-        var vipTypeVersion: Int = 0
-        var anonimousUser: Boolean = false
+data class LoginBean(
+        val account: Account,
+        val bindings: List<Binding>,
+        val code: Int,
+        val cookie: String,
+        val loginType: Int,
+        val profile: Profile,
+        val token: String
+)
 
-        override fun toString(): String {
-            return "AccountBean{" +
-                    "id=${id}" +
-                    ", userName='${userName}" + '\'' +
-                    ", type=${type}" +
-                    ", status=${status}" +
-                    ", whitelistAuthority=${whiteListAuthority}" +
-                    ", createTime=${createTime}" +
-                    ", salt='${salt}" + '\'' +
-                    ", tokenVersion=${tokenVersion}" +
-                    ", ban=${ban}" +
-                    ", baoyueVersion=${baoyueVersion}" +
-                    ", donateVersion=${donateVersion}" +
-                    ", vipType=${vipType}" +
-                    ", viptypeVersion=${vipTypeVersion}" +
-                    ", anonimousUser=${anonimousUser}" +
-                    '}'
-        }
+data class Account(
+        val anonimousUser: Boolean,
+        val ban: Int,
+        val baoyueVersion: Int,
+        val createTime: Long,
+        val donateVersion: Int,
+        val id: Long,
+        val salt: String,
+        val status: Int,
+        val tokenVersion: Int,
+        val type: Int,
+        val userName: String,
+        val vipType: Int,
+        val viptypeVersion: Int,
+        val whitelistAuthority: Int
+) : Serializable
 
+data class Binding(
+        val bindingTime: Long,
+        val expired: Boolean,
+        val expiresIn: Int,
+        val id: Long,
+        val refreshTime: Int,
+        val tokenJsonStr: String,
+        val type: Int,
+        val url: String,
+        val userId: Int
+) : Serializable
 
-    }
+data class Profile(
+        val accountStatus: Int,
+        val authStatus: Int,
+        val authority: Int,
+        val avatarImgId: Long,
+        val avatarImgIdStr: String,
+        val avatarImgId_str: String,
+        val avatarUrl: String,
+        val backgroundImgId: Long,
+        val backgroundImgIdStr: String,
+        val backgroundUrl: String,
+        val birthday: Long,
+        val city: Int,
+        val defaultAvatar: Boolean,
+        val description: String,
+        val detailDescription: String,
+        val djStatus: Int,
+        val eventCount: Int,
+        val expertTags: Any,
+        val experts: Experts,
+        val followed: Boolean,
+        val followeds: Int,
+        val follows: Int,
+        val gender: Int,
+        val mutual: Boolean,
+        val nickname: String,
+        val playlistBeSubscribedCount: Int,
+        val playlistCount: Int,
+        val province: Int,
+        val remarkName: Any,
+        val signature: String,
+        val userId: Int,
+        val userType: Int,
+        val vipType: Int
+) : Serializable
 
-    inner class ProfileBean {
-        var detailDescription: String? = null
-        var followed = false
-        var userId = 0
-        var defaultAvatar = false
-        var avatarUrl: String? = null
-        var nickname = "null"
-        var birthday: Long = 0
-        var avatarImgId: Long = 0
-        var province: Int = 0
-        var accountStatus: Int = 0
-        var vipType: Int = 0
-        var gender: Int = 0
-        var djStatus: Int = 0
-        var avatarImgIdStr: String? = null
-        var backgroundImgIdStr: String? = null
-        var experts: ExpertsBean? = null
-        var mutual = false
-        var remarkName: Any? = null
-        var expertTags: Any? = null
-        var authStatus = 0
-        var backgroundImgId = 0
-        var userType = 0
-        var city = 0
-        var signature: String? = null
-        var authority = 0
-        var description: String? = null
-        var backgroundUrl: String? = null
-        var avatarImgId_str: String? = null
-        var follows = 0
-        var followeds = 0
-        var eventCount = 0
-        var playListCount = 0
-        var playListBeSubscribedCount = 0
-
-        inner class ExpertsBean {
-        }
-
-        override fun toString(): String {
-            return "ProfileBean{" +
-                    "detailDescription='${detailDescription}'" +
-                    ", followed=${followed}" +
-                    ", userId=${userId}" +
-                    ", defaultAvatar=${defaultAvatar}" +
-                    ", avatarUrl='${avatarUrl}'" +
-                    ", nickname='${nickname}'" +
-                    ", birthday=${birthday}" +
-                    ", avatarImgId=${avatarImgId}" +
-                    ", province=${province}" +
-                    ", accountStatus=${accountStatus}" +
-                    ", vipType=${vipType}" +
-                    ", gender=${gender}" +
-                    ", djStatus=${djStatus}" +
-                    ", avatarImgIdStr='${avatarImgIdStr}'" +
-                    ", backgroundImgIdStr='${backgroundImgIdStr}'" +
-                    ", experts=${experts}" +
-                    ", mutual=${mutual}" +
-                    ", remarkName=${remarkName}" +
-                    ", expertTags=${expertTags}" +
-                    ", authStatus=${authStatus}" +
-                    ", backgroundImgId=${backgroundImgId}" +
-                    ", userType=${userType}" +
-                    ", city=${city}" +
-                    ", signature='${signature}'" +
-                    ", authority=${authority}" +
-                    ", description='${description}'" +
-                    ", backgroundUrl='${backgroundUrl}'" +
-                    ", avatarImgId_str='${avatarImgId_str}'" +
-                    ", followeds=${followeds}" +
-                    ", follows=${follows}" +
-                    ", eventCount=${eventCount}" +
-                    ", playlistCount=${playListCount}" +
-                    ", playlistBeSubscribedCount=${playListBeSubscribedCount}" +
-                    '}'
-        }
-    }
-
-
-
-    inner class BindingBean {
-        var refreshTime = 0
-        var url: String? = null
-        var userId = 0
-        var tokenJsonStr: String? = null
-        var id = 0L
-        var type = 0
-        var expiresIn = 0
-        var bindingTime = 0L
-        var expired = false
-
-        override fun toString(): String {
-            return "BindingsBean{" +
-                    "refreshTime=${refreshTime}" +
-                    ", url='${url}'" +
-                    ", userId=${userId}" +
-                    ", tokenJsonStr='${tokenJsonStr}'" +
-                    ", id=${id}" +
-                    ", type=${type}" +
-                    ", expiresIn=${expiresIn}" +
-                    ", bindingTime=${bindingTime}" +
-                    ", expired=${expired}" +
-                    '}'
-        }
-    }
-
-    override fun toString(): String {
-        return "LoginBean{" +
-                "loginType=${loginType}" +
-                ", code=${code}" +
-                ", account=${account}" +
-                ", profile=${profile}" +
-                ", bindings=${binding}" +
-                '}'
-    }
-}
+class Experts(
+) : Serializable

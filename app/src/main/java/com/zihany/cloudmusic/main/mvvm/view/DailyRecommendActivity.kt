@@ -1,6 +1,7 @@
 package com.zihany.cloudmusic.main.mvvm.view
 
 import android.annotation.SuppressLint
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -8,16 +9,17 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.appbar.AppBarLayout
 import com.lzx.starrysky.model.SongInfo
 import com.zihany.cloudmusic.base.BaseActivity
+import com.zihany.cloudmusic.base.DAILY_UPDATE_TIME
+import com.zihany.cloudmusic.base.USER_INFO
 import com.zihany.cloudmusic.database.DailyRecommendDaoOp
 import com.zihany.cloudmusic.databinding.ActivityDailyRecommendBinding
 import com.zihany.cloudmusic.login.bean.LoginBean
 import com.zihany.cloudmusic.main.adapter.SongListAdapter
 import com.zihany.cloudmusic.main.bean.DRGreenDaoBean
-import com.zihany.cloudmusic.main.mvvm.viewmodel.WowViewModel
 import com.zihany.cloudmusic.util.*
 import jp.wasabeef.glide.transformations.BlurTransformation
 
-class DailyRecommendActivity : BaseActivity<WowViewModel>() {
+class DailyRecommendActivity : BaseActivity() {
     companion object {
         const val TAG = "DailyRecommendActivity"
     }
@@ -28,6 +30,7 @@ class DailyRecommendActivity : BaseActivity<WowViewModel>() {
     private lateinit var songAdapter: SongListAdapter
     private lateinit var greenDaoList: List<DRGreenDaoBean>
     private var songInfos = ArrayList<SongInfo>()
+    private val userInfo by PreferenceUtils(USER_INFO, "")
 
     @SuppressLint("SetTextI18n")
     override fun initData() {
@@ -39,7 +42,7 @@ class DailyRecommendActivity : BaseActivity<WowViewModel>() {
         binding.rvDailyrecommend.layoutManager = LinearLayoutManager(this)
         binding.rvDailyrecommend.adapter = songAdapter
 
-        val coverUrl = GsonUtil.fromJSON<LoginBean>(SharePreferenceUtil.getInstance(this).getUserInfo(""))
+        val coverUrl = GsonUtil.fromJSON<LoginBean>(userInfo)
                 ?.profile?.backgroundUrl
 
         coverUrl?.let {
@@ -58,8 +61,7 @@ class DailyRecommendActivity : BaseActivity<WowViewModel>() {
         binding.tvDay.text = TimeUtil.getDay(System.currentTimeMillis())
         binding.tvMonth.text = "/${TimeUtil.getMonth(System.currentTimeMillis())}"
 
-        val updateTime = SharePreferenceUtil.getInstance(this)
-                .getDailyUpdateTime()
+        val updateTime by PreferenceUtils(DAILY_UPDATE_TIME, System.currentTimeMillis())
         LogUtil.d(TAG, "上次日推更新时间: ${TimeUtil.getTimeStandard(System.currentTimeMillis())}")
         if (!TimeUtil.isOver7am(updateTime)) {
             DailyRecommendDaoOp.deleteAllData()
@@ -71,6 +73,18 @@ class DailyRecommendActivity : BaseActivity<WowViewModel>() {
         }
         minDistance = DensityUtil.dp2px(this, 85f)
         deltaDistance = DensityUtil.dp2px(this, 200f) - minDistance
+    }
+
+    override fun initView() {
+        TODO("Not yet implemented")
+    }
+
+    override fun startObserve() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClick(view: View) {
+        TODO("Not yet implemented")
     }
 
     private fun notifyAdapter(greenDaoList: List<DRGreenDaoBean>) {

@@ -132,13 +132,16 @@
                 app:tl_textBold="SELECT"
                 app:tl_textSelectColor="@color/colorPrimary"
                 app:tl_textUnselectColor="#7F7F7F"
-                app:tl_textsize="@dimen/sp_15" />
+                app:tl_textsize="@dimen/sp_15"
+                setViewPager="@{vpContainer}"/>
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/vp_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/tab_title" />
+                android:layout_below="@id/tab_title"
+                android:offscreenPageLimit="@{3}"
+                android:currentItem="@{0}"/>
         </RelativeLayout>
 
         <com.zihany.cloudmusic.widget.BottomSongPlayBar

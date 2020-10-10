@@ -1,23 +1,28 @@
 package com.zihany.cloudmusic.main.mvvm.viewmodel
 
-import android.content.Context
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
 
 import com.zihany.cloudmusic.base.BaseViewModel
+import com.zihany.cloudmusic.base.Result
+import com.zihany.cloudmusic.base.USER_INFO
 import com.zihany.cloudmusic.login.bean.LoginBean
 import com.zihany.cloudmusic.main.bean.LikeListBean
 import com.zihany.cloudmusic.main.bean.LogoutBean
-import com.zihany.cloudmusic.main.mvvm.model.MainRepository
+import com.zihany.cloudmusic.main.mvvm.model.LikeListRepository
+import com.zihany.cloudmusic.main.mvvm.model.LogoutRepository
 import com.zihany.cloudmusic.util.GsonUtil
-import com.zihany.cloudmusic.util.LogUtil
-import com.zihany.cloudmusic.util.SharePreferenceUtil
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Observer
-import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.schedulers.Schedulers
+import com.zihany.cloudmusic.util.PreferenceUtils
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
-class MainViewModel : BaseViewModel() {
+class MainViewModel(
+        private val likeListRepository: LikeListRepository,
+        private val logoutRepository: LogoutRepository
+) : BaseViewModel() {
     companion object {
         private const val TAG = "MainViewModel"
     }
@@ -27,65 +32,33 @@ class MainViewModel : BaseViewModel() {
     var likeListBean: MutableLiveData<LikeListBean> = MutableLiveData()
     var getLikeListError: MutableLiveData<Throwable> = MutableLiveData()
     var logoutError: MutableLiveData<Throwable> = MutableLiveData()
-    private val model = MainRepository()
+    private val userLoginInfo by PreferenceUtils(USER_INFO, "")
 
-
-    fun initData(context: Context) {
-        val userLoginInfo = SharePreferenceUtil.getInstance(context).getUserInfo("")
-        loginBean.value = GsonUtil.fromJSON<LoginBean>(userLoginInfo)
-
+    init {
+        Log.d(TAG, userLoginInfo)
+        loginBean.value = Gson().fromJson<LoginBean>(userLoginInfo, LoginBean::class.java)
     }
 
-    fun getLikeList() {
-        model.getLikeList(loginBean.value!!.account!!.id).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    object : Observer<LikeListBean> {
-                        override fun onComplete() {
-                            LogUtil.d(TAG, "onComplete")
-                        }
-
-                        override fun onSubscribe(d: Disposable?) {
-                            LogUtil.d(TAG, "onSubscribe")
-                        }
-
-                        override fun onNext(t: LikeListBean?) {
-                            LogUtil.d(TAG, "onNext")
-                            likeListBean.value = t
-                        }
-
-                        override fun onError(e: Throwable?) {
-                            LogUtil.e(TAG, "onError: $e")
-                            getLikeListError.value = e
-                        }
-
-                    }
-                }
+    fun getLikeList(uid: Long) {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            val result = likeListRepository.getLikeList(uid)
+//            if (result is Result.Success) {
+//                likeListBean.value = result.data
+//            } else if (result is Result.Error) {
+//                getLikeListError.value = result.exception
+//            }
+//        }
     }
 
     fun logout() {
-        model.logout().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Observer<LogoutBean> {
-                    override fun onComplete() {
-                        LogUtil.d(TAG, "onComplete")
-                    }
-
-                    override fun onSubscribe(d: Disposable?) {
-                        LogUtil.d(TAG, "onSubscribe")
-                    }
-
-                    override fun onNext(t: LogoutBean?) {
-                        LogUtil.d(TAG, "onNext: $t")
-                        logoutBean.value = t
-                    }
-
-                    override fun onError(e: Throwable?) {
-                        LogUtil.d(TAG, "onError: $e")
-                        logoutError.value = e
-                    }
-
-                })
+//        viewModelScope.launch(Dispatchers.IO) {
+//            val result = logoutRepository.logout()
+//            if (result is Result.Success) {
+//                logoutBean.value = result.data
+//            } else if (result is Result.Error) {
+//                logoutError.value = result.exception
+//            }
+//        }
     }
 
 }

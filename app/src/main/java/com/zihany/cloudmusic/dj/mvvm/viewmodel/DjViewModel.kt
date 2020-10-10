@@ -10,9 +10,7 @@ class DjViewModel: BaseViewModel() {
         const val TAG = "DjViewModel"
     }
     val djPayGiftBean = MutableLiveData<DjPayGiftBean>()
-    override fun initData(context: Context) {
 
-    }
 
     fun getDjRecommend() {
 

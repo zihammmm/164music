@@ -1,17 +1,20 @@
 package com.zihany.cloudmusic.personal.mvvm.view.fragment
 
 import android.content.Intent
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.zihany.cloudmusic.R
 import com.zihany.cloudmusic.base.BaseFragment
 import com.zihany.cloudmusic.databinding.FragmentUserPlaylistBinding
 import com.zihany.cloudmusic.main.mvvm.view.PlayListActivity
 import com.zihany.cloudmusic.main.mvvm.view.fragments.WowFragment
 import com.zihany.cloudmusic.personal.adapter.UserPlaylistAdapter
 import com.zihany.cloudmusic.personal.bean.PlayListItemBean
+import com.zihany.cloudmusic.personal.bean.Playlist
 import com.zihany.cloudmusic.personal.bean.UserPlayListBean
 import com.zihany.cloudmusic.personal.mvvm.viewmodel.PersonalViewModel
 
-class UserPlayListFragment: BaseFragment<PersonalViewModel>() {
+class UserPlayListFragment: BaseFragment<FragmentUserPlaylistBinding>(R.layout.fragment_user_playlist) {
     companion object {
         const val TAG = "UserPlayListFragment"
     }
@@ -19,9 +22,8 @@ class UserPlayListFragment: BaseFragment<PersonalViewModel>() {
     private var uid = -1
     private lateinit var adapter: UserPlaylistAdapter
     private var nickname = ""
-    private var playListBeans = ArrayList<UserPlayListBean.PlayListBean>()
+    private var playListBeans = ArrayList<Playlist>()
     private var playListFragmentBeans = ArrayList<PlayListItemBean>()
-    private lateinit var binding: FragmentUserPlaylistBinding
     private val listener = object : UserPlaylistAdapter.OnPlayListItemClickListener {
         override fun onPlayListItemClick(position: Int) {
             val intent = Intent(context!!, PlayListActivity::class.java)
@@ -57,5 +59,17 @@ class UserPlayListFragment: BaseFragment<PersonalViewModel>() {
             showDialog()
 
         }
+    }
+
+    override fun initView() {
+
+    }
+
+    override fun startObserve() {
+
+    }
+
+    override fun onClick(view: View) {
+
     }
 }

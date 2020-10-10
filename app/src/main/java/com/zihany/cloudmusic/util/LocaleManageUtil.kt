@@ -2,14 +2,17 @@ package com.zihany.cloudmusic.util
 
 import android.content.Context
 import android.content.res.Configuration
+import com.zihany.cloudmusic.base.SELECTED_LANGUAGE
+import com.zihany.cloudmusic.base.SYSTEM_CURRENT_LOCAL
 import java.util.*
 
 class LocaleManageUtil {
     companion object {
-        private val TAG = "LocaleManageUtil"
-        val LOCAL_CHINA = 0
-        val LOCAL_ENGLISH = 1
-
+        const val TAG = "LocaleManageUtil"
+        const val LOCAL_CHINA = 0
+        const val LOCAL_ENGLISH = 1
+        private var selectLanguage by PreferenceUtils(SELECTED_LANGUAGE, LOCAL_CHINA)
+        private var systemCurrentLocal by PreferenceUtils(SYSTEM_CURRENT_LOCAL, Locale.CHINESE)
         fun setLocal(context: Context): Context {
             return updateResources(context, getSetLanguageLocale(context))
         }
@@ -24,12 +27,12 @@ class LocaleManageUtil {
         }
 
         fun getSetLanguageLocale(context: Context): Locale {
-            return when (SharePreferenceUtil.getInstance(context).getSelectLanguage()) {
+            return when (selectLanguage) {
                 0 -> Locale.CHINA
                 1 -> Locale.ENGLISH
                 else -> {
-                    if (getSystemLocale(context).language.contains("zh") ||
-                            getSystemLocale(context).country.contains("CN")) {
+                    if (getSystemLocale().language.contains("zh") ||
+                            getSystemLocale().country.contains("CN")) {
                         Locale.CHINA
                     }else {
                         Locale.ENGLISH
@@ -38,12 +41,12 @@ class LocaleManageUtil {
             }
         }
 
-        fun getSystemLocale(context: Context): Locale {
-            return SharePreferenceUtil.getInstance(context).getSystemCurrentLocal()
+        fun getSystemLocale(): Locale {
+            return systemCurrentLocal
         }
 
-        fun getSelectLanguage(context: Context): String {
-            return when(SharePreferenceUtil.getInstance(context).getSelectLanguage()) {
+        fun getSelectLanguage(): String {
+            return when(selectLanguage) {
                 0 -> "中文"
                 1 -> "English"
                 else -> "中文"

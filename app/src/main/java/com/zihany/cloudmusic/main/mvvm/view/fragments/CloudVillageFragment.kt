@@ -2,9 +2,11 @@ package com.zihany.cloudmusic.main.mvvm.view.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.zihany.cloudmusic.R
 import com.zihany.cloudmusic.base.BaseFragment
 import com.zihany.cloudmusic.databinding.FragmentFeedBinding
 import com.zihany.cloudmusic.main.bean.MainEventBean
@@ -16,12 +18,11 @@ import com.zihany.cloudmusic.search.bean.UserSearchBean
 import com.zihany.cloudmusic.util.GsonUtil
 import com.zihany.cloudmusic.util.LogUtil
 
-class CloudVillageFragment: BaseFragment<CloudVillageViewModel>() {
+class CloudVillageFragment: BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
     companion object {
         const val TAG = "CloudVillageFragment"
     }
 
-    private lateinit var binding: FragmentFeedBinding
     private lateinit var adapter: UserEventAdapter
     private var eventList: ArrayList<UserEventBean.EventsBean>? = null
     private val listener = object : UserEventAdapter.OnEventClickListener {
@@ -57,16 +58,16 @@ class CloudVillageFragment: BaseFragment<CloudVillageViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this)[CloudVillageViewModel::class.java]
-        viewModel.apply {
-            bean.observe(this@CloudVillageFragment, Observer<MainEventBean> {
-                onGetMainEventSuccess(it)
-            })
-
-            getMainEventError.observe(this@CloudVillageFragment, Observer<String> {
-                onGetMainEventFail(it)
-            })
-        }
+//        viewModel = ViewModelProvider(this)[CloudVillageViewModel::class.java]
+//        viewModel.apply {
+//            bean.observe(this@CloudVillageFragment, Observer<MainEventBean> {
+//                onGetMainEventSuccess(it)
+//            })
+//
+//            getMainEventError.observe(this@CloudVillageFragment, Observer<String> {
+//                onGetMainEventFail(it)
+//            })
+//        }
     }
 
     private fun onGetMainEventSuccess(bean: MainEventBean) {
@@ -89,6 +90,18 @@ class CloudVillageFragment: BaseFragment<CloudVillageViewModel>() {
         adapter.listener = listener
 
         showDialog()
+
+    }
+
+    override fun initView() {
+
+    }
+
+    override fun startObserve() {
+
+    }
+
+    override fun onClick(view: View) {
 
     }
 

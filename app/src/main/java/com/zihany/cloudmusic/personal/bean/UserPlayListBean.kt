@@ -1,75 +1,80 @@
 package com.zihany.cloudmusic.personal.bean
+data class UserPlayListBean(
+    val code: Int,
+    val more: Boolean,
+    val playlist: List<Playlist>,
+    val version: String
+)
 
-class UserPlayListBean {
-    var more = false
-    var code = 0
-    var playList: MutableList<PlayListBean>? = null
+data class Playlist(
+    val adType: Int,
+    val anonimous: Boolean,
+    val artists: Any,
+    val backgroundCoverId: Long,
+    val backgroundCoverUrl: Any,
+    val cloudTrackCount: Int,
+    val commentThreadId: String,
+    val coverImgId: Long,
+    val coverImgId_str: String,
+    val coverImgUrl: String,
+    val createTime: Long,
+    val creator: Creator,
+    val description: Any,
+    val englishTitle: Any,
+    val highQuality: Boolean,
+    val id: Long,
+    val name: String,
+    val newImported: Boolean,
+    val opRecommend: Boolean,
+    val ordered: Boolean,
+    val playCount: Long,
+    val privacy: Int,
+    val recommendInfo: Any,
+    val specialType: Int,
+    val status: Int,
+    val subscribed: Boolean,
+    val subscribedCount: Int,
+    val subscribers: List<Any>,
+    val tags: List<Any>,
+    val titleImage: Int,
+    val titleImageUrl: Any,
+    val totalDuration: Int,
+    val trackCount: Int,
+    val trackNumberUpdateTime: Long,
+    val trackUpdateTime: Long,
+    val tracks: Any,
+    val updateFrequency: Any,
+    val updateTime: Long,
+    val userId: Int
+)
 
-    inner class PlayListBean {
-        var subscribed = false
-        var creator: CreatorBean? = null
-        var artists: Any? = null
-        var tracks: Any? = null
-        var updateFrequency: Any? = null
-        var backgroundCoverId = 0L
-        var backgroundCoverUrl: String? = null
-        var privacy = 0
-        var newImported = false
-        var createTime = 0L
-        var highQuality = false
-        var userId = 0L
-        var coverImgId = 0L
-        var updateTime = 0L
-        var specialType = 0
-        var anonimous = false
-        var trackUpdateTime = 0L
-        var trackCount = 0
-        var commentThreadId: String? = null
-        var coverImgUrl: String? = null
-        var totalDuration = 0
-        var adType = 0
-        var trackNumberUpdateTime = 0L
-        var description: Any? = null
-        var ordered = false
-        var status = 0
-        var subscribedCount = 0
-        var cloudTrackCount = 0
-        var playCount = 0L
-        var name: String? = null
-        var id = 0L
-        var coverImgIdStr: String? = null
-        var subscribers: MutableList<*>? = null
-        var tags: MutableList<*>? = null
-
-        inner class CreatorBean {
-            var defaultAvatar = false
-            var province = 0L
-            var authStatus = 0
-            var followed = false
-            var avatarUrl = ""
-            var accountStatus = 0
-            var gender = 0
-            var city = 0L
-            var birthday = 0L
-            var userId = 0L
-            var userType = 0
-            var nickname= ""
-            var signature = ""
-            var description = ""
-            var detailDescription = ""
-            var avatarImgId = 0L
-            var backgroundImgId = 0L
-            var backgroundUrl = ""
-            var authority = 0
-            var mutual = false
-            var expertTags: Any? = null
-            var experts: Any? = null
-            var djStatus = 0
-            var vipType = 0
-            var remarkName: Any? = null
-            var avatarImgIdStr = ""
-            var backgroundImgIdStr = ""
-            var avatarImgId_str = ""
-        }
-    }
-}
+data class Creator(
+    val accountStatus: Int,
+    val authStatus: Int,
+    val authority: Int,
+    val avatarImgId: Long,
+    val avatarImgIdStr: String,
+    val avatarImgId_str: String,
+    val avatarUrl: String,
+    val backgroundImgId: Long,
+    val backgroundImgIdStr: String,
+    val backgroundUrl: String,
+    val birthday: Long,
+    val city: Long,
+    val defaultAvatar: Boolean,
+    val description: String,
+    val detailDescription: String,
+    val djStatus: Int,
+    val expertTags: Any,
+    val experts: Any,
+    val followed: Boolean,
+    val gender: Int,
+    val mutual: Boolean,
+    val nickname: String,
+    val province: Long,
+    val remarkName: Any,
+    val signature: String,
+    val userId: Long,
+    val userType: Int,
+    val vipType: Int
+)

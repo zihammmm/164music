@@ -2,6 +2,7 @@ package com.zihany.cloudmusic.search.mvvm.view
 
 import android.content.DialogInterface
 import android.content.Intent
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zihany.cloudmusic.R
 import com.zihany.cloudmusic.base.BaseActivity
@@ -14,7 +15,7 @@ import com.zihany.cloudmusic.search.mvvm.viewmodel.SearchViewModel
 import com.zihany.cloudmusic.widget.MusicDialog
 import com.zihany.cloudmusic.widget.SearchHistoryTagLayout
 
-class SearchActivity : BaseActivity<SearchViewModel>() {
+class SearchActivity : BaseActivity() {
     companion object {
         const val TAG = "SearchActivity"
         const val KEYWORDS = "keywords"
@@ -50,6 +51,18 @@ class SearchActivity : BaseActivity<SearchViewModel>() {
         binding.rvHotsearch.layoutManager = LinearLayoutManager(this)
         binding.rvHotsearch.adapter = adapter
         adapter.listener = searchListener
+    }
+
+    override fun initView() {
+
+    }
+
+    override fun startObserve() {
+
+    }
+
+    override fun onClick(view: View) {
+
     }
 
     override fun onResume() {

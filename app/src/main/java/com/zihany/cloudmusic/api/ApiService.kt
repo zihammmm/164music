@@ -4,77 +4,81 @@ import com.zihany.cloudmusic.login.bean.LoginBean
 import com.zihany.cloudmusic.main.bean.*
 import com.zihany.cloudmusic.personal.bean.UserPlayListBean
 import com.zihany.cloudmusic.search.bean.*
+import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ApiService {
     companion object {
-        const val BASE_URL: String = "http://you local host"
+        const val BASE_URL: String = "http://192.168.50.88:3000"
     }
 
     @GET("login/cellphone")
-    fun login(@Query("phone") phone: String, @Query("password") password: String): ApiResponse<LoginBean>
+    fun login(@Query("phone") phone: String, @Query("password") password: String): Observable<LoginBean>
+
+    @GET("login/cellphone")
+    fun rxJavaLogin(@Query("phone") phone: String, @Query("password") password: String): Observable<LoginBean>
 
     @GET("layout")
-    fun logout(): ApiResponse<LogoutBean>
+    fun logout(): Observable<LogoutBean>
 
     @GET("banner")
-    fun getBanner(@Query("type") type: String): ApiResponse<BannerBean>
+    fun getBanner(@Query("type") type: String): Observable<BannerBean>
 
     @GET("recommend/resource")
-    fun getRecommendPlayList(): ApiResponse<MainRecommendPlayListBean>
+    fun getRecommendPlayList(): Observable<MainRecommendPlayListBean>
 
     @GET("recommend/songs")
-    fun getDailyRecommend(): ApiResponse<DailyRecommendBean>
+    suspend fun getDailyRecommend(): Observable<DailyRecommendBean>
 
     @GET("likelist")
-    fun getLikeList(@Query("id") uid: Long): ApiResponse<LikeListBean>
+    fun getLikeList(@Query("id") uid: Long): Observable<LikeListBean>
 
     @GET("recommend/songs")
-    fun getRecommendPlay(): ApiResponse<DailyRecommendBean>
+    suspend fun getRecommendPlay(): Observable<DailyRecommendBean>
 
     @GET("search/hot/detail")
-    fun getSearchHotDetail(): ApiResponse<HotSearchDetailBean>
+    suspend fun getSearchHotDetail(): Observable<HotSearchDetailBean>
 
     @GET("search")
-    fun getSongSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): ApiResponse<SongSearchBean>
+    suspend fun getSongSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): Observable<SongSearchBean>
 
     @GET("search")
-    fun getFeedSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): ApiResponse<FeedSearchBean>
+    suspend fun getFeedSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): Observable<FeedSearchBean>
 
     @GET("search")
-    fun getSingerSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): ApiResponse<SingerSearchBean>
+    suspend fun getSingerSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): Observable<SingerSearchBean>
 
     @GET("search")
-    fun getAlbumSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): ApiResponse<AlbumSearchBean>
+    suspend fun getAlbumSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): Observable<AlbumSearchBean>
 
     @GET("search")
-    fun getPlayListSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): ApiResponse<PlayListSearchBean>
+    suspend fun getPlayListSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): Observable<PlayListSearchBean>
 
     @GET("search")
-    fun getRadioSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): ApiResponse<RadioSearchBean>
+    fun getRadioSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): Observable<RadioSearchBean>
 
     @GET("search")
-    fun getUserSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): ApiResponse<UserSearchBean>
+    fun getUserSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): Observable<UserSearchBean>
 
     @GET("search")
-    fun getSynthesisSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): ApiResponse<SynthesisSearchBean>
+    fun getSynthesisSearch(@Query("keywords") keywords: String?, @Query("type") type: Int): Observable<SynthesisSearchBean>
 
     @GET("user/playlist")
-    fun getUserPlaylist(@Query("uid") uid: Long): ApiResponse<UserPlayListBean>
+    fun getUserPlaylist(@Query("uid") uid: Long): Observable<UserPlayListBean>
 
     @GET("playmode/intelligence/list")
-    fun getIntelligenceList(@Query("id") id: Long, @Query("pid") pid: Long): ApiResponse<PlayModeIntelligenceBean>
+    fun getIntelligenceList(@Query("id") id: Long, @Query("pid") pid: Long): Observable<PlayModeIntelligenceBean>
 
     @GET("mv/sublist")
-    fun getMvSublist(): ApiResponse<MvSublistBean>
+    fun getMvSublist(): Observable<MvSublistBean>
 
     @GET("artist/sublist")
-    fun getArtistSublist(): ApiResponse<ArtistSublistBean>
+    fun getArtistSublist(): Observable<ArtistSublistBean>
 
     @GET("album/sublist")
-    fun getAlbumSublist(): ApiResponse<AlbumSublistBean>
+    fun getAlbumSublist(): Observable<AlbumSublistBean>
 
     @GET("personal_fm")
-    fun getMyFm(): ApiResponse<MyFmBean>
+    fun getMyFm(): Observable<MyFmBean>
 }

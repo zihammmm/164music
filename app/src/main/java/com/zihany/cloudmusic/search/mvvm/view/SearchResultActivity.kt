@@ -1,5 +1,6 @@
 package com.zihany.cloudmusic.search.mvvm.view
 
+import android.view.View
 import com.zihany.cloudmusic.R
 import com.zihany.cloudmusic.base.BaseActivity
 import com.zihany.cloudmusic.base.BaseFragment
@@ -9,7 +10,7 @@ import com.zihany.cloudmusic.main.adapter.MultiFragmentPagerAdapter
 import com.zihany.cloudmusic.search.bean.SearchHistoryBean
 import com.zihany.cloudmusic.search.mvvm.viewmodel.SearchViewModel
 
-class SearchResultActivity: BaseActivity<SearchViewModel>() {
+class SearchResultActivity: BaseActivity() {
     companion object {
         const val TAG = "SearchResultActivity"
     }
@@ -37,6 +38,18 @@ class SearchResultActivity: BaseActivity<SearchViewModel>() {
             binding.commonTitle.etSearch.setText(it)
         }
 
+    }
+
+    override fun initView() {
+        TODO("Not yet implemented")
+    }
+
+    override fun startObserve() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClick(view: View) {
+        TODO("Not yet implemented")
     }
 
 }

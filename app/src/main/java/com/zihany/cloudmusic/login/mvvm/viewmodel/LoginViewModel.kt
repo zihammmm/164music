@@ -3,31 +3,63 @@ package com.zihany.cloudmusic.login.mvvm.viewmodel
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.zihany.cloudmusic.base.AUTH_TOKEN
 import com.zihany.cloudmusic.base.BaseViewModel
+import com.zihany.cloudmusic.base.PHONE_NUMBER
+import com.zihany.cloudmusic.base.USER_INFO
 import com.zihany.cloudmusic.login.bean.LoginBean
 import com.zihany.cloudmusic.login.mvvm.model.LoginRepository
-import com.zihany.cloudmusic.util.SharePreferenceUtil
+import com.zihany.cloudmusic.util.GsonUtil
+import com.zihany.cloudmusic.util.LogUtil
+import com.zihany.cloudmusic.util.PreferenceUtils
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observer
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 
-class LoginViewModel(val repository: LoginRepository) : BaseViewModel() {
-
-    val phone = ObservableField<String>(SharePreferenceUtil.instance.getAccountNum() ?: "")
+class LoginViewModel(private val repository: LoginRepository) : BaseViewModel() {
+    companion object {
+        const val TAG = "LoginViewModel"
+    }
+    private var phoneDelegate by PreferenceUtils(PHONE_NUMBER, "")
+    val phone = ObservableField<String>(phoneDelegate)
     val password = ObservableField<String>("")
+    private var userJson by PreferenceUtils(USER_INFO, "")
+    private var authToken by PreferenceUtils(AUTH_TOKEN, "")
 
     private val _uiState = MutableLiveData<LoginState<LoginBean>>()
     val uiState: LiveData<LoginState<LoginBean>>
         get() = _uiState
 
-    fun loginDataChanged() {
-        _uiState.value = LoginState()
+    fun login() {
+        repository.login(phone.get() ?: "", password.get() ?: "")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : Observer<LoginBean> {
+                    override fun onSubscribe(d: Disposable?) {
+                        LogUtil.d(TAG, "onSubscribe")
+                    }
+
+                    override fun onNext(t: LoginBean?) {
+                        LogUtil.d(TAG, "onNext: $t")
+                        userJson = GsonUtil.toJson(t!!)
+                        phoneDelegate = phone.get() ?: ""
+                        authToken = t.bindings[1].tokenJsonStr
+                        _uiState.postValue(LoginState(isSuccess = t))
+                    }
+
+                    override fun onError(e: Throwable?) {
+                        LogUtil.d(TAG, "onError: ${e?.message}")
+                        _uiState.postValue(LoginState(isError = e?.message))
+                    }
+
+                    override fun onComplete() {
+                        LogUtil.d(TAG, "onComplete")
+                    }
+
+                })
     }
 
-    fun login() {
-        launchOnUI {
-            repository.login(phone.get() ?: "", password.get() ?: "")
-                    .collect {
-                        _uiState.postValue(it)
-                    }
-        }
-    }
 }

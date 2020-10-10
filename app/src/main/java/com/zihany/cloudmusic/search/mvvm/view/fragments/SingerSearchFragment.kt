@@ -2,7 +2,9 @@ package com.zihany.cloudmusic.search.mvvm.view.fragments
 
 import android.content.Intent
 import android.text.TextUtils
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.zihany.cloudmusic.R
 import com.zihany.cloudmusic.base.BaseFragment
 import com.zihany.cloudmusic.databinding.FragmentRecyclerviewBinding
 import com.zihany.cloudmusic.search.adapter.SingerSearchAdapter
@@ -12,11 +14,10 @@ import com.zihany.cloudmusic.search.mvvm.viewmodel.SearchViewModel
 
 class SingerSearchFragment constructor(
         private val type: String?
-) : BaseFragment<SearchViewModel>() {
+) : BaseFragment<FragmentRecyclerviewBinding>(R.layout.fragment_recyclerview) {
 
     constructor() : this(null)
 
-    private lateinit var binding: FragmentRecyclerviewBinding
     private lateinit var adapter: SingerSearchAdapter
     private val searchType = 100
     private var needRefresh = false
@@ -55,5 +56,17 @@ class SingerSearchFragment constructor(
             needRefresh = false
             showDialog()
         }
+    }
+
+    override fun initView() {
+        TODO("Not yet implemented")
+    }
+
+    override fun startObserve() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClick(view: View) {
+        TODO("Not yet implemented")
     }
 }

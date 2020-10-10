@@ -1,112 +1,85 @@
 package com.zihany.cloudmusic.main.mvvm.view.fragments
 
 import android.content.Intent
-import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.lzx.starrysky.model.SongInfo
+import com.zihany.cloudmusic.R
 import com.zihany.cloudmusic.base.BaseFragment
 import com.zihany.cloudmusic.databinding.FragmentMineBinding
 import com.zihany.cloudmusic.login.bean.LoginBean
-import com.zihany.cloudmusic.main.bean.MyFmBean
+import com.zihany.cloudmusic.main.mvvm.view.LocalMusicActivity
+import com.zihany.cloudmusic.main.mvvm.view.MySubActivity
 import com.zihany.cloudmusic.main.mvvm.view.PlayListActivity
 import com.zihany.cloudmusic.main.mvvm.viewmodel.MineViewModel
-import com.zihany.cloudmusic.manager.SongPlayManager
 import com.zihany.cloudmusic.personal.adapter.UserPlaylistAdapter
 import com.zihany.cloudmusic.personal.bean.PlayListItemBean
+import com.zihany.cloudmusic.personal.bean.Playlist
 import com.zihany.cloudmusic.personal.bean.UserPlayListBean
+import com.zihany.cloudmusic.util.ClickUtil
 import com.zihany.cloudmusic.util.LogUtil
 import com.zihany.cloudmusic.util.ToastUtils
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MineFragment : BaseFragment<MineViewModel>() {
-    private var _binding: FragmentMineBinding? = null
-    private val binding get() = _binding
-    private lateinit var adapter: UserPlaylistAdapter
+class MineFragment : BaseFragment<FragmentMineBinding>(R.layout.fragment_mine) {
+    private val viewModel by viewModel<MineViewModel>()
     private val adapterList = ArrayList<PlayListItemBean>()
-    private val listener = object : UserPlaylistAdapter.OnPlayListItemClickListener {
-        override fun onPlayListItemClick(position: Int) {
-            val intent = Intent(context, PlayListActivity::class.java)
-            intent.putExtra(WowFragment.PLAYLIST_PICURL, viewModel.playListBeans.value!![position].coverImgUrl)
-            intent.putExtra(WowFragment.PLAYLIST_NAME, viewModel.playListBeans.value!![position].name)
-            intent.putExtra(WowFragment.PLAYLIST_CREATOR_NICKNAME, viewModel.playListBeans.value!![position].creator!!.nickname)
-            intent.putExtra(WowFragment.PLAYLIST_CREATOR_AVATARURL, viewModel.playListBeans.value!![position].creator!!.avatarUrl)
-            intent.putExtra(WowFragment.PLAYLIST_ID, viewModel.playListBeans.value!![position].id)
-            context?.startActivity(intent)
+    private val playlistBeans = ArrayList<Playlist>()
+    private val adapter by lazy { UserPlaylistAdapter(context!!) }
+
+    override fun initView() {
+        binding.apply {
+            rlFm.setOnClickListener {
+                onClick(it)
+            }
+
+            localMusic.setOnClickListener {
+                onClick(it)
+            }
+
+            myCollection.setOnClickListener {
+                onClick(it)
+            }
+
+            adapter = this@MineFragment.adapter
         }
 
-        override fun onSmartPlayClick(position: Int) {
-            showDialog()
-        }
-
+        //showDialog()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        viewModel = ViewModelProvider(this)[MineViewModel::class.java]
+    override fun startObserve() {
         viewModel.apply {
-            loginBean.observe(this@MineFragment, Observer<LoginBean> {
-                adapter.nickName = it.account?.userName
-            })
+//            loginBean.observe(this@MineFragment, Observer<LoginBean> {
+//                adapter.nickName = it.account?.userName
+//            })
 
-            playListBeans.observe(this@MineFragment, Observer<ArrayList<UserPlayListBean.PlayListBean>> {
-                for (bean: UserPlayListBean.PlayListBean in it) {
+
+            userPlayListBean.observe(viewLifecycleOwner, Observer {
+                LogUtil.d(TAG, "change userPlayList")
+                val playListBean = it.playlist
+                playlistBeans.clear()
+                playlistBeans.addAll(playListBean)
+                for (bean: Playlist in playListBean) {
                     val beanInfo = PlayListItemBean()
                     beanInfo.coverUrl = bean.coverImgUrl
                     beanInfo.playListId = bean.id
                     beanInfo.playCount = bean.playCount
                     beanInfo.playListName = bean.name
                     beanInfo.songNumber = bean.trackCount
-                    beanInfo.playListCreator = bean.creator?.nickname
-                    adapterList.add(beanInfo)
+                    beanInfo.playListCreator = bean.creator.nickname
+                    this@MineFragment.adapterList.add(beanInfo)
                 }
-                adapter.notifyDataSetChanged(adapterList)
+                adapter.notifyDataSetChanged(this@MineFragment.adapterList)
             })
 
             getUserPlaylistError.observe(this@MineFragment, Observer<String> {
                 hideDialog()
-                LogUtil.d(TAG, "onGetUserPlaylistFail: + $it")
+                LogUtil.d(TAG, "onGetUserPlaylistFail: $it")
                 ToastUtils.show(it)
             })
 
             getIntelligenceBeanError.observe(this@MineFragment, Observer<String> {
                 hideDialog()
                 ToastUtils.show(it)
-            })
-
-            getMyFMError.observe(this@MineFragment, Observer<String> {
-                hideDialog()
-                ToastUtils.show(it)
-            })
-
-            getAlbumSublistError.observe(this@MineFragment, Observer<String> {
-                hideDialog()
-                ToastUtils.show(it)
-            })
-
-            getArtistSublistError.observe(this@MineFragment, Observer<String> {
-                hideDialog()
-                ToastUtils.show(it)
-            })
-
-            myFM.observe(this@MineFragment, Observer<MyFmBean> {
-                hideDialog()
-                val fmList = it.data
-                val songList = ArrayList<SongInfo>()
-                for (bean: MyFmBean.DataBean in fmList!!) {
-                    val songInfo = SongInfo()
-                    songInfo.songName = bean.name
-                    songInfo.songUrl = SONG_URL + bean.id + ".mp3"
-                    songInfo.songCover = bean.album?.blurPicUrl
-                    songInfo.artist = bean.artists!![0].name
-                    songInfo.songId = bean.id.toString()
-                    songInfo.duration = bean.duration
-                    songInfo.artistId = bean.artists!![0].id.toString()
-                    songInfo.artistKey = bean.artists!![0].picUrl
-                    songList.add(songInfo)
-                }
-                SongPlayManager.instance
             })
         }
     }
@@ -116,23 +89,52 @@ class MineFragment : BaseFragment<MineViewModel>() {
 
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun initData() {
+        adapter.run {
+            listener = object : UserPlaylistAdapter.OnPlayListItemClickListener {
+                override fun onPlayListItemClick(position: Int) {
+                    val intent = Intent(context, PlayListActivity::class.java)
+                    intent.putExtra(WowFragment.PLAYLIST_PICURL, playlistBeans[position].coverImgUrl)
+                    intent.putExtra(WowFragment.PLAYLIST_NAME, playlistBeans[position].name)
+                    intent.putExtra(WowFragment.PLAYLIST_CREATOR_NICKNAME, playlistBeans[position].creator!!.nickname)
+                    intent.putExtra(WowFragment.PLAYLIST_CREATOR_AVATARURL, playlistBeans[position].creator!!.avatarUrl)
+                    intent.putExtra(WowFragment.PLAYLIST_ID, playlistBeans[position].id)
+                    context?.startActivity(intent)
+                }
+
+                override fun onSmartPlayClick(position: Int) {
+                    showDialog()
+                    viewModel.getIntelligenceList(1, playlistBeans[position].id)
+                }
+
+            }
+
+            isShowSmartPlay = true
+            nickName = viewModel.loginBean!!.account.userName
+        }
+        //showDialog()
+        viewModel.getUserPlaylist()
     }
 
-    override fun initData() {
-        binding?.rvMinePlaylist?.let {
-            it.layoutManager = LinearLayoutManager(context)
-            it.adapter = adapter
+    override fun onClick(view: View) {
+        if (ClickUtil.isFastClick(1000, view)) {
+            return
         }
-        adapter.listener = this.listener
-        adapter.isShowSmartPlay = true
-
-        showDialog()
-
-        viewModel.initData(context!!)
-        //viewmodel.getUserPlaylist()
+        val intent = Intent()
+        when(view.id) {
+            R.id.rl_fm -> {
+                showDialog()
+                viewModel.getMyFM()
+            }
+            R.id.local_music -> {
+                intent.setClass(context!!, LocalMusicActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.my_collection -> {
+                intent.setClass(context!!, MySubActivity::class.java)
+                startActivity(intent)
+            }
+        }
     }
 
 }

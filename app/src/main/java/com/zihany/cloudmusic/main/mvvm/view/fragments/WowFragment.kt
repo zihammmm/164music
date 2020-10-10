@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.youth.banner.indicator.CircleIndicator
+import com.zihany.cloudmusic.R
 import com.zihany.cloudmusic.base.BaseFragment
 import com.zihany.cloudmusic.databinding.FragmentWowBinding
 import com.zihany.cloudmusic.dj.mvvm.view.RadioRecommendActivity
@@ -24,7 +25,8 @@ import com.zihany.cloudmusic.util.ClickUtil
 import com.zihany.cloudmusic.util.LogUtil
 import com.zihany.cloudmusic.util.ToastUtils
 
-class WowFragment : BaseFragment<WowViewModel>() {
+class WowFragment
+    : BaseFragment<FragmentWowBinding>(R.layout.fragment_wow) {
     companion object {
         const val TAG = "WowFragment"
         const val PLAYLIST_NAME = "playlistName"
@@ -34,7 +36,6 @@ class WowFragment : BaseFragment<WowViewModel>() {
         const val PLAYLIST_ID = "playlistId"
     }
 
-    private lateinit var binding: FragmentWowBinding
     private val banners = ArrayList<BannerBean.BannersBean>()
     private lateinit var recommendPlayListAdapter: PlayListAdapter
     private val list = ArrayList<PlaylistBean>()
@@ -62,24 +63,24 @@ class WowFragment : BaseFragment<WowViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this)[WowViewModel::class.java]
-        viewModel.apply {
-            recommends.observe(this@WowFragment, Observer<MainRecommendPlayListBean>{
-                onGetRecommendPlayListSuccess(it)
-            })
-
-            getRecommendPlayListError.observe(this@WowFragment, Observer<String> {
-                onGetRecommendPlayListFail(it)
-            })
-
-            bannerBean.observe(this@WowFragment, Observer<BannerBean> {
-                onGetBannerSuccess(it)
-            })
-
-            getBannerError.observe(this@WowFragment, Observer<String> {
-                onGetBannerFail(it)
-            })
-        }
+//        viewModel = ViewModelProvider(this)[WowViewModel::class.java]
+//        viewModel.apply {
+//            recommends.observe(this@WowFragment, Observer<MainRecommendPlayListBean>{
+//                onGetRecommendPlayListSuccess(it)
+//            })
+//
+//            getRecommendPlayListError.observe(this@WowFragment, Observer<String> {
+//                onGetRecommendPlayListFail(it)
+//            })
+//
+//            bannerBean.observe(this@WowFragment, Observer<BannerBean> {
+//                onGetBannerSuccess(it)
+//            })
+//
+//            getBannerError.observe(this@WowFragment, Observer<String> {
+//                onGetBannerFail(it)
+//            })
+//        }
     }
 
     private fun onGetBannerSuccess(bean: BannerBean) {
@@ -148,9 +149,9 @@ class WowFragment : BaseFragment<WowViewModel>() {
         binding.rvRecommendPlaylist.layoutManager = manager
         binding.rvRecommendPlaylist.setHasFixedSize(true)
         binding.rvRecommendPlaylist.adapter = recommendPlayListAdapter
-        showDialog()
-        viewModel.getBanner()
-        viewModel.getRecommendPlayList()
+//        showDialog()
+//        viewModel.getBanner()
+//        viewModel.getRecommendPlayList()
     }
 
     private fun onGetBannerFail(msg: String) {
@@ -222,6 +223,18 @@ class WowFragment : BaseFragment<WowViewModel>() {
     }
 
     private fun onGetHighQualityFail(msg: String) {
+
+    }
+
+    override fun initView() {
+
+    }
+
+    override fun startObserve() {
+
+    }
+
+    override fun onClick(view: View) {
 
     }
 

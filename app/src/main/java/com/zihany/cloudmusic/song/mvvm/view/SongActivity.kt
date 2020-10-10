@@ -1,6 +1,7 @@
 package com.zihany.cloudmusic.song.mvvm.view
 
 import android.animation.ObjectAnimator
+import android.view.View
 import com.lzx.starrysky.manager.MusicManager
 import com.lzx.starrysky.model.SongInfo
 import com.lzx.starrysky.utils.TimerTaskManager
@@ -12,7 +13,7 @@ import com.zihany.cloudmusic.song.mvvm.viewmodel.SongViewModel
 import com.zihany.cloudmusic.util.TimeUtil
 
 
-class SongActivity : BaseActivity<SongViewModel>() {
+class SongActivity : BaseActivity() {
     companion object {
         const val TAG = "SongActivity"
         const val SONG_INFO = "songInfo"
@@ -49,6 +50,18 @@ class SongActivity : BaseActivity<SongViewModel>() {
 
     override fun initData() {
 
+    }
+
+    override fun initView() {
+        TODO("Not yet implemented")
+    }
+
+    override fun startObserve() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClick(view: View) {
+        TODO("Not yet implemented")
     }
 
 

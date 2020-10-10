@@ -23,17 +23,17 @@ open class BaseRepository {
                                           errorBlock: (suspend CoroutineScope.() -> Unit)? = null): Result<T> {
 
         return coroutineScope {
-            if (response.errorCode == -1) {
-                errorBlock?.let {
-                    it()
-                }
-                Result.Error(IOException(response.errorMsg))
-            } else {
+//            if (response.errorCode == -1) {
+//                errorBlock?.let {
+//                    it()
+//                }
+//                Result.Error(IOException(response.errorMsg))
+//            } else {
                 successBlock?.let {
                     it()
                 }
                 Result.Success(response.data)
-            }
+//            }
         }
     }
 }

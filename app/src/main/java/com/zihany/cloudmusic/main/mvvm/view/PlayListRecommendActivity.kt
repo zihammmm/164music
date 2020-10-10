@@ -1,5 +1,6 @@
 package com.zihany.cloudmusic.main.mvvm.view
 
+import android.view.View
 import androidx.viewpager.widget.ViewPager
 import com.flyco.tablayout.listener.OnTabSelectListener
 import com.zihany.cloudmusic.R
@@ -9,7 +10,7 @@ import com.zihany.cloudmusic.databinding.ActivityPlayListRecommendBinding
 import com.zihany.cloudmusic.main.adapter.MultiFragmentPagerAdapter
 import com.zihany.cloudmusic.main.mvvm.viewmodel.WowViewModel
 
-class PlayListRecommendActivity: BaseActivity<WowViewModel>() {
+class PlayListRecommendActivity: BaseActivity() {
     companion object {
         const val TAG = "PlayListRecommendActivity"
     }
@@ -27,6 +28,18 @@ class PlayListRecommendActivity: BaseActivity<WowViewModel>() {
         pagerAdapter.getItem(0).userVisibleHint = true
         binding.tabType.setViewPager(binding.vpContainer)
         initListener()
+    }
+
+    override fun initView() {
+        TODO("Not yet implemented")
+    }
+
+    override fun startObserve() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClick(view: View) {
+        TODO("Not yet implemented")
     }
 
     private fun initListener() {

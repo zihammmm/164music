@@ -21,7 +21,7 @@ import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.activity_radio_detail.*
 import org.greenrobot.eventbus.EventBus
 
-class RadioActivity: BaseActivity<DjViewModel>() {
+class RadioActivity: BaseActivity() {
     companion object {
         const val TAG = "RadioActivity"
         const val IS_SUB = "isSub"
@@ -85,6 +85,18 @@ class RadioActivity: BaseActivity<DjViewModel>() {
         EventBus.getDefault().postSticky(RidEvent(rid))
     }
 
+    override fun initView() {
+        TODO("Not yet implemented")
+    }
+
+    override fun startObserve() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClick(view: View) {
+        TODO("Not yet implemented")
+    }
+
     override fun onResume() {
         super.onResume()
 
@@ -141,7 +153,7 @@ class RadioActivity: BaseActivity<DjViewModel>() {
                 return
             }
             showDialog()
-            viewModel.subDj(rid, 1)
+//            viewModel.subDj(rid, 1)
         }
 
         fun onClickTvHasSub(v: View?) {
@@ -149,7 +161,7 @@ class RadioActivity: BaseActivity<DjViewModel>() {
                 return
             }
             showDialog()
-            viewModel.subDj(rid, 0)
+//            viewModel.subDj(rid, 0)
         }
     }
 }

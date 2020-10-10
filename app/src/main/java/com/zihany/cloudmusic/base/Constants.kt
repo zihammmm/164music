@@ -1,16 +1,12 @@
 package com.zihany.cloudmusic.base
 
-class Constants {
-    companion object {
-        val SHARED_PREFERENCE_FILE_NAME = "164music_sp"
-        val TAG_LANGUAGE = "languageSelect"
-        val AUTH_TOKEN = "authToken"
-        val USER_INFO = "userInfo"
-        val PHONE_NUMBER = "phoneNumber"
-        val LATEST_SONG = "latestSong"
-        val DAILY_UPDATE_TIME = "dailyUpdateTime"
-        val DAILY_RECOMMEND = "dailyRecommend"
-        val LIKE_LIST = "likeList"
-    }
-
-}
+const val SHARED_PREFERENCE_FILE_NAME = "164music_sp"
+const val SELECTED_LANGUAGE = "languageSelect"
+const val AUTH_TOKEN = "authToken"
+const val USER_INFO = "userInfo"
+const val PHONE_NUMBER = "phoneNumber"
+const val LATEST_SONG = "latestSong"
+const val DAILY_UPDATE_TIME = "dailyUpdateTime"
+const val DAILY_RECOMMEND = "dailyRecommend"
+const val LIKE_LIST = "likeList"
+const val SYSTEM_CURRENT_LOCAL = "systemCurrentLocal"

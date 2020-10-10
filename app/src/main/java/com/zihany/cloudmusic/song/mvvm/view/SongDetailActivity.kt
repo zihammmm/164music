@@ -2,6 +2,7 @@ package com.zihany.cloudmusic.song.mvvm.view
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.view.View
 import android.view.animation.Animation
 import com.bumptech.glide.Glide
 import com.lzx.starrysky.model.SongInfo
@@ -10,7 +11,7 @@ import com.zihany.cloudmusic.base.BaseActivity
 import com.zihany.cloudmusic.databinding.ActivitySongDetailBinding
 import com.zihany.cloudmusic.song.mvvm.viewmodel.SongViewModel
 
-class SongDetailActivity: BaseActivity<SongViewModel>() {
+class SongDetailActivity: BaseActivity() {
 
     private lateinit var binding: ActivitySongDetailBinding
     private var toTranslateIn: Animation? = null
@@ -37,6 +38,18 @@ class SongDetailActivity: BaseActivity<SongViewModel>() {
         binding.mdSinger.setText("歌手:${singerName}")
         binding.tvSinger.text = singerName
         songId = songInfo.songId.toLong()
+    }
+
+    override fun initView() {
+        TODO("Not yet implemented")
+    }
+
+    override fun startObserve() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClick(view: View) {
+        TODO("Not yet implemented")
     }
 
     override fun onStart() {
