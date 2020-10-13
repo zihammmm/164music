@@ -43,13 +43,14 @@ class LoginActivity : BaseActivity() {
             uiState.observe(this@LoginActivity, Observer {
                 it.isSuccess?.let {
                     LogUtil.d(TAG, "login success")
+                    ToastUtils.show("登录成功")
                     hideDialog()
                     ActivityStarter.instance.startMainActivity(this@LoginActivity)
                 }
 
                 it.isError?.let {error ->
                     hideDialog()
-                    ToastUtils.show(error)
+                    ToastUtils.show("登录失败: $error")
                 }
             })
         }

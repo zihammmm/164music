@@ -12,9 +12,7 @@ import com.zihany.cloudmusic.base.BaseFragment
 import com.zihany.cloudmusic.databinding.FragmentWowBinding
 import com.zihany.cloudmusic.dj.mvvm.view.RadioRecommendActivity
 import com.zihany.cloudmusic.main.adapter.PlayListAdapter
-import com.zihany.cloudmusic.main.bean.BannerBean
-import com.zihany.cloudmusic.main.bean.MainRecommendPlayListBean
-import com.zihany.cloudmusic.main.bean.PlaylistBean
+import com.zihany.cloudmusic.main.bean.*
 import com.zihany.cloudmusic.main.mvvm.view.DailyRecommendActivity
 import com.zihany.cloudmusic.main.mvvm.view.PlayListActivity
 import com.zihany.cloudmusic.main.mvvm.view.PlayListRecommendActivity
@@ -24,6 +22,7 @@ import com.zihany.cloudmusic.util.BannerGlideImageAdapter
 import com.zihany.cloudmusic.util.ClickUtil
 import com.zihany.cloudmusic.util.LogUtil
 import com.zihany.cloudmusic.util.ToastUtils
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WowFragment
     : BaseFragment<FragmentWowBinding>(R.layout.fragment_wow) {
@@ -36,10 +35,11 @@ class WowFragment
         const val PLAYLIST_ID = "playlistId"
     }
 
-    private val banners = ArrayList<BannerBean.BannersBean>()
+    private val banners = ArrayList<Banner>()
     private lateinit var recommendPlayListAdapter: PlayListAdapter
     private val list = ArrayList<PlaylistBean>()
-    private val recommends = ArrayList<MainRecommendPlayListBean.RecommendBean>()
+    private val recommends = ArrayList<Recommend>()
+    private val viewModel by viewModel<WowViewModel>()
 
     private val listClickListener: PlayListAdapter.OnPlayListClickListener = object : PlayListAdapter.OnPlayListClickListener {
         override fun onClickListener(position: Int) {
@@ -48,8 +48,8 @@ class WowFragment
                 val bean = recommends[position]
                 intent.putExtra(PLAYLIST_NAME, bean.name)
                 intent.putExtra(PLAYLIST_PICURL, bean.picUrl)
-                intent.putExtra(PLAYLIST_CREATOR_NICKNAME, bean.creator!!.nickname)
-                intent.putExtra(PLAYLIST_CREATOR_AVATARURL, bean.creator!!.nickname)
+                intent.putExtra(PLAYLIST_CREATOR_NICKNAME, bean.creator.nickname)
+                intent.putExtra(PLAYLIST_CREATOR_AVATARURL, bean.creator.nickname)
                 intent.putExtra(PLAYLIST_ID, bean.id)
                 startActivity(intent)
             }
@@ -61,31 +61,9 @@ class WowFragment
         fragmentTitle = "发现"
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-//        viewModel = ViewModelProvider(this)[WowViewModel::class.java]
-//        viewModel.apply {
-//            recommends.observe(this@WowFragment, Observer<MainRecommendPlayListBean>{
-//                onGetRecommendPlayListSuccess(it)
-//            })
-//
-//            getRecommendPlayListError.observe(this@WowFragment, Observer<String> {
-//                onGetRecommendPlayListFail(it)
-//            })
-//
-//            bannerBean.observe(this@WowFragment, Observer<BannerBean> {
-//                onGetBannerSuccess(it)
-//            })
-//
-//            getBannerError.observe(this@WowFragment, Observer<String> {
-//                onGetBannerFail(it)
-//            })
-//        }
-    }
-
     private fun onGetBannerSuccess(bean: BannerBean) {
         LogUtil.d(TAG, "onGetBannerSuccess $bean")
-        bean.banners?.let { banners.addAll(it) }
+        banners.addAll(bean.banners)
         binding.wowBanner.setIndicator(CircleIndicator(context))
                 .setAdapter(BannerGlideImageAdapter(bean))
                 .addBannerLifecycleObserver(this)
@@ -150,8 +128,8 @@ class WowFragment
         binding.rvRecommendPlaylist.setHasFixedSize(true)
         binding.rvRecommendPlaylist.adapter = recommendPlayListAdapter
 //        showDialog()
-//        viewModel.getBanner()
-//        viewModel.getRecommendPlayList()
+        viewModel.getBanner()
+        viewModel.getRecommendPlayList()
     }
 
     private fun onGetBannerFail(msg: String) {
@@ -162,8 +140,8 @@ class WowFragment
     private fun onGetRecommendPlayListSuccess(bean: MainRecommendPlayListBean) {
         hideDialog()
         LogUtil.d(TAG, "onGetRecommendPlayListSuccess $bean")
-        bean.recommend?.let { recommends.addAll(it) }
-        for (beanInfo: MainRecommendPlayListBean.RecommendBean in recommends) {
+        recommends.addAll(bean.recommend)
+        for (beanInfo: Recommend in recommends) {
             val playlistBean = PlaylistBean()
             playlistBean.playlistName = beanInfo.name
             playlistBean.playlistCoverUrl = beanInfo.picUrl
@@ -231,7 +209,23 @@ class WowFragment
     }
 
     override fun startObserve() {
+        viewModel.apply {
+            bannerBean.observe(viewLifecycleOwner, Observer {
+                onGetBannerSuccess(it)
+            })
 
+            getBannerError.observe(viewLifecycleOwner, Observer {
+                onGetBannerFail(it)
+            })
+
+            recommends.observe(viewLifecycleOwner, Observer {
+                onGetRecommendPlayListSuccess(it)
+            })
+
+            getRecommendPlayListError.observe(viewLifecycleOwner, Observer {
+                onGetRecommendPlayListFail(it)
+            })
+        }
     }
 
     override fun onClick(view: View) {

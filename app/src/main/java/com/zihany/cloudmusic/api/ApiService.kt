@@ -10,14 +10,11 @@ import retrofit2.http.Query
 
 interface ApiService {
     companion object {
-        const val BASE_URL: String = "http://192.168.50.88:3000"
+        const val BASE_URL: String = "http://172.27.154.64:3000"
     }
 
     @GET("login/cellphone")
     fun login(@Query("phone") phone: String, @Query("password") password: String): Observable<LoginBean>
-
-    @GET("login/cellphone")
-    fun rxJavaLogin(@Query("phone") phone: String, @Query("password") password: String): Observable<LoginBean>
 
     @GET("layout")
     fun logout(): Observable<LogoutBean>

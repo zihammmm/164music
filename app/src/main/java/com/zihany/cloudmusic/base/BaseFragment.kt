@@ -108,6 +108,7 @@ abstract class BaseFragment<T: ViewDataBinding>(@LayoutRes val layoutId: Int) : 
     }
 
     fun showDialog() {
+        return
         if (this::diaLog.isInitialized && !diaLog.isShowing) {
             diaLog.show()
         }

@@ -9,6 +9,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.zihany.cloudmusic.base.BaseAdapter
 import com.zihany.cloudmusic.databinding.ItemPlaylistBinding
 import com.zihany.cloudmusic.main.bean.PlaylistBean
+import com.zihany.cloudmusic.util.LogUtil
 
 class PlayListAdapter constructor(private val mContext: Context)
     : BaseAdapter<RecyclerView.ViewHolder, PlaylistBean>(mContext) {
@@ -27,6 +28,7 @@ class PlayListAdapter constructor(private val mContext: Context)
 
     inner class ViewHolder constructor(view: View) : RecyclerView.ViewHolder(view) {
         fun setPlayListInfo(context: Context, bean: PlaylistBean) {
+            LogUtil.d(TAG, "coverUrl: ${bean.playlistCoverUrl}")
             Glide.with(context)
                     .load(bean.playlistCoverUrl)
                     .transition(DrawableTransitionOptions().crossFade())

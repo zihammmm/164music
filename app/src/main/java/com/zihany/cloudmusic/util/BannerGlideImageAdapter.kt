@@ -6,15 +6,21 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.youth.banner.adapter.BannerImageAdapter
 import com.youth.banner.holder.BannerImageHolder
+import com.zihany.cloudmusic.main.bean.Banner
 import com.zihany.cloudmusic.main.bean.BannerBean
 
 class BannerGlideImageAdapter constructor(list: BannerBean)
-    : BannerImageAdapter<BannerBean.BannersBean>(list.banners) {
+    : BannerImageAdapter<Banner>(list.banners) {
 
-    override fun onBindView(holder: BannerImageHolder?, data: BannerBean.BannersBean?, position: Int, size: Int) {
+    companion object {
+        const val TAG = "BannerGlideImageAdapter"
+    }
+
+    override fun onBindView(holder: BannerImageHolder?, data: Banner?, position: Int, size: Int) {
         if (holder == null || data == null) {
             return
         }
+        LogUtil.d(TAG, "imagerUrl: ${data.pic}")
         holder.imageView.scaleType = ImageView.ScaleType.FIT_XY
         Glide.with(holder.itemView)
                 .load(data.pic)

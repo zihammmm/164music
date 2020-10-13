@@ -37,6 +37,7 @@ class ResponseInterceptor: Interceptor{
                 val result = buffer.clone().readString(charset)
                 LogUtil.d(TAG, "response.url():${response.request.url}")
                 LogUtil.d(TAG, "response.body():${result}")
+                println("response.body():${result}")
             }
         }
         return response

@@ -1,63 +1,51 @@
 package com.zihany.cloudmusic.main.bean
 
-class MainRecommendPlayListBean {
-    var code = 0
-    var featureFirst = false
-    var haveRcmdSongs = false
-    var recommend: MutableList<RecommendBean>? = null
+data class MainRecommendPlayListBean(
+    val code: Int,
+    val featureFirst: Boolean,
+    val haveRcmdSongs: Boolean,
+    val recommend: List<Recommend>
+)
 
+data class Recommend(
+    val alg: String,
+    val copywriter: String,
+    val createTime: Long,
+    val creator: Creator,
+    val id: Long,
+    val name: String,
+    val picUrl: String,
+    val playcount: Int,
+    val trackCount: Int,
+    val type: Int,
+    val userId: Int
+)
 
-    inner class RecommendBean {
-        var id = 0L
-        var type = 0
-        var name = ""
-        var copywriter = ""
-        var picUrl = ""
-        var playcount = 0
-        var createTime = 0L
-        var creator: CreatorBean? = null
-        var trackCount = 0
-        var userId = 0
-        var alg = ""
-
-        inner class CreatorBean {
-            var description: String? = null
-            var accountStatus = 0
-            var userId = 0
-            var vipType = 0
-            var province = 0
-            var avatarUrl: String? = null
-            var authStatus = 0
-            var userType = 0
-            var nickname: String? = null
-            var gender = 0
-            var birthday = 0L
-            var city = 0
-            var avatarImgId = 0L
-            var backgroundImgId = 0L
-            var detailDescription: String? = null
-            var defaultAvatar = false
-            var expertTags: Any? = null
-            var djStatus = 0
-            var followed = false
-            var backgroundUrl: String? = null
-            var avatarImgIdStr: String? = null
-            var backgroundImgIdStr: String? = null
-            var remarkName: Any? = null
-            var mutual = false
-            var signature: String? = null
-            var authority = 0
-        }
-
-        override fun toString(): String {
-            return "RecommendBean(id=$id, type=$type, name=$name, copywriter=$copywriter, picUrl=$picUrl, playcount=$playcount, createTime=$createTime, creator=$creator, trackCount=$trackCount, userId=$userId, alg=$alg)"
-        }
-
-    }
-
-    override fun toString(): String {
-        return "MainRecommendPlayListBean(code=$code, featureFirst=$featureFirst, haveRcmdSongs=$haveRcmdSongs, recommend=$recommend)"
-    }
-
-
-}
+data class Creator(
+    val accountStatus: Int,
+    val authStatus: Int,
+    val authority: Int,
+    val avatarImgId: Long,
+    val avatarImgIdStr: String,
+    val avatarUrl: String,
+    val backgroundImgId: Long,
+    val backgroundImgIdStr: String,
+    val backgroundUrl: String,
+    val birthday: Long,
+    val city: Int,
+    val defaultAvatar: Boolean,
+    val description: String,
+    val detailDescription: String,
+    val djStatus: Int,
+    val expertTags: Any,
+    val followed: Boolean,
+    val gender: Int,
+    val mutual: Boolean,
+    val nickname: String,
+    val province: Int,
+    val remarkName: Any,
+    val signature: String,
+    val userId: Int,
+    val userType: Int,
+    val vipType: Int
+)
