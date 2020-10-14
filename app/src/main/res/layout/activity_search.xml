@@ -52,7 +52,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="@dimen/dp_20"
                     android:layout_marginEnd="@dimen/dp_20"
-                    android:src="@drawable/ic_rubish_bin" />
+                    app:srcCompat="@drawable/ic_rubish_bin" />
 
                 <com.zihany.cloudmusic.widget.SearchHistoryTagLayout
                     android:id="@+id/tl_searchhistory"

@@ -1,24 +1,34 @@
 package com.zihany.cloudmusic.main.mvvm.view
 
 import android.animation.ObjectAnimator
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Rect
 import android.graphics.drawable.BitmapDrawable
+import android.text.TextUtils
 import android.view.View
+import android.view.WindowManager
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.appbar.AppBarLayout
 import com.lzx.starrysky.model.SongInfo
+import com.zihany.cloudmusic.R
 import com.zihany.cloudmusic.base.BaseActivity
 import com.zihany.cloudmusic.databinding.ActivityPlayListBinding
 import com.zihany.cloudmusic.main.adapter.SongListAdapter
 import com.zihany.cloudmusic.main.bean.PlaylistDetailBean
+import com.zihany.cloudmusic.main.bean.Track
 import com.zihany.cloudmusic.main.mvvm.view.fragments.WowFragment
+import com.zihany.cloudmusic.main.mvvm.viewmodel.PlayListViewModel
 import com.zihany.cloudmusic.main.mvvm.viewmodel.WowViewModel
+import com.zihany.cloudmusic.manager.SongPlayManager
+import com.zihany.cloudmusic.song.mvvm.view.CommentActivity
 import com.zihany.cloudmusic.util.AppBarStateChangeListener
 import com.zihany.cloudmusic.util.DensityUtil
+import com.zihany.cloudmusic.util.LogUtil
+import com.zihany.cloudmusic.util.ToastUtils
 import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.activity_play_list.*
 import kotlinx.coroutines.Dispatchers
@@ -28,27 +38,24 @@ import kotlinx.coroutines.withContext
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlayListActivity : BaseActivity() {
     companion object {
         const val TAG = "PlayListActivity"
     }
 
-    private var adapter: SongListAdapter? = null
-    private var beanList = ArrayList<PlaylistDetailBean.PlaylistBean.TracksBean>()
+    private lateinit var adapter: SongListAdapter
+    private var beanList = ArrayList<Track>()
 
-    private var songInfos: List<SongInfo> = ArrayList()
-    private var playlistId: Long = 0
+    private var songInfos = ArrayList<SongInfo>()
     private var position = -1
     var deltaDistance = 0
     var minDistance = 0
-    private var creatorUrl: String? = null
     private var alphaAnimator: ObjectAnimator? = null
     private var coverAlphaAnimator: ObjectAnimator? = null
-    private var playlistName: String? = null
-    private var playlistPicUrl: String? = null
-    private var creatorName: String? = null
-    private lateinit var binding: ActivityPlayListBinding
+    private val binding by binding<ActivityPlayListBinding>(R.layout.activity_play_list)
+    private val viewModel by viewModel<PlayListViewModel>()
 
     override fun initData() {
         setBackBtn("#ffffff")
@@ -56,52 +63,86 @@ class PlayListActivity : BaseActivity() {
         setLeftTitleText("歌单")
         beanList.clear()
 
-        adapter = SongListAdapter(this)
-        adapter!!.type = 2
-        binding.rvPlaylistSong.layoutManager = LinearLayoutManager(this)
-        binding.rvPlaylistSong.adapter = adapter
+        viewModel.apply {
+            playlistPicUrl.set(intent.getStringExtra(WowFragment.PLAYLIST_PICURL))
+            playlistName.set(intent.getStringExtra(WowFragment.PLAYLIST_NAME))
+            creatorName.set(intent.getStringExtra(WowFragment.PLAYLIST_CREATOR_NICKNAME))
+            creatorUrl.set(intent.getStringExtra(WowFragment.PLAYLIST_CREATOR_AVATARURL))
+            playlistId.set(intent.getLongExtra(WowFragment.PLAYLIST_ID, 0))
+        }
 
-        playlistPicUrl = intent.getStringExtra(WowFragment.PLAYLIST_PICURL)
         Glide.with(this)
-                .load(playlistPicUrl)
+                .load(viewModel.playlistPicUrl.get())
                 .into(binding.ivCover)
-        playlistName = intent.getStringExtra(WowFragment.PLAYLIST_NAME)
-        binding.tvPlaylistName.text = playlistName
-        creatorName = intent.getStringExtra(WowFragment.PLAYLIST_CREATOR_NICKNAME)
-        binding.tvCreatorName.text = creatorName
-        creatorUrl = intent.getStringExtra(WowFragment.PLAYLIST_CREATOR_AVATARURL)
+
         Glide.with(this)
-                .load(creatorUrl)
+                .load(viewModel.creatorUrl.get())
                 .into(binding.ivCreatorAvatar)
-        playlistId = intent.getLongExtra(WowFragment.PLAYLIST_ID, 0)
 
-        calculateColors(playlistPicUrl!!)
 
+        calculateColors(viewModel.playlistPicUrl.get()!!)
         Glide.with(this)
-                .load(playlistPicUrl)
+                .load(viewModel.playlistPicUrl.get())
                 .apply(RequestOptions.bitmapTransform(BlurTransformation(10, 10)))
                 .into(binding.ivCoverBg)
 
-        binding.ivCoverBg.alpha = 0f
         showDialog()
-
+        viewModel.getPlayListDetail()
         minDistance = DensityUtil.dp2px(this, 85f)
         deltaDistance = DensityUtil.dp2px(application.applicationContext, 300f) - minDistance
     }
 
     override fun initView() {
-        TODO("Not yet implemented")
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+
+        adapter = SongListAdapter(this)
+        adapter.type = 2
+        binding.run {
+            adapter = this@PlayListActivity.adapter
+            vm = viewModel
+
+            rlPlayall.setOnClickListener {
+                onClick(it)
+            }
+
+            rlDownload.setOnClickListener {
+                onClick(it)
+            }
+
+            rlComment.setOnClickListener {
+                onClick(it)
+            }
+        }
     }
 
     override fun startObserve() {
-        TODO("Not yet implemented")
+        viewModel.apply {
+            bean.observe(this@PlayListActivity, androidx.lifecycle.Observer {
+                onGetPlaylistDetailSuccess(it)
+            })
+
+            error.observe(this@PlayListActivity, androidx.lifecycle.Observer {
+                onGetPlaylistDetailFail(it)
+            })
+
+        }
     }
 
     override fun onClick(view: View) {
-        TODO("Not yet implemented")
+        when(view.id) {
+            R.id.rl_playall -> {
+                SongPlayManager.instance.clickPlayAll(songInfos, 0)
+            }
+            R.id.rl_download -> {
+                ToastUtils.show("不能下载")
+            }
+            R.id.rl_comment -> {
+                ToastUtils.show("还没写")
+            }
+        }
     }
 
-    fun calculateColors(url: String) {
+    private fun calculateColors(url: String) {
         GlobalScope.launch(Dispatchers.IO) {
             val fileUrl = URL(url)
             val conn = fileUrl.openConnection() as HttpURLConnection
@@ -143,10 +184,12 @@ class PlayListActivity : BaseActivity() {
         binding.appbar.addOnOffsetChangedListener(object : AppBarStateChangeListener() {
             override fun onOffsetChanged(appBarLayout: AppBarLayout?) {
                 val alphaPercent = (binding.llPlay.top - minDistance) / deltaDistance.toFloat()
-                binding.ivCover.alpha = alphaPercent
-                binding.ivCreatorAvatar.alpha = alphaPercent
-                binding.tvPlaylistName.alpha = alphaPercent
-                binding.tvCreatorName.alpha = alphaPercent
+                binding.apply {
+                    ivCover.alpha = alphaPercent
+                    ivCreatorAvatar.alpha = alphaPercent
+                    tvPlaylistName.alpha = alphaPercent
+                    tvCreatorName.alpha = alphaPercent
+                }
             }
 
             override fun onStateChanged(appBarLayout: AppBarLayout?, state: State) {
@@ -172,5 +215,40 @@ class PlayListActivity : BaseActivity() {
             coverAlphaAnimator = null
         }
 
+    }
+
+    private fun onGetPlaylistDetailFail(e: String) {
+        hideDialog()
+        LogUtil.e(TAG, "onGetPlaylistDetailFail: $e")
+        ToastUtils.show(e)
+    }
+
+    private fun onGetPlaylistDetailSuccess(bean: PlaylistDetailBean) {
+        hideDialog()
+        LogUtil.d(TAG, "onGetPlaylistDetailSuccess")
+        if (!TextUtils.isEmpty(viewModel.creatorUrl.get())) {
+            Glide.with(this)
+                    .load(bean.playlist.creator.avatarUrl)
+                    .into(binding.ivCreatorAvatar)
+        }
+        beanList.addAll(bean.playlist.tracks)
+        songInfos.clear()
+        for (i : Track in beanList) {
+            val beanInfo = SongInfo()
+            beanInfo.artist = i.ar[0].name
+            beanInfo.songName = i.name
+            beanInfo.songCover = i.al.picUrl
+            beanInfo.songId = i.id.toString()
+            beanInfo.duration = i.dt
+            beanInfo.songUrl = "${SONG_URL}${i.id}.mp3"
+            beanInfo.artistId = i.ar[0].id.toString()
+            beanInfo.artistKey = i.al.picUrl
+            songInfos.add(beanInfo)
+        }
+        adapter.notifyDataSetChanged(songInfos)
+        binding.apply {
+            tvShare.text = bean.playlist.shareCount.toString()
+            tvComment.text = bean.playlist.commentCount.toString()
+        }
     }
 }

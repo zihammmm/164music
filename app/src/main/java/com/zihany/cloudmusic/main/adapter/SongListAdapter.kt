@@ -1,6 +1,6 @@
 package com.zihany.cloudmusic.main.adapter
 
-import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -19,7 +19,6 @@ import com.zihany.cloudmusic.databinding.ItemSonglistBinding
 import com.zihany.cloudmusic.manager.SongPlayManager
 import com.zihany.cloudmusic.song.mvvm.view.SongActivity
 import com.zihany.cloudmusic.song.mvvm.view.SongDetailActivity
-import com.zihany.cloudmusic.util.LogUtil
 
 class SongListAdapter constructor(private val mContext: Context)
     : BaseAdapter<RecyclerView.ViewHolder, SongInfo>(mContext) {
@@ -128,7 +127,7 @@ class SongListAdapter constructor(private val mContext: Context)
                 val intent = Intent(mContext, SongDetailActivity::class.java)
                 intent.putExtra(SongActivity.SONG_INFO, songInfo)
                 mContext.startActivity(intent)
-                (mContext as Activity).overridePendingTransition(R.anim.bottom_in, R.anim.bottom_silent)
+                (mContext as AppCompatActivity).overridePendingTransition(R.anim.bottom_in, R.anim.bottom_silent)
             }
         }
     }

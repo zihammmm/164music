@@ -79,7 +79,7 @@
                         android:layout_width="@dimen/dp_20"
                         android:layout_height="@dimen/dp_20"
                         android:layout_marginEnd="@dimen/dp_5"
-                        android:src="@drawable/shape_phone"
+                        app:srcCompat="@drawable/shape_phone"
                         android:visibility="gone" />
 
                     <TextView

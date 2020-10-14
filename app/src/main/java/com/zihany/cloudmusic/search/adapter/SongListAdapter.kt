@@ -1,6 +1,6 @@
 package com.zihany.cloudmusic.search.adapter
 
-import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -128,7 +128,7 @@ class SongListAdapter constructor(
                 val intent = Intent(context, SongDetailActivity::class.java)
                 intent.putExtra(SongActivity.SONG_INFO, songInfo)
                 context.startActivity(intent)
-                (context as Activity).overridePendingTransition(R.anim.bottom_in, R.anim.bottom_silent)
+                (context as AppCompatActivity).overridePendingTransition(R.anim.bottom_in, R.anim.bottom_silent)
             }
         }
     }

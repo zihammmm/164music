@@ -1,6 +1,6 @@
 package com.zihany.cloudmusic.base
 
-import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +10,6 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.zihany.cloudmusic.widget.LoadingDialog
 
 abstract class BaseFragment<T: ViewDataBinding>(@LayoutRes val layoutId: Int) : Fragment(layoutId) {
@@ -22,7 +21,7 @@ abstract class BaseFragment<T: ViewDataBinding>(@LayoutRes val layoutId: Int) : 
     lateinit var binding: T
 
     private lateinit var diaLog: LoadingDialog
-    protected lateinit var activity: Activity
+    protected lateinit var activity: AppCompatActivity
     var fragmentTitle: String? = null
     private var isFragmentVisible = false
     private var isFirstLoad = true
@@ -44,7 +43,7 @@ abstract class BaseFragment<T: ViewDataBinding>(@LayoutRes val layoutId: Int) : 
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        activity = context as Activity
+        activity = context as AppCompatActivity
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

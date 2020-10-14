@@ -28,7 +28,7 @@
                     android:id="@+id/iv_fm"
                     android:layout_width="@dimen/dp_50"
                     android:layout_height="@dimen/dp_50"
-                    android:src="@drawable/ic_mine_fm" />
+                    app:srcCompat="@drawable/ic_mine_fm" />
 
                 <TextView
                     android:id="@+id/tv_fm"
@@ -112,7 +112,7 @@
                 android:layout_height="@dimen/dp_20"
                 android:layout_marginStart="@dimen/dp_20"
                 android:layout_marginTop="@dimen/dp_8"
-                android:src="@drawable/shape_below" />
+                app:srcCompat="@drawable/shape_below" />
 
             <TextView
                 android:layout_width="wrap_content"

@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
@@ -159,5 +160,14 @@ abstract class BaseActivity : AppCompatActivity() {
         val etSearch = findViewById<SearchEditText>(R.id.et_search)
         etSearch.visibility = View.VISIBLE
         etSearch.setEditTextColor(textColor)
+    }
+
+    fun setSongInfo(songName: String, singerName: String) {
+        val rlSong = findViewById<RelativeLayout>(R.id.rl_song_info)
+        rlSong.visibility = View.VISIBLE
+        val tvSongName = findViewById<TextView>(R.id.tv_songname)
+        val tvSingerName = findViewById<TextView>(R.id.tv_singername)
+        tvSingerName.text = singerName
+        tvSongName.text = songName
     }
 }

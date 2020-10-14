@@ -46,10 +46,11 @@ class WowFragment
             if (recommends.isNotEmpty()) {
                 val intent = Intent(activity, PlayListActivity::class.java)
                 val bean = recommends[position]
+                LogUtil.d(TAG, "onClickListener: $bean")
                 intent.putExtra(PLAYLIST_NAME, bean.name)
                 intent.putExtra(PLAYLIST_PICURL, bean.picUrl)
                 intent.putExtra(PLAYLIST_CREATOR_NICKNAME, bean.creator.nickname)
-                intent.putExtra(PLAYLIST_CREATOR_AVATARURL, bean.creator.nickname)
+                intent.putExtra(PLAYLIST_CREATOR_AVATARURL, bean.creator.avatarUrl)
                 intent.putExtra(PLAYLIST_ID, bean.id)
                 startActivity(intent)
             }

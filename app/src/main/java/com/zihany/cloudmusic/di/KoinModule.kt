@@ -5,6 +5,7 @@ import com.zihany.cloudmusic.login.mvvm.viewmodel.LoginViewModel
 import com.zihany.cloudmusic.main.mvvm.model.*
 import com.zihany.cloudmusic.main.mvvm.viewmodel.MainViewModel
 import com.zihany.cloudmusic.main.mvvm.viewmodel.MineViewModel
+import com.zihany.cloudmusic.main.mvvm.viewmodel.PlayListViewModel
 import com.zihany.cloudmusic.main.mvvm.viewmodel.WowViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -14,6 +15,7 @@ val viewModelModule = module {
     viewModel { MineViewModel(get(), get()) }
     viewModel { MainViewModel(get(), get()) }
     viewModel { WowViewModel(get()) }
+    viewModel { PlayListViewModel(get()) }
 }
 
 val repositoryModule = module {
@@ -26,6 +28,7 @@ val repositoryModule = module {
     single { LikeListRepository() }
     single { IntelligenceListRepository() }
     single { CloudVillageRepository() }
+    single { PlayListRepository() }
 }
 
 val appModule = listOf(viewModelModule, repositoryModule)

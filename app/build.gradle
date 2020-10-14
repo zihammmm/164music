@@ -46,6 +46,12 @@ android {
         ext.kotlin_version = '1.4.0'
     }
 
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+
 }
 
 dependencies {
@@ -111,4 +117,5 @@ dependencies {
 
     implementation "com.squareup.okhttp3:logging-interceptor:4.0.0"
 
+    testImplementation 'org.robolectric:robolectric:4.4'
 }

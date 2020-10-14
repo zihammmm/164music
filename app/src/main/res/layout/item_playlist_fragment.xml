@@ -73,7 +73,7 @@
                 android:id="@+id/iv_smart_play"
                 android:layout_width="@dimen/dp_18"
                 android:layout_height="@dimen/dp_18"
-                android:src="@drawable/shape_smart_play"
+                app:srcCompat="@drawable/shape_smart_play"
                 android:layout_centerVertical="true"/>
 
             <TextView

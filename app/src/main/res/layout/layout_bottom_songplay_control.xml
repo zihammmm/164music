@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <RelativeLayout
         android:id="@+id/rl_bottom_controller"
         android:layout_width="match_parent"
@@ -34,7 +35,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/dp_10"
-                android:src="@drawable/ic_bottom_controller" />
+                app:srcCompat="@drawable/ic_bottom_controller" />
 
             <ImageView
                 android:id="@+id/iv_bottom_play"
@@ -43,7 +44,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/dp_20"
                 android:layout_toStartOf="@+id/iv_bottom_controller"
-                android:src="@drawable/shape_play" />
+                app:srcCompat="@drawable/shape_play" />
 
             <LinearLayout
                 android:id="@+id/ll_songinfo"

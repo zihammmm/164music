@@ -10,7 +10,7 @@ import retrofit2.http.Query
 
 interface ApiService {
     companion object {
-        const val BASE_URL: String = "http://172.27.154.64:3000"
+        const val BASE_URL: String = "http://192.168.50.88:3000"
     }
 
     @GET("login/cellphone")
@@ -78,4 +78,7 @@ interface ApiService {
 
     @GET("personal_fm")
     fun getMyFm(): Observable<MyFmBean>
+
+    @GET("playlist/detail")
+    fun getPlaylistDetail(@Query("id") id: Long): Observable<PlaylistDetailBean>
 }

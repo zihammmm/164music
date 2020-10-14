@@ -1,6 +1,6 @@
 package com.zihany.lib_toast.helper
 
-import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
 import android.app.Application
 import android.os.Bundle
 
@@ -15,37 +15,37 @@ class WindowHelper constructor(private val toast: ToastHelper)
         }
     }
 
-    var topActivity: Activity? = null
+    var topActivity: AppCompatActivity? = null
 
-    override fun onActivityPaused(p0: Activity) {
+    override fun onActivityPaused(p0: AppCompatActivity) {
         if (toast.show) {
             toast.cancel()
         }
     }
 
-    override fun onActivityStarted(p0: Activity) {
+    override fun onActivityStarted(p0: AppCompatActivity) {
         topActivity = p0
     }
 
-    override fun onActivityDestroyed(p0: Activity) {
+    override fun onActivityDestroyed(p0: AppCompatActivity) {
         if (topActivity == p0) {
             topActivity = null
         }
     }
 
-    override fun onActivitySaveInstanceState(p0: Activity, p1: Bundle) {
+    override fun onActivitySaveInstanceState(p0: AppCompatActivity, p1: Bundle) {
 
     }
 
-    override fun onActivityStopped(p0: Activity) {
+    override fun onActivityStopped(p0: AppCompatActivity) {
 
     }
 
-    override fun onActivityCreated(p0: Activity, p1: Bundle?) {
+    override fun onActivityCreated(p0: AppCompatActivity, p1: Bundle?) {
         topActivity = p0
     }
 
-    override fun onActivityResumed(p0: Activity) {
+    override fun onActivityResumed(p0: AppCompatActivity) {
         topActivity = p0
     }
 }

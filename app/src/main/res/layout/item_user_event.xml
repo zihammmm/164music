@@ -92,7 +92,7 @@
                     android:layout_width="@dimen/dp_50"
                     android:layout_height="@dimen/dp_50"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/shape_video_play" />
+                    app:srcCompat="@drawable/shape_video_play" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -288,7 +288,7 @@
                     android:id="@+id/iv_relay"
                     android:layout_width="@dimen/dp_20"
                     android:layout_height="@dimen/dp_20"
-                    android:src="@drawable/shape_relay" />
+                    app:srcCompat="@drawable/shape_relay" />
 
                 <TextView
                     android:id="@+id/tv_relayout_count"
@@ -311,7 +311,7 @@
                     android:id="@+id/iv_comment"
                     android:layout_width="@dimen/dp_20"
                     android:layout_height="@dimen/dp_20"
-                    android:src="@drawable/shape_comment_event" />
+                    app:srcCompat="@drawable/shape_comment_event" />
 
                 <TextView
                     android:id="@+id/tv_comment_count"
@@ -334,7 +334,7 @@
                     android:id="@+id/iv_like"
                     android:layout_width="@dimen/dp_20"
                     android:layout_height="@dimen/dp_20"
-                    android:src="@drawable/shape_comment_unlike" />
+                    app:srcCompat="@drawable/shape_comment_unlike" />
 
                 <TextView
                     android:id="@+id/tv_like_count"

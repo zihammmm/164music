@@ -1,5 +1,6 @@
 package com.zihany.cloudmusic.api
 
+import android.os.Build
 import android.util.Log
 import com.zihany.cloudmusic.App
 import com.zihany.cloudmusic.login.mvvm.model.LoginRepository
@@ -10,7 +11,13 @@ import org.junit.Before
 
 import org.junit.Assert.*
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowLog
 
+@RunWith(RobolectricTestRunner::class)
+@Config(application = App::class, sdk = [Build.VERSION_CODES.O_MR1])
 class ApiEngineTest {
     companion object {
         const val TAG = "ApiEngineTest"
@@ -21,6 +28,7 @@ class ApiEngineTest {
     @Before
     fun setUp() {
         //Log.d(TAG, "test begin")
+        ShadowLog.stream = System.out
     }
 
     @Test

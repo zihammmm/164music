@@ -92,7 +92,7 @@
                                     android:layout_width="@dimen/dp_35"
                                     android:layout_height="@dimen/dp_35"
                                     android:layout_centerHorizontal="true"
-                                    android:src="@drawable/ic_msg"/>
+                                    app:srcCompat="@drawable/ic_msg"/>
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -114,7 +114,7 @@
                                     android:layout_width="@dimen/dp_35"
                                     android:layout_height="@dimen/dp_35"
                                     android:layout_centerHorizontal="true"
-                                    android:src="@drawable/ic_friend" />
+                                    app:srcCompat="@drawable/ic_friend" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -136,7 +136,7 @@
                                     android:layout_width="@dimen/dp_35"
                                     android:layout_height="@dimen/dp_35"
                                     android:layout_centerHorizontal="true"
-                                    android:src="@drawable/ic_theme" />
+                                    app:srcCompat="@drawable/ic_theme" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -158,7 +158,7 @@
                                     android:layout_width="@dimen/dp_35"
                                     android:layout_height="@dimen/dp_35"
                                     android:layout_centerHorizontal="true"
-                                    android:src="@drawable/iv_mi" />
+                                    app:srcCompat="@drawable/iv_mi" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -209,7 +209,7 @@
                             android:layout_height="@dimen/dp_25"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/dp_10"
-                            android:src="@drawable/ic_night_mode" />
+                            app:srcCompat="@drawable/ic_night_mode" />
 
                         <TextView
                             android:id="@+id/tv_dayornight_mode"
@@ -237,7 +237,7 @@
                             android:layout_height="@dimen/dp_25"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/dp_10"
-                            android:src="@drawable/ic_setting" />
+                            app:srcCompat="@drawable/ic_setting" />
 
                         <TextView
                             android:id="@+id/tv_setting"
@@ -264,7 +264,7 @@
                             android:layout_height="@dimen/dp_25"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/dp_10"
-                            android:src="@drawable/ic_exit" />
+                            app:srcCompat="@drawable/ic_exit" />
 
                         <TextView
                             android:layout_width="wrap_content"

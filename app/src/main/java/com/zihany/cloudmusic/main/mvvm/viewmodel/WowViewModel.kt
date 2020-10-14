@@ -38,9 +38,7 @@ class WowViewModel(
 
                     override fun onNext(t: BannerBean?) {
                         LogUtil.d(TAG, "getBanner: onNext")
-                        for (b: Banner in t!!.banners) {
-                            LogUtil.d(TAG, b.pic)
-                        }
+
                         bannerBean.postValue(t)
                     }
 

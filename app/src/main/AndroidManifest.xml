@@ -55,6 +55,10 @@
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
+        <activity android:name=".song.mvvm.view.SongActivity"
+            android:configChanges="keyboardHidden|screenSize|orientation"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
         <activity android:name="com.zihany.cloudmusic.main.mvvm.view.SplashActivity"
             android:configChanges="screenSize|orientation|keyboardHidden"
             android:launchMode="singleTop"

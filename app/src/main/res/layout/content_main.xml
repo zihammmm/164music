@@ -56,7 +56,7 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
                     android:padding="@dimen/dp_13"
-                    android:src="@drawable/shape_search"
+                    app:srcCompat="@drawable/shape_search"
                     android:layout_centerVertical="true"/>
             </RelativeLayout>
         </RelativeLayout>
