@@ -1,122 +1,112 @@
 package com.zihany.cloudmusic.song.bean
 
-class SongDetailBean {
-    var code = 0
-    var songs: MutableList<SongsBean>? = null
-    var privileges: MutableList<SongsBean>? = null
+data class SongDetailBean(
+    val code: Int,
+    val privileges: List<Privilege>,
+    val songs: List<Song>
+)
 
-    inner class SongsBean {
-        var name: String? = null
-        var id = 0L
-        var pst = 0
-        var t = 0
-        var pop = 0
-        var st = 0
-        var rt: String? = null
-        var fee = 0
-        var v = 0
-        var crbt: Any? = null
-        var cf: String? = null
-        var al: AlBean? = null
-        var dt = 0L
-        var h: HBean? = null
-        var m: MBean? = null
-        var l: LBean? = null
-        var a: Any?= null
-        var cd: String? = null
-        var no = 0
-        var rtUrl: Any? = null
-        var ftype = 0
-        var djId = 0
-        var copyright =0
-        var sId = 0
-        var mark = 0L
-        var mv = 0
-        var mst = 0
-        var cp = 0
-        var rtype = 0
-        var rurl: Any? = null
-        var publishTime: Any? = null
-        var ar: MutableList<ArBean>? = null
-        var alia: MutableList<*>? = null
-        var rtUrls: MutableList<*>? = null
+data class Privilege(
+    val chargeInfoList: List<ChargeInfo>,
+    val cp: Int,
+    val cs: Boolean,
+    val dl: Int,
+    val downloadMaxbr: Int,
+    val fee: Int,
+    val fl: Int,
+    val flag: Int,
+    val id: Int,
+    val maxbr: Int,
+    val payed: Int,
+    val pl: Int,
+    val playMaxbr: Int,
+    val preSell: Boolean,
+    val sp: Int,
+    val st: Int,
+    val subp: Int,
+    val toast: Boolean
+)
 
-        inner class AlBean {
-            var id = 0L
-            var name: String? = null
-            var picUrl: String? = null
-            var picStr: String? = null
-            var pic = 0L
-            var tns: MutableList<*>? = null
-        }
+data class Song(
+    val a: Any,
+    val al: Al,
+    val alia: List<String>,
+    val ar: List<Ar>,
+    val cd: String,
+    val cf: String,
+    val copyright: Int,
+    val cp: Int,
+    val crbt: Any,
+    val djId: Int,
+    val dt: Long,
+    val fee: Int,
+    val ftype: Int,
+    val h: H,
+    val id: Int,
+    val l: L,
+    val m: M,
+    val mark: Int,
+    val mst: Int,
+    val mv: Int,
+    val name: String,
+    val no: Int,
+    val noCopyrightRcmd: Any,
+    val originCoverType: Int,
+    val pop: Int,
+    val pst: Int,
+    val publishTime: Long,
+    val rt: String,
+    val rtUrl: Any,
+    val rtUrls: List<Any>,
+    val rtype: Int,
+    val rurl: Any,
+    val s_id: Int,
+    val single: Int,
+    val st: Int,
+    val t: Int,
+    val v: Int
+)
 
-        inner class HBean {
-            var br = 0
-            var fid = 0
-            var size = 0
-            var vd = 0.0
-        }
+data class ChargeInfo(
+    val chargeMessage: Any,
+    val chargeType: Int,
+    val chargeUrl: Any,
+    val rate: Int
+)
 
-        inner class MBean {
-            var br = 0
-            var fid = 0
-            var size = 0
-            var vd = 0.0
-        }
+data class Al(
+    val id: Int,
+    val name: String,
+    val pic: Long,
+    val picUrl: String,
+    val pic_str: String,
+    val tns: List<Any>
+)
 
-        inner class LBean {
-            var br = 0
-            var fid = 0
-            var size = 0
-            var vd = 0.0
-        }
+data class Ar(
+    val alias: List<Any>,
+    val id: Int,
+    val name: String,
+    val tns: List<Any>
+)
 
-        inner class ArBean {
-            var id = 0L
-            var name: String? = null
-            var tns: MutableList<*>? = null
-            var alias: MutableList<*>? = null
-        }
-    }
+data class H(
+    val br: Int,
+    val fid: Int,
+    val size: Int,
+    val vd: Int
+)
 
-    inner class PrivilegesBean {
-        var id = 0L
-        var fee = 0
-        var payed = 0
-        var st = 0
-        var pl = 0
-        var dl = 0
-        var sp = 0
-        var cp = 0
-        var subp = 0
-        var cs = false
-        var maxbr = 0
-        var fl = 0
-        var toast = false
-        var flag = 0
-        var preSell = false
-        override fun toString(): String {
-            return "PrivilegesBean(id=$id," +
-                    " fee=$fee," +
-                    " payed=$payed," +
-                    " st=$st," +
-                    " pl=$pl," +
-                    " dl=$dl," +
-                    " sp=$sp," +
-                    " cp=$cp," +
-                    " subp=$subp," +
-                    " cs=$cs," +
-                    " maxbr=$maxbr," +
-                    " fl=$fl," +
-                    " toast=$toast," +
-                    " flag=$flag," +
-                    " preSell=$preSell)"
-        }
-    }
+data class L(
+    val br: Int,
+    val fid: Int,
+    val size: Int,
+    val vd: Int
+)
 
-    override fun toString(): String {
-        return "SongDetailBean(code=$code, songs=$songs, privileges=$privileges)"
-    }
-
-
-}
+data class M(
+    val br: Int,
+    val fid: Int,
+    val size: Int,
+    val vd: Int
+)

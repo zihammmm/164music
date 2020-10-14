@@ -55,7 +55,7 @@ class LyricView constructor(private val mContext: Context, private val attrs: At
     private var defaultLabel = ""
     private var animator: ValueAnimator? = null
     private val gestureDetector: GestureDetector
-    private var listener: OnPlayClickListener? = null
+    var listener: OnPlayClickListener? = null
     private val scroller: Scroller = Scroller(mContext)
     private var isFling = false
     private var isTouching = false
@@ -201,9 +201,9 @@ class LyricView constructor(private val mContext: Context, private val attrs: At
             }
             if (i == currentLine) {
                 lrcPaint.color = currentTextColor
-            }else if (isShowTimeline && i == centerLine) {
+            } else if (isShowTimeline && i == centerLine) {
                 lrcPaint.color = timelineTextColor
-            }else {
+            } else {
                 lrcPaint.color = normalTextColor
             }
             drawText(canvas, lrcEntryList[i].staticLayout!!, y)

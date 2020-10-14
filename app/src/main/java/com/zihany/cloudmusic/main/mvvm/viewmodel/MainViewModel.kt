@@ -14,7 +14,10 @@ import com.zihany.cloudmusic.main.bean.LogoutBean
 import com.zihany.cloudmusic.main.mvvm.model.LikeListRepository
 import com.zihany.cloudmusic.main.mvvm.model.LogoutRepository
 import com.zihany.cloudmusic.util.GsonUtil
+import com.zihany.cloudmusic.util.LogUtil
 import com.zihany.cloudmusic.util.PreferenceUtils
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -39,7 +42,7 @@ class MainViewModel(
         loginBean.value = Gson().fromJson<LoginBean>(userLoginInfo, LoginBean::class.java)
     }
 
-    fun getLikeList(uid: Long) {
+    fun getLikeList() {
 //        viewModelScope.launch(Dispatchers.IO) {
 //            val result = likeListRepository.getLikeList(uid)
 //            if (result is Result.Success) {
@@ -48,6 +51,15 @@ class MainViewModel(
 //                getLikeListError.value = result.exception
 //            }
 //        }
+        likeListRepository.getLikeList(loginBean.value!!.account.id).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    LogUtil.d(TAG, "onNext: $it")
+                    likeListBean.postValue(it)
+                }, {
+                    LogUtil.d(TAG, "onError: ${it.message}")
+                    getLikeListError.postValue(it)
+                })
     }
 
     fun logout() {

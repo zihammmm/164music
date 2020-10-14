@@ -4,13 +4,15 @@ import com.zihany.cloudmusic.login.bean.LoginBean
 import com.zihany.cloudmusic.main.bean.*
 import com.zihany.cloudmusic.personal.bean.UserPlayListBean
 import com.zihany.cloudmusic.search.bean.*
+import com.zihany.cloudmusic.song.bean.LyricBean
+import com.zihany.cloudmusic.song.bean.SongDetailBean
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ApiService {
     companion object {
-        const val BASE_URL: String = "http://192.168.50.88:3000"
+        const val BASE_URL: String = "http://172.27.152.45:3000"
     }
 
     @GET("login/cellphone")
@@ -81,4 +83,10 @@ interface ApiService {
 
     @GET("playlist/detail")
     fun getPlaylistDetail(@Query("id") id: Long): Observable<PlaylistDetailBean>
+
+    @GET("song/detail")
+    fun getSongDetail(@Query("ids") ids: Long): Observable<SongDetailBean>
+
+    @GET("lyric")
+    fun getLyric(@Query("id") id: Long): Observable<LyricBean>
 }

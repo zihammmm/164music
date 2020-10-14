@@ -9,4 +9,7 @@ class LogoutRepository: BaseRepository() {
 //
 //    private suspend fun requestLogout() =
 //            executeResponse(ApiEngine.instance.getApiService().logout())
+
+    fun logout() =
+            ApiEngine.instance.getApiService().logout()
 }

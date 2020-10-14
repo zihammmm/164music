@@ -1,46 +1,46 @@
 package com.zihany.cloudmusic.song.bean
 
-class LyricBean {
-    var sgc = false
-    var sfy = false
-    var qfy = false
-    var transUser: TransUserBean? = null
-    var lyricUser: LyricUserBean? = null
-    var lrc: LrcBean? = null
-    var klyric: KlyricBean? = null
-    var tlyric: TlyricBean? = null
-    var code = 0
+data class LyricBean(
+    val code: Int,
+    val klyric: Klyric,
+    val lrc: Lrc?,
+    val lyricUser: LyricUser,
+    val qfy: Boolean,
+    val sfy: Boolean,
+    val sgc: Boolean,
+    val tlyric: Tlyric,
+    val transUser: TransUser
+)
 
-    inner class TransUserBean {
-        var id = 0
-        var status = 0
-        var demand = 0
-        var userid = 0
-        var nickname: String? = null
-        var uptime = 0L
-    }
+data class Klyric(
+    val lyric: Any,
+    val version: Int
+)
 
-    inner class LyricUserBean {
-        var id = 0
-        var status = 0
-        var demand = 0
-        var userid = 0
-        var nickname: String? = null
-        var uptime = 0L
-    }
+data class Lrc(
+    val lyric: String,
+    val version: Int
+)
 
-    inner class LrcBean {
-        var version = 0
-        var lyric: String? = null
-    }
+data class LyricUser(
+    val demand: Int,
+    val id: Int,
+    val nickname: String,
+    val status: Int,
+    val uptime: Long,
+    val userid: Int
+)
 
-    inner class KlyricBean {
-        var version = 0
-        var lyric: Any? = null
-    }
+data class Tlyric(
+    val lyric: String?,
+    val version: Int
+)
 
-    inner class TlyricBean {
-        var version = 0
-        var lyric: String? = null
-    }
-}
+data class TransUser(
+    val demand: Int,
+    val id: Int,
+    val nickname: String,
+    val status: Int,
+    val uptime: Long,
+    val userid: Int
+)

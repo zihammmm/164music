@@ -46,7 +46,7 @@ class MainActivity : BaseActivity() {
     private val viewModel by viewModel<MainViewModel>()
     private val binding by binding<ActivityMainBinding>(R.layout.activity_main)
 
-    private var likeList by PreferenceUtils(LIKE_LIST, listOf<String>())
+    private var likeList by PreferenceUtils(LIKE_LIST, "")
     private val authToken by PreferenceUtils(AUTH_TOKEN, "")
 
 
@@ -153,7 +153,7 @@ class MainActivity : BaseActivity() {
             setSelectTextBoldAndBig(it)
         }
         initTabListener()
-        //viewModel.getLikeList()
+        viewModel.getLikeList()
     }
 
     private fun initTabListener() {
@@ -241,7 +241,8 @@ class MainActivity : BaseActivity() {
                 likeList.add(i.toString())
             }
         }
-        this.likeList = likeList
+        this.likeList = GsonUtil.toJson(likeList)
+        LogUtil.d(TAG, "likeList: ${this.likeList}")
     }
 
 

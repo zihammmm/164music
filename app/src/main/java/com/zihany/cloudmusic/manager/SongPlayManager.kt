@@ -21,14 +21,14 @@ class SongPlayManager private constructor() {
         val instance by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
             SongPlayManager()
         }
-        val TAG = "SongPlayManager"
+        const val TAG = "SongPlayManager"
         private val CHECK_MUSIC_URL = "check/music"
-        val MODE_LIST_LOOP_PLAY = 0x001
-        val MODE_SINGLE_LOOP_PLAY = 0x002
-        val MODE_RANDOM = 0x003
+        const val MODE_LIST_LOOP_PLAY = 0x001
+        const val MODE_SINGLE_LOOP_PLAY = 0x002
+        const val MODE_RANDOM = 0x003
     }
 
-    private var mode = MODE_LIST_LOOP_PLAY
+    var mode = MODE_LIST_LOOP_PLAY
     private val songList: MutableList<SongInfo> = ArrayList()
     private var currentSongIndex = 0
     private var musicCanPlayMap: HashMap<String, Boolean> = HashMap()
@@ -66,6 +66,10 @@ class SongPlayManager private constructor() {
         currentSongIndex = 0
     }
 
+    fun seekTo(progress: Long) {
+        MusicManager.getInstance().seekTo(progress)
+    }
+
     fun checkMusic(songId: String) {
         if (musicCanPlayMap[songId] == null) {
             setOnSongCanPlayListener(songId, object : OnSongListener {
@@ -88,6 +92,12 @@ class SongPlayManager private constructor() {
         //TODO
         val requestBuilder = Request.Builder()
 
+    }
+
+    fun playMusic() {
+        if (isPaused()) {
+            MusicManager.getInstance().playMusic()
+        }
     }
 
     fun playMusic(songId: String) {
@@ -180,6 +190,10 @@ class SongPlayManager private constructor() {
         currentSongIndex = addSong(songInfo)
         checkMusic(songInfo.songId)
     }
+
+    fun getSongDetail(ids: Long) = songDetailMap[ids]
+
+    fun putSongDetail(bean: SongDetailBean) = songDetailMap.put(bean.songs[0].dt, bean)
 
     fun isCurMusicPlaying(songId: String) = MusicManager.getInstance().isCurrMusicIsPlayingMusic(songId)
 

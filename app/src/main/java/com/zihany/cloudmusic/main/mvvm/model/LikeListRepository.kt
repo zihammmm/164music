@@ -9,4 +9,7 @@ class LikeListRepository : BaseRepository() {
 //
 //    private suspend fun requestLikeList(uid: Long) =
 //            executeResponse(ApiEngine.instance.getApiService().getLikeList(uid))
+
+    fun getLikeList(uid: Long) =
+            ApiEngine.instance.getApiService().getLikeList(uid)
 }

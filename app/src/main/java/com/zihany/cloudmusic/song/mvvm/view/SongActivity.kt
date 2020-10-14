@@ -1,7 +1,15 @@
 package com.zihany.cloudmusic.song.mvvm.view
 
 import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.LinearInterpolator
+import android.widget.SeekBar
+import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestOptions
 import com.gyf.immersionbar.ImmersionBar
 import com.lzx.starrysky.manager.MusicManager
 import com.lzx.starrysky.model.SongInfo
@@ -10,12 +18,15 @@ import com.zihany.cloudmusic.R
 import com.zihany.cloudmusic.base.BaseActivity
 import com.zihany.cloudmusic.base.LIKE_LIST
 import com.zihany.cloudmusic.databinding.ActivitySongBinding
+import com.zihany.cloudmusic.manager.SongPlayManager
 import com.zihany.cloudmusic.song.bean.LyricBean
 import com.zihany.cloudmusic.song.bean.SongDetailBean
 import com.zihany.cloudmusic.song.mvvm.viewmodel.SongViewModel
-import com.zihany.cloudmusic.util.GsonUtil
-import com.zihany.cloudmusic.util.PreferenceUtils
-import com.zihany.cloudmusic.util.TimeUtil
+import com.zihany.cloudmusic.util.*
+import com.zihany.cloudmusic.widget.LyricView
+import jp.wasabeef.glide.transformations.BlurTransformation
+import org.greenrobot.eventbus.EventBus
+import org.koin.android.ext.android.bind
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.regex.Pattern
 
@@ -26,15 +37,13 @@ class SongActivity : BaseActivity() {
         const val SONG_INFO = "songInfo"
     }
 
-
     private var currentSongInfo: SongInfo? = null
-    private var ids: Long? = null
-    private var songDetail: SongDetailBean? = null
-    private var timerTask: TimerTaskManager? = null
+    private var ids = 0L
+    private lateinit var timerTask: TimerTaskManager
     private var isLike = false
     private var playMode: Int = 0
-    private var rotateAnimator: ObjectAnimator? = null
-    private var alphaAnimator: ObjectAnimator? = null
+    private lateinit var rotateAnimator: ObjectAnimator
+    private lateinit var alphaAnimator: ObjectAnimator
     private var isShowLyrics = false
     private var lyricBean: LyricBean? = null
     private val likeList by PreferenceUtils(LIKE_LIST, "")
@@ -43,7 +52,7 @@ class SongActivity : BaseActivity() {
     private val viewModel by viewModel<SongViewModel>()
 
     private fun initTimerTaskWork() {
-        timerTask!!.setUpdateProgressTask {
+        timerTask.setUpdateProgressTask {
             Runnable {
                 val position = MusicManager.getInstance().playingPosition
                 binding.seekBar.progress = position.toInt()
@@ -52,10 +61,53 @@ class SongActivity : BaseActivity() {
             }
         }
 
+        binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                seekBar?.let {
+                    SongPlayManager.instance.seekTo(it.progress.toLong())
+                    binding.seekBar.progress = it.progress
+                    binding.lrc.updateTime(it.progress.toLong())
+                }
+            }
+
+        })
+
     }
 
     override fun initData() {
+        rotateAnimator = ObjectAnimator.ofFloat(binding.ivRecord, "rotation", 360f).apply {
+            duration = 25 * 1000
+            interpolator = LinearInterpolator()
+            repeatCount = 100000
+            repeatMode = ValueAnimator.RESTART
+        }
 
+        alphaAnimator = ObjectAnimator.ofFloat(binding.ivBg, "alpha", 0f, 0.13f).apply {
+            duration = 1500
+            interpolator = AccelerateDecelerateInterpolator()
+        }
+
+        getIntentData()
+        setBackBtn(getString(R.string.colorWhite))
+        playMode = SongPlayManager.instance.mode
+        timerTask = TimerTaskManager()
+        initTimerTaskWork()
+
+        checkMusicState()
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        timerTask.removeUpdateProgressTask()
     }
 
     override fun initView() {
@@ -66,21 +118,106 @@ class SongActivity : BaseActivity() {
     }
 
     override fun startObserve() {
-        TODO("Not yet implemented")
+        viewModel.apply {
+            songDetail.observe(this@SongActivity, Observer {
+                setSongDetailBean(it)
+            })
+
+            getSongDetailError.observe(this@SongActivity, Observer {
+                onGetSongDetailFail(it)
+            })
+
+            lyricBean.observe(this@SongActivity, Observer {
+                onGetLyricSuccess(it)
+            })
+
+            getLyricError.observe(this@SongActivity, Observer {
+                onGetLyricFail(it)
+            })
+        }
     }
 
     override fun onClick(view: View) {
-        TODO("Not yet implemented")
+
     }
 
     private fun getIntentData() {
         currentSongInfo = intent.getParcelableExtra(SONG_INFO)
+        LogUtil.d(TAG, "currentSongInfo: ${currentSongInfo!!.songId}, ${currentSongInfo!!.songName}")
     }
 
     private fun checkMusicState() {
         setSongInfo(currentSongInfo!!.songName, currentSongInfo!!.artist)
-        val list = GsonUtil.instance.fromJson<List<String>>(likeList, List::class.java)
-        
+        if (judgeContainsStr(currentSongInfo!!.songId)) {
+            binding.llInfo.visibility = View.GONE
+        } else {
+            if (lyricBean == null) {
+                viewModel.getLyric(currentSongInfo!!.songId.toLong())
+            }
+            binding.llInfo.visibility = View.VISIBLE
+            ids = currentSongInfo!!.songId.toLong()
+            val songId = currentSongInfo!!.songId
+            LogUtil.d(TAG, "likeList: $likeList")
+            val list = GsonUtil.instance.fromJson(likeList, List::class.java)
+            if (list.contains(songId)) {
+                isLike = true
+                binding.ivLike.setImageResource(R.drawable.shape_like_white)
+            } else {
+                isLike = false
+            }
+            if (SongPlayManager.instance.getSongDetail(ids) == null) {
+                LogUtil.d(TAG, "$ids song not exist")
+                viewModel.getSongDetail(ids)
+            } else {
+                viewModel.songDetail.apply {
+                    postValue(SongPlayManager.instance.getSongDetail(ids))
+                }
+            }
+
+            val duration = currentSongInfo!!.duration
+            if (binding.seekBar.max.toLong() != duration) {
+                binding.seekBar.max = duration.toInt()
+            }
+
+            when (playMode) {
+                SongPlayManager.MODE_LIST_LOOP_PLAY -> {
+                    binding.ivPlayMode.setImageResource(R.drawable.shape_list_cycle)
+                }
+                SongPlayManager.MODE_RANDOM -> {
+                    binding.ivPlayMode.setImageResource(R.drawable.shape_list_random)
+                }
+                SongPlayManager.MODE_SINGLE_LOOP_PLAY -> {
+                    binding.ivPlayMode.setImageResource(R.drawable.shape_single_cycle)
+                }
+            }
+            binding.totalTime.text = TimeUtil.getTimeNoYMDH(duration)
+            checkMusicPlaying()
+        }
+    }
+
+    private fun checkMusicPlaying() {
+        timerTask.startToUpdateProgress()
+        if (SongPlayManager.instance.isPlaying()) {
+            LogUtil.d(TAG, "music is playing")
+            rotateAnimator.let {
+                when {
+                    it.isPaused -> {
+                        it.resume()
+                    }
+                    it.isRunning -> {
+
+                    }
+                    else -> {
+                        it.start()
+                    }
+                }
+            }
+            binding.ivPlay.setImageResource(R.drawable.shape_pause)
+        } else {
+            LogUtil.d(TAG, "music is not playing")
+            rotateAnimator.pause()
+            binding.ivPlay.setImageResource(R.drawable.shape_play_white)
+        }
     }
 
     fun judgeContainsStr(cardNum: String?): Boolean {
@@ -89,5 +226,81 @@ class SongActivity : BaseActivity() {
         return m.matches()
     }
 
+    private fun setSongDetailBean(songDetail: SongDetailBean) {
+        val coverUrl = songDetail.songs[0].al.picUrl
+        LogUtil.d(TAG, "coverUrl: $coverUrl")
+        Glide.with(this)
+                .load(coverUrl)
+                .placeholder(R.drawable.shape_record)
+                .into(binding.ivRecord)
+
+        Glide.with(this)
+                .load(coverUrl)
+                .apply(RequestOptions.bitmapTransform(BlurTransformation(25, 12)))
+                .transition(DrawableTransitionOptions.withCrossFade(1500))
+                .into(binding.ivBg)
+
+    }
+
+    private fun showLyrics(isShowLyrics: Boolean) {
+        binding.ivRecord.visibility = if (isShowLyrics) {
+            View.GONE
+        } else {
+            View.VISIBLE
+        }
+
+        binding.lrc.visibility = if (isShowLyrics) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+    }
+
+    private fun onGetSongDetailSuccess(songDetailBean: SongDetailBean) {
+        LogUtil.d(TAG, "onGetSongDetailSuccess: $songDetailBean")
+        SongPlayManager.instance.putSongDetail(songDetailBean)
+    }
+
+    private fun onGetSongDetailFail(error: String) {
+        LogUtil.d(TAG, "onGetSongDetailFail: $error")
+    }
+
+    private fun onGetLyricSuccess(lyricBean: LyricBean) {
+        LogUtil.d(TAG, "onGetLyricSuccess: $lyricBean")
+        if (lyricBean.lrc != null) {
+            if (lyricBean.tlyric.lyric != null) {
+                binding.lrc.loadLrc(lyricBean.lrc.lyric, lyricBean.tlyric.lyric)
+            } else {
+                binding.lrc.loadLrc(lyricBean.lrc.lyric, "")
+            }
+        } else {
+            binding.lrc.loadLrc("", "")
+        }
+        initLrcListener()
+    }
+
+    private fun initLrcListener() {
+        binding.lrc.listener = object : LyricView.OnPlayClickListener {
+            override fun onPlayClick(time: Long): Boolean {
+                SongPlayManager.instance.seekTo(time)
+                if (SongPlayManager.instance.isPaused()) {
+                    SongPlayManager.instance.playMusic()
+                } else if (SongPlayManager.instance.isIdle()) {
+                    currentSongInfo?.let { SongPlayManager.instance.clickASong(it) }
+                }
+                return true
+            }
+        }
+
+        binding.lrc.coverChangeListener = object : LyricView.OnCoverChangeListener {
+            override fun onCoverChange() {
+                showLyrics(false)
+            }
+        }
+    }
+
+    private fun onGetLyricFail(error: String) {
+
+    }
 
 }
