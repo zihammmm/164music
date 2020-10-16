@@ -3,17 +3,9 @@ package com.zihany.cloudmusic.song.mvvm.view
 import android.view.View
 import com.zihany.cloudmusic.base.BaseActivity
 
-class CommentActivity: BaseActivity() {
+class SongListActivity: BaseActivity() {
     companion object {
-        const val TAG = "CommentActivity"
-        const val COVER = "cover"
-        const val NAME = "name"
-        const val ARTIST = "artist"
-        const val ID = "id"
-        const val FROM = "from"
-        const val SONG_COMMENT = 0x001
-        const val PLAYLIST_COMMENT = 0x002
-        const val ALBUM_COMMENT = 0x003
+        const val TAG = "SongListActivity"
     }
 
     override fun initData() {

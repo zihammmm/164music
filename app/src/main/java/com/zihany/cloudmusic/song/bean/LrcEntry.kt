@@ -23,11 +23,11 @@ class LrcEntry constructor(var time: Long, var text: String) : Comparable<LrcEnt
 
     fun init(paint: TextPaint, width: Int, gravity: Int) {
         val align: Layout.Alignment =
-        when(gravity) {
-            GRAVITY_LEFT -> Layout.Alignment.ALIGN_NORMAL
-            GRAVITY_RIGHT -> Layout.Alignment.ALIGN_OPPOSITE
-            else -> Layout.Alignment.ALIGN_CENTER
-        }
+                when (gravity) {
+                    GRAVITY_LEFT -> Layout.Alignment.ALIGN_NORMAL
+                    GRAVITY_RIGHT -> Layout.Alignment.ALIGN_OPPOSITE
+                    else -> Layout.Alignment.ALIGN_CENTER
+                }
         staticLayout = StaticLayout.Builder.obtain(getShowText(), 0, getShowText().length, paint, width)
                 .setLineSpacing(0f, 1f)
                 .setIncludePad(false)
@@ -43,7 +43,7 @@ class LrcEntry constructor(var time: Long, var text: String) : Comparable<LrcEnt
     private fun getShowText(): String {
         return if (!TextUtils.isEmpty(secondText)) {
             text + "\n" + secondText
-        }else {
+        } else {
             text
         }
     }

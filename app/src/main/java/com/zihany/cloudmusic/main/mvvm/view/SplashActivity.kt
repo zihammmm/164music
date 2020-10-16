@@ -8,14 +8,18 @@ import android.text.TextUtils
 import android.view.WindowManager
 import com.zihany.cloudmusic.R
 import com.zihany.cloudmusic.base.AUTH_TOKEN
+import com.zihany.cloudmusic.base.PASSWORD
+import com.zihany.cloudmusic.base.PHONE_NUMBER
 import com.zihany.cloudmusic.util.*
 
 class SplashActivity : AppCompatActivity() {
     companion object {
         const val TAG = "SplashActivity"
     }
+
     var countDownTimer: CountDownTimer? = null
-    private var authToken by PreferenceUtils(AUTH_TOKEN, "")
+
+    //修改自动登录策略，使用保存好的phone和password进行自动登录，防止在调用需要登录的api时出错
 
     fun initData() {
         startCountDownTime()
@@ -43,11 +47,12 @@ class SplashActivity : AppCompatActivity() {
             }
 
             override fun onFinish() {
-                if (TextUtils.isEmpty(authToken)) {
+//                if (TextUtils.isEmpty(password)) {
+                //先统一跳转到登录页面，再进行处理
                     ActivityStarter.instance.startLoginActivity(this@SplashActivity)
-                }else {
-                    ActivityStarter.instance.startMainActivity(this@SplashActivity)
-                }
+//                } else {
+//                    ActivityStarter.instance.startMainActivity(this@SplashActivity)
+//                }
                 this@SplashActivity.finish()
             }
         }

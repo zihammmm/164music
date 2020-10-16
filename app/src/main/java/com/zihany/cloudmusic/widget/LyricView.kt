@@ -22,7 +22,6 @@ import com.zihany.cloudmusic.R
 import com.zihany.cloudmusic.song.bean.LrcEntry
 import com.zihany.cloudmusic.util.LogUtil
 import com.zihany.cloudmusic.util.LrcUtils
-import kotlinx.android.synthetic.main.activity_song.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Runnable
@@ -31,14 +30,15 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 
-class LyricView constructor(private val mContext: Context, private val attrs: AttributeSet?, defStyleAttr: Int) :
-        View(mContext, attrs, defStyleAttr) {
+class LyricView constructor(
+        private val mContext: Context, private val attrs: AttributeSet?, defStyleAttr: Int
+) : View(mContext, attrs, defStyleAttr) {
     companion object {
-        private val TAG = "LyricView"
+        const val TAG = "LyricView"
         private val PLAY_DRAWABLE_WIDTH = App.getContext().resources.getDimension(R.dimen.dp_30)
         private val TIME_TEXT_WIDTH = App.getContext().resources.getDimension(R.dimen.dp_40)
         const val ADJUST_DURATION = 100
-        const val ANIMATION_DURARION = 1000
+        const val ANIMATION_DURATION = 1000
     }
 
     private val lrcEntryList: MutableList<LrcEntry> = ArrayList()
@@ -118,11 +118,10 @@ class LyricView constructor(private val mContext: Context, private val attrs: At
         }
     }
 
-
     private val hideTimelineRunnable = Runnable {
         if (lrcNotEmpty() && isShowTimeline) {
             isShowTimeline = false
-            smoothScrollTo(currentLine, ANIMATION_DURARION)
+            smoothScrollTo(currentLine, ANIMATION_DURATION)
         }
     }
 
@@ -289,17 +288,28 @@ class LyricView constructor(private val mContext: Context, private val attrs: At
             return
         }
 
-        GlobalScope.launch(Dispatchers.Main) {
+//        GlobalScope.launch(Dispatchers.Main) {
+//            val line = findShowLine(time)
+//            if (line != currentLine) {
+//                currentLine = line
+//                if (!isShowTimeline) {
+//                    smoothScrollTo(line, ANIMATION_DURATION)
+//                } else {
+//                    invalidate()
+//                }
+//            }
+//        }
+        runOnUi(Runnable {
             val line = findShowLine(time)
             if (line != currentLine) {
                 currentLine = line
                 if (!isShowTimeline) {
-                    smoothScrollTo(line, ANIMATION_DURARION)
+                    smoothScrollTo(line, ANIMATION_DURATION)
                 } else {
                     invalidate()
                 }
             }
-        }
+        })
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
@@ -347,6 +357,7 @@ class LyricView constructor(private val mContext: Context, private val attrs: At
         playDrawable?.setBounds(l, t, r, b)
     }
 
+    //二分查找
     private fun findShowLine(time: Long): Int {
         var left = 0
         var right = lrcEntryList.size
@@ -400,6 +411,14 @@ class LyricView constructor(private val mContext: Context, private val attrs: At
 
     interface OnCoverChangeListener {
         fun onCoverChange()
+    }
+
+    private fun runOnUi(r: Runnable) {
+        if(Looper.getMainLooper() == Looper.myLooper()) {
+            r.run()
+        } else {
+            post(r)
+        }
     }
 
 }

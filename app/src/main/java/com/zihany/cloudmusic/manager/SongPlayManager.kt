@@ -15,6 +15,7 @@ import com.zihany.cloudmusic.util.ToastUtils
 import okhttp3.Request
 import org.greenrobot.eventbus.EventBus
 import java.util.regex.Pattern
+import kotlin.random.Random
 
 class SongPlayManager private constructor() {
     companion object {
@@ -70,6 +71,36 @@ class SongPlayManager private constructor() {
         MusicManager.getInstance().seekTo(progress)
     }
 
+    fun playPreMusic() {
+        cancelPlay()
+        when(mode) {
+            MODE_LIST_LOOP_PLAY -> {
+                if (currentSongIndex < songList.size) {
+                    if (currentSongIndex == 0) {
+                        currentSongIndex = songList.size - 1
+                    } else {
+                        currentSongIndex--
+                    }
+                    checkMusic(songList[currentSongIndex].songId)
+                } else {
+                    LogUtil.w(TAG, "currentSongIndex >= songListSize")
+                }
+            }
+            MODE_SINGLE_LOOP_PLAY -> {
+                playMusic(songList[currentSongIndex].songId)
+            }
+            MODE_RANDOM -> {
+                val ra = Random
+                var random = ra.nextInt(songList.size - 1)
+                while (random == currentSongIndex) {
+                    random = ra.nextInt(songList.size - 1)
+                }
+                currentSongIndex = random
+                checkMusic(songList[currentSongIndex].songId)
+            }
+        }
+    }
+
     fun checkMusic(songId: String) {
         if (musicCanPlayMap[songId] == null) {
             setOnSongCanPlayListener(songId, object : OnSongListener {
@@ -118,7 +149,40 @@ class SongPlayManager private constructor() {
     }
 
     fun playNextMusic() {
+        LogUtil.d(TAG, "playNextMusic")
+        cancelPlay()
+        when(mode) {
+            MODE_LIST_LOOP_PLAY -> {
+                if (currentSongIndex < songList.size) {
+                    if (currentSongIndex == songList.size - 1) {
+                        currentSongIndex = 0
+                    } else {
+                        currentSongIndex++
+                    }
+                    checkMusic(songList[currentSongIndex].songId)
+                } else {
+                    LogUtil.w(TAG, "currentSongIndex >= songListSize")
+                }
+            }
+            MODE_SINGLE_LOOP_PLAY -> {
+                playMusic(songList[currentSongIndex].songId)
+            }
+            MODE_RANDOM -> {
+                val ra = Random
+                var random = ra.nextInt(songList.size - 1)
+                while (random == currentSongIndex) {
+                    random = ra.nextInt(songList.size - 1)
+                }
+                currentSongIndex = random
+                checkMusic(songList[currentSongIndex].songId)
+            }
+        }
+    }
 
+    fun pauseMusic() {
+        if (isPlaying()) {
+            MusicManager.getInstance().pauseMusic()
+        }
     }
 
     fun cancelPlay() {

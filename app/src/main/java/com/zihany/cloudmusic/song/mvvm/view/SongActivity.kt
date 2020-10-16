@@ -2,6 +2,7 @@ package com.zihany.cloudmusic.song.mvvm.view
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.content.Intent
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.LinearInterpolator
@@ -45,7 +46,6 @@ class SongActivity : BaseActivity() {
     private lateinit var rotateAnimator: ObjectAnimator
     private lateinit var alphaAnimator: ObjectAnimator
     private var isShowLyrics = false
-    private var lyricBean: LyricBean? = null
     private val likeList by PreferenceUtils(LIKE_LIST, "")
 
     private val binding by binding<ActivitySongBinding>(R.layout.activity_song)
@@ -115,12 +115,104 @@ class SongActivity : BaseActivity() {
                 .transparentBar()
                 .statusBarDarkFont(false)
                 .init()
+
+        val intent = Intent()
+
+        binding.apply {
+            rlCenter.setOnClickListener {
+                isShowLyrics = true
+                showLyrics(true)
+            }
+
+            ivPlay.setOnClickListener {
+                when {
+                    SongPlayManager.instance.isPlaying() -> {
+                        SongPlayManager.instance.pauseMusic()
+                    }
+                    SongPlayManager.instance.isPaused() -> {
+                        SongPlayManager.instance.playMusic()
+                    }
+                    SongPlayManager.instance.isIdle() -> {
+                        currentSongInfo?.let { it1 -> SongPlayManager.instance.clickASong(it1) }
+                    }
+                }
+            }
+
+            ivLike.setOnClickListener {
+                if (isLike) {
+                    ToastUtils.show("没有找到取消喜欢的接口")
+                } else {
+                    TODO("likeMusic(ids)")
+                }
+            }
+
+            ivDownload.setOnClickListener {
+                ToastUtils.show("不能下载")
+            }
+
+            ivComment.setOnClickListener {
+                viewModel.songDetail.value?.let {
+                    intent.setClass(this@SongActivity, CommentActivity::class.java)
+                    intent.putExtra(CommentActivity.NAME, it.songs[0].name)
+                    intent.putExtra(CommentActivity.ID, it.songs[0].id)
+                    intent.putExtra(CommentActivity.ARTIST, it.songs[0].ar[0].name)
+                    intent.putExtra(CommentActivity.COVER, it.songs[0].al.picUrl)
+                    intent.putExtra(CommentActivity.FROM, CommentActivity.SONG_COMMENT)
+                    startActivity(intent)
+                }
+            }
+
+            ivInfo.setOnClickListener {
+                intent.setClass(this@SongActivity, SongDetailActivity::class.java)
+                intent.putExtra(SONG_INFO, currentSongInfo)
+                startActivity(intent)
+                overridePendingTransition(R.anim.bottom_in, R.anim.bottom_silent)
+            }
+
+            ivPlayMode.setOnClickListener {
+                when(playMode) {
+                    SongPlayManager.MODE_LIST_LOOP_PLAY -> {
+                        SongPlayManager.instance.mode = SongPlayManager.MODE_SINGLE_LOOP_PLAY
+                        binding.ivPlayMode.setImageResource(R.drawable.shape_single_cycle)
+                        playMode = SongPlayManager.MODE_SINGLE_LOOP_PLAY
+                        ToastUtils.show("切换到单曲循环模式")
+                    }
+                    SongPlayManager.MODE_SINGLE_LOOP_PLAY -> {
+                        SongPlayManager.instance.mode = SongPlayManager.MODE_RANDOM
+                        binding.ivPlayMode.setImageResource(R.drawable.shape_list_random)
+                        playMode = SongPlayManager.MODE_RANDOM
+                        ToastUtils.show("切换到随机播放模式")
+                    }
+                    SongPlayManager.MODE_RANDOM -> {
+                        SongPlayManager.instance.mode = SongPlayManager.MODE_LIST_LOOP_PLAY
+                        binding.ivPlayMode.setImageResource(R.drawable.shape_list_cycle)
+                        playMode = SongPlayManager.MODE_LIST_LOOP_PLAY
+                        ToastUtils.show("切换到列表循环模式")
+                    }
+                }
+            }
+
+            ivPre.setOnClickListener {
+                SongPlayManager.instance.playPreMusic()
+            }
+
+            ivNext.setOnClickListener {
+                SongPlayManager.instance.playNextMusic()
+            }
+
+            ivList.setOnClickListener {
+                intent.setClass(this@SongActivity, SongListActivity::class.java)
+                startActivity(intent)
+                overridePendingTransition(R.anim.bottom_in, R.anim.bottom_silent)
+            }
+
+        }
     }
 
     override fun startObserve() {
         viewModel.apply {
             songDetail.observe(this@SongActivity, Observer {
-                setSongDetailBean(it)
+                onGetSongDetailSuccess(it)
             })
 
             getSongDetailError.observe(this@SongActivity, Observer {
@@ -151,7 +243,7 @@ class SongActivity : BaseActivity() {
         if (judgeContainsStr(currentSongInfo!!.songId)) {
             binding.llInfo.visibility = View.GONE
         } else {
-            if (lyricBean == null) {
+            if (viewModel.lyricBean.value == null) {
                 viewModel.getLyric(currentSongInfo!!.songId.toLong())
             }
             binding.llInfo.visibility = View.VISIBLE
@@ -220,7 +312,7 @@ class SongActivity : BaseActivity() {
         }
     }
 
-    fun judgeContainsStr(cardNum: String?): Boolean {
+    private fun judgeContainsStr(cardNum: String?): Boolean {
         val regex = ".*[a-zA-Z]+.*"
         val m = Pattern.compile(regex).matcher(cardNum)
         return m.matches()
@@ -259,23 +351,17 @@ class SongActivity : BaseActivity() {
     private fun onGetSongDetailSuccess(songDetailBean: SongDetailBean) {
         LogUtil.d(TAG, "onGetSongDetailSuccess: $songDetailBean")
         SongPlayManager.instance.putSongDetail(songDetailBean)
+        setSongDetailBean(songDetailBean)
     }
 
     private fun onGetSongDetailFail(error: String) {
-        LogUtil.d(TAG, "onGetSongDetailFail: $error")
+        LogUtil.e(TAG, "onGetSongDetailFail: $error")
     }
 
     private fun onGetLyricSuccess(lyricBean: LyricBean) {
-        LogUtil.d(TAG, "onGetLyricSuccess: $lyricBean")
-        if (lyricBean.lrc != null) {
-            if (lyricBean.tlyric.lyric != null) {
-                binding.lrc.loadLrc(lyricBean.lrc.lyric, lyricBean.tlyric.lyric)
-            } else {
-                binding.lrc.loadLrc(lyricBean.lrc.lyric, "")
-            }
-        } else {
-            binding.lrc.loadLrc("", "")
-        }
+        //LogUtil.d(TAG, "onGetLyricSuccess: $lyricBean")
+        LogUtil.d(TAG, "main:${lyricBean.lrc?.lyric ?: ""}, second:${lyricBean.tlyric.lyric ?: ""}")
+        binding.lrc.loadLrc(lyricBean.lrc?.lyric ?: "", lyricBean.tlyric.lyric ?: "")
         initLrcListener()
     }
 

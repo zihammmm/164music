@@ -32,4 +32,8 @@
         <attr name="item_name" format="reference" />
         <attr name="is_show_gap" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="MaxHeightRecyclerView">
+        <attr name="maxHeight" format="dimension" />
+    </declare-styleable>
 </resources>

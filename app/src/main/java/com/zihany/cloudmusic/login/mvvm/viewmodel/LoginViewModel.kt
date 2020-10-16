@@ -3,10 +3,7 @@ package com.zihany.cloudmusic.login.mvvm.viewmodel
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.zihany.cloudmusic.base.AUTH_TOKEN
-import com.zihany.cloudmusic.base.BaseViewModel
-import com.zihany.cloudmusic.base.PHONE_NUMBER
-import com.zihany.cloudmusic.base.USER_INFO
+import com.zihany.cloudmusic.base.*
 import com.zihany.cloudmusic.login.bean.LoginBean
 import com.zihany.cloudmusic.login.mvvm.model.LoginRepository
 import com.zihany.cloudmusic.util.GsonUtil
@@ -24,8 +21,9 @@ class LoginViewModel(private val repository: LoginRepository) : BaseViewModel() 
         const val TAG = "LoginViewModel"
     }
     private var phoneDelegate by PreferenceUtils(PHONE_NUMBER, "")
+    private var passwordDelegate by PreferenceUtils(PASSWORD, "")
     val phone = ObservableField<String>(phoneDelegate)
-    val password = ObservableField<String>("")
+    val password = ObservableField<String>(passwordDelegate)
     private var userJson by PreferenceUtils(USER_INFO, "")
     private var authToken by PreferenceUtils(AUTH_TOKEN, "")
 
@@ -46,6 +44,7 @@ class LoginViewModel(private val repository: LoginRepository) : BaseViewModel() 
                         LogUtil.d(TAG, "onNext: $t")
                         userJson = GsonUtil.toJson(t!!)
                         phoneDelegate = phone.get() ?: ""
+                        passwordDelegate = password.get() ?: ""
                         authToken = t.bindings[1].tokenJsonStr
                         _uiState.postValue(LoginState(isSuccess = t))
                     }
