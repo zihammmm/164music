@@ -8,13 +8,13 @@
         android:layout_height="match_parent"
         tools:context=".song.mvvm.view.SongActivity">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/bg_default_song"
             android:scaleType="fitXY" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -24,7 +24,7 @@
             android:scaleType="fitXY"
             android:alpha="0.5"/>
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:alpha="0.65"
@@ -91,7 +91,7 @@
                 android:paddingStart="@dimen/dp_30"
                 android:paddingEnd="@dimen/dp_30">
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_like"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/dp_40"
@@ -105,7 +105,7 @@
                     android:layout_height="@dimen/dp_40"
                     android:layout_weight="0.5" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_download"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/dp_40"
@@ -117,7 +117,7 @@
                     android:layout_height="@dimen/dp_40"
                     android:layout_weight="0.5" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_comment"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/dp_40"
@@ -131,7 +131,7 @@
                     android:layout_height="@dimen/dp_40"
                     android:layout_weight="0.5" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_info"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/dp_40"
@@ -190,7 +190,7 @@
                 android:paddingRight="@dimen/dp_50"
                 android:paddingBottom="@dimen/dp_10">
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_play_mode"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -200,7 +200,7 @@
                     android:scaleType="centerCrop"
                     app:srcCompat="@drawable/shape_list_cycle" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_pre"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -209,7 +209,7 @@
                     android:scaleType="centerCrop"
                     app:srcCompat="@drawable/shape_pre" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_play"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -217,7 +217,7 @@
                     android:padding="@dimen/dp_5"
                     app:srcCompat="@drawable/shape_play_white" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_next"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -226,7 +226,7 @@
                     android:scaleType="centerCrop"
                     app:srcCompat="@drawable/shape_next" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_list"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"

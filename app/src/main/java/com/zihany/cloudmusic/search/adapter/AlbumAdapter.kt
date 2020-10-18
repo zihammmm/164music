@@ -15,8 +15,6 @@ import com.zihany.cloudmusic.R
 import com.zihany.cloudmusic.base.BaseAdapter
 import com.zihany.cloudmusic.databinding.ItemAlbumSearchBinding
 import com.zihany.cloudmusic.search.bean.AlbumAdapterBean
-import com.zihany.cloudmusic.util.TimeUtil
-import com.zihany.cloudmusic.util.getTimeNoYMDH
 import com.zihany.cloudmusic.util.getTimeStandardOnlyYMD
 
 class AlbumAdapter constructor(

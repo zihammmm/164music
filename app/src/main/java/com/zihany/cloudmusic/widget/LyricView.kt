@@ -289,18 +289,7 @@ class LyricView constructor(
             return
         }
 
-//        GlobalScope.launch(Dispatchers.Main) {
-//            val line = findShowLine(time)
-//            if (line != currentLine) {
-//                currentLine = line
-//                if (!isShowTimeline) {
-//                    smoothScrollTo(line, ANIMATION_DURATION)
-//                } else {
-//                    invalidate()
-//                }
-//            }
-//        }
-        runOnUi(Runnable {
+        GlobalScope.launch(Dispatchers.Main) {
             val line = findShowLine(time)
             if (line != currentLine) {
                 currentLine = line
@@ -310,7 +299,18 @@ class LyricView constructor(
                     invalidate()
                 }
             }
-        })
+        }
+//        runOnUi(Runnable {
+//            val line = findShowLine(time)
+//            if (line != currentLine) {
+//                currentLine = line
+//                if (!isShowTimeline) {
+//                    smoothScrollTo(line, ANIMATION_DURATION)
+//                } else {
+//                    invalidate()
+//                }
+//            }
+//        })
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
@@ -412,14 +412,6 @@ class LyricView constructor(
 
     interface OnCoverChangeListener {
         fun onCoverChange()
-    }
-
-    private fun runOnUi(r: Runnable) {
-        if(Looper.getMainLooper() == Looper.myLooper()) {
-            r.run()
-        } else {
-            post(r)
-        }
     }
 
 }

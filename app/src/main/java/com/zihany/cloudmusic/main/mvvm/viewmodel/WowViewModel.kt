@@ -10,14 +10,16 @@ import com.zihany.cloudmusic.util.LogUtil
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 class WowViewModel(
         private val wowRepository: WowRepository
-): BaseViewModel() {
+) : BaseViewModel() {
     companion object {
         const val TAG = "WowViewModel"
     }
+
     val recommends = MutableLiveData<MainRecommendPlayListBean>()
     val bannerBean = MutableLiveData<BannerBean>()
 
@@ -27,52 +29,38 @@ class WowViewModel(
     fun getBanner() {
         wowRepository.getBanner().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Observer<BannerBean> {
-                    override fun onComplete() {
-                        LogUtil.d(TAG, "getBanner: onComplete")
-                    }
+                .subscribeBy(
+                        onComplete = {
+                            LogUtil.d(TAG, "getBanner: onComplete")
+                        },
+                        onNext = {
+                            LogUtil.d(TAG, "getBanner: onNext")
+                            bannerBean.postValue(it)
+                        },
+                        onError = {
+                            LogUtil.d(TAG, "getBanner: onError")
+                            getBannerError.postValue(it.message)
+                        }
+                )
 
-                    override fun onSubscribe(d: Disposable?) {
-                        LogUtil.d(TAG, "getBanner: onSubscribe")
-                    }
-
-                    override fun onNext(t: BannerBean?) {
-                        LogUtil.d(TAG, "getBanner: onNext")
-
-                        bannerBean.postValue(t)
-                    }
-
-                    override fun onError(e: Throwable?) {
-                        LogUtil.d(TAG, "getBanner: onError")
-                        getBannerError.postValue(e?.message)
-                    }
-
-                })
     }
 
     fun getRecommendPlayList() {
         wowRepository.getRecommendPlayList().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Observer<MainRecommendPlayListBean> {
-                    override fun onComplete() {
-                        LogUtil.d(TAG, "getRecommendPlayList: onComplete")
-                    }
-
-                    override fun onSubscribe(d: Disposable?) {
-                        LogUtil.d(TAG, "getRecommendPlayList: onSubscribe")
-                    }
-
-                    override fun onNext(t: MainRecommendPlayListBean?) {
-                        LogUtil.d(TAG, "getRecommendPlayList: onNext")
-                        recommends.postValue(t)
-                    }
-
-                    override fun onError(e: Throwable?) {
-                        LogUtil.d(TAG, "getRecommendPlayList: onError")
-                        getRecommendPlayListError.postValue(e?.message)
-                    }
-
-                })
+                .subscribeBy(
+                        onComplete = {
+                            LogUtil.d(TAG, "getRecommendPlayList: onComplete")
+                        },
+                        onNext = {
+                            LogUtil.d(TAG, "getRecommendPlayList: onNext")
+                            recommends.postValue(it)
+                        },
+                        onError = {
+                            LogUtil.d(TAG, "getRecommendPlayList: onError")
+                            getRecommendPlayListError.postValue(it.message)
+                        }
+                )
     }
 
     fun getDailyRecommend() {

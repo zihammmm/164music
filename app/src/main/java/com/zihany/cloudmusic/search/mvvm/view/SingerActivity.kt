@@ -12,7 +12,6 @@ import com.zihany.cloudmusic.databinding.ActivitySingerBinding
 import com.zihany.cloudmusic.main.adapter.MultiFragmentPagerAdapter
 import com.zihany.cloudmusic.search.mvvm.viewmodel.SingerViewModel
 import com.zihany.cloudmusic.util.AppBarStateChangeListener
-import com.zihany.cloudmusic.util.DensityUtil
 import com.zihany.cloudmusic.util.dp2px
 import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.activity_singer.*

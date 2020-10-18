@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.widget.ScrollView
-import com.zihany.cloudmusic.util.DensityUtil
 import com.zihany.cloudmusic.util.dp2px
 
 class PlayListRecommendScrollerView constructor(

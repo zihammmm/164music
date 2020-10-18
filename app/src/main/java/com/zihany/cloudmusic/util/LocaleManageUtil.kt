@@ -9,12 +9,12 @@ import java.util.*
 const val TAG = "LocaleManageUtil"
 const val LOCAL_CHINA = 0
 const val LOCAL_ENGLISH = 1
-var selectLanguage by PreferenceUtils(SELECTED_LANGUAGE, LocaleManageUtil.LOCAL_CHINA)
+var selectLanguage by PreferenceUtils(SELECTED_LANGUAGE, LOCAL_CHINA)
 
 var systemCurrentLocal: Locale by PreferenceUtils(SYSTEM_CURRENT_LOCAL, Locale.CHINESE)
 
 fun Context.setLocal(): Context {
-    return updateResources()
+    return updateResources(getSetLanguageLocale())
 }
 
 private fun Context.updateResources(locale: Locale): Context {
@@ -43,11 +43,7 @@ fun Context.getSetLanguageLocale(): Locale {
 
 class LocaleManageUtil {
     companion object {
-        const val TAG = "LocaleManageUtil"
-        const val LOCAL_CHINA = 0
-        const val LOCAL_ENGLISH = 1
-        private var selectLanguage by PreferenceUtils(SELECTED_LANGUAGE, LOCAL_CHINA)
-        private var systemCurrentLocal by PreferenceUtils(SYSTEM_CURRENT_LOCAL, Locale.CHINESE)
+
         fun setLocal(context: Context): Context {
             return updateResources(context, getSetLanguageLocale(context))
         }

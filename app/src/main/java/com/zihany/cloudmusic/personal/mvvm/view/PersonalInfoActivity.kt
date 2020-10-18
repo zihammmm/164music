@@ -82,7 +82,7 @@ class PersonalInfoActivity : BaseActivity() {
     }
 
     override fun onClick(view: View) {
-        if (ClickUtil.isFastClick(1000, view)) {
+        if (view.isFastClick(1000)) {
             return
         }
         val intent = Intent()

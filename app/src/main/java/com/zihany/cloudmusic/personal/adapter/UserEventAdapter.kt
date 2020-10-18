@@ -19,7 +19,6 @@ import com.zihany.cloudmusic.personal.mvvm.view.PictureCheckActivity
 import com.zihany.cloudmusic.song.mvvm.view.SongActivity
 import com.zihany.cloudmusic.util.GsonUtil
 import com.zihany.cloudmusic.util.LogUtil
-import com.zihany.cloudmusic.util.TimeUtil
 import com.zihany.cloudmusic.util.getTimeStandardOnlyYMD
 import com.zihany.cloudmusic.video.mvvm.view.VideoActivity
 

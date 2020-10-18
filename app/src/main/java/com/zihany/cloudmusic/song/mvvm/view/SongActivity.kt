@@ -26,8 +26,6 @@ import com.zihany.cloudmusic.song.mvvm.viewmodel.SongViewModel
 import com.zihany.cloudmusic.util.*
 import com.zihany.cloudmusic.widget.LyricView
 import jp.wasabeef.glide.transformations.BlurTransformation
-import org.greenrobot.eventbus.EventBus
-import org.koin.android.ext.android.bind
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.regex.Pattern
 
@@ -129,15 +127,15 @@ class SongActivity : BaseActivity() {
                 when {
                     SongPlayManager.instance.isPlaying() -> {
                         LogUtil.d(TAG, "pause music")
-                        SongPlayManager.instance.pauseMusic()
+                        viewModel.pauseMusic()
                     }
                     SongPlayManager.instance.isPaused() -> {
                         LogUtil.d(TAG, "play music")
-                        SongPlayManager.instance.playMusic()
+                        viewModel.playMusic()
                     }
                     SongPlayManager.instance.isIdle() -> {
                         LogUtil.d(TAG, "idle: currentSongInfo:${currentSongInfo}")
-                        currentSongInfo?.let { it1 -> SongPlayManager.instance.clickASong(it1) }
+                        currentSongInfo?.let { songInfo -> viewModel.playASong(songInfo) }
                     }
                 }
             }
@@ -229,6 +227,22 @@ class SongActivity : BaseActivity() {
 
             getLyricError.observe(this@SongActivity, Observer {
                 onGetLyricFail(it)
+            })
+
+            playState.observe(this@SongActivity, Observer {
+                when(it) {
+                    SongViewModel.PlayState.Playing -> {
+                        LogUtil.d(TAG, "playing music")
+                        binding.ivPlay.setImageResource(R.drawable.shape_pause)
+                    }
+                    SongViewModel.PlayState.Paused -> {
+                        LogUtil.d(TAG, "pause music")
+                        binding.ivPlay.setImageResource(R.drawable.shape_play_white)
+                    }
+                    else -> {
+
+                    }
+                }
             })
         }
     }

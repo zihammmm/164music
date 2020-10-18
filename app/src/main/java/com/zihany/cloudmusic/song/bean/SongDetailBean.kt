@@ -45,7 +45,7 @@ data class Song(
     val id: Int,
     val l: L,
     val m: M,
-    val mark: Int,
+    val mark: Long,
     val mst: Int,
     val mv: Int,
     val name: String,

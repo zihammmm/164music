@@ -12,7 +12,6 @@ import androidx.core.view.ViewCompat
 import com.google.android.material.appbar.AppBarLayout
 import com.zihany.cloudmusic.App
 import com.zihany.cloudmusic.R
-import com.zihany.cloudmusic.util.DensityUtil
 import com.zihany.cloudmusic.util.dp2px
 import kotlinx.android.synthetic.main.activity_singer.view.*
 import kotlin.math.max

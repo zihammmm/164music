@@ -14,7 +14,6 @@ import com.zihany.cloudmusic.R
 import com.zihany.cloudmusic.base.BaseAdapter
 import com.zihany.cloudmusic.databinding.ItemFeedSearchBinding
 import com.zihany.cloudmusic.search.bean.MvBean
-import com.zihany.cloudmusic.util.TimeUtil
 import com.zihany.cloudmusic.util.getTimeNoYMDH
 import com.zihany.cloudmusic.video.mvvm.view.VideoActivity
 import java.util.regex.Pattern

@@ -15,7 +15,6 @@ import com.zihany.cloudmusic.personal.adapter.UserPlaylistAdapter
 import com.zihany.cloudmusic.personal.bean.PlayListItemBean
 import com.zihany.cloudmusic.personal.bean.Playlist
 import com.zihany.cloudmusic.personal.bean.UserPlayListBean
-import com.zihany.cloudmusic.util.ClickUtil
 import com.zihany.cloudmusic.util.LogUtil
 import com.zihany.cloudmusic.util.ToastUtils
 import com.zihany.cloudmusic.util.isFastClick

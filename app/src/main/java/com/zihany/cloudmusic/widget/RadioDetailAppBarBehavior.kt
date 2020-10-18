@@ -12,7 +12,6 @@ import androidx.core.view.ViewCompat
 import com.google.android.material.appbar.AppBarLayout
 import com.zihany.cloudmusic.App
 import com.zihany.cloudmusic.databinding.ActivityRadioDetailBinding
-import com.zihany.cloudmusic.util.DensityUtil
 import com.zihany.cloudmusic.util.dp2px
 import kotlin.math.max
 import kotlin.math.min

@@ -1,9 +1,10 @@
 package com.zihany.cloudmusic.song.mvvm.viewmodel
 
-import android.content.Context
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import com.zihany.cloudmusic.api.ApiEngine
+import com.lzx.starrysky.model.SongInfo
 import com.zihany.cloudmusic.base.BaseViewModel
+import com.zihany.cloudmusic.manager.SongPlayManager
 import com.zihany.cloudmusic.song.bean.LyricBean
 import com.zihany.cloudmusic.song.bean.SongDetailBean
 import com.zihany.cloudmusic.song.mvvm.model.SongRepository
@@ -20,6 +21,11 @@ class SongViewModel(
 
     val songDetail = MutableLiveData<SongDetailBean>()
     val getSongDetailError = MutableLiveData<String>()
+    val playState = MutableLiveData<PlayState>(PlayState.Paused)
+
+    enum class PlayState{
+        Playing, Paused
+    }
 
     fun getSongDetail(ids: Long) {
         songRepository.getSongDetail(ids).subscribeOn(Schedulers.io())
@@ -46,5 +52,22 @@ class SongViewModel(
                     LogUtil.d(TAG, "onError:${it.message}")
                     getLyricError.postValue(it.message)
                 })
+    }
+
+    fun pauseMusic() {
+        LogUtil.d(TAG, "pauseMusic")
+        SongPlayManager.instance.pauseMusic()
+        playState.value = PlayState.Paused
+    }
+
+    fun playMusic() {
+        LogUtil.d(TAG, "playMusic")
+        SongPlayManager.instance.playMusic()
+        playState.value = PlayState.Playing
+    }
+
+    fun playASong(songInfo: SongInfo) {
+        SongPlayManager.instance.clickASong(songInfo)
+        playState.value = PlayState.Playing
     }
 }

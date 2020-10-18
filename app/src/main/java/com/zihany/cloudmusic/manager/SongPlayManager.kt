@@ -199,8 +199,7 @@ class SongPlayManager private constructor() {
                 lateSong = songList[currentSongIndex]
             }
         } else {
-            Toast.makeText(App.getContext(), "本歌曲不能播放", Toast.LENGTH_LONG)
-                    .show()
+            ToastUtils.show("本歌曲不能播放")
             if (mode != MODE_SINGLE_LOOP_PLAY) {
                 playNextMusic()
             } else {
