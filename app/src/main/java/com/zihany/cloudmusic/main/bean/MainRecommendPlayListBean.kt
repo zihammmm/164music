@@ -18,7 +18,7 @@ data class Recommend(
         val playcount: Int,
         val trackCount: Int,
         val type: Int,
-        val userId: Int
+        val userId: Long
 )
 
 data class Creator(
@@ -45,7 +45,7 @@ data class Creator(
     val province: Int,
     val remarkName: Any,
     val signature: String,
-    val userId: Int,
+    val userId: Long,
     val userType: Int,
     val vipType: Int
 )

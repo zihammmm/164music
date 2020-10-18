@@ -15,6 +15,7 @@ import com.zihany.cloudmusic.base.BaseAdapter
 import com.zihany.cloudmusic.databinding.ItemFeedSearchBinding
 import com.zihany.cloudmusic.search.bean.MvBean
 import com.zihany.cloudmusic.util.TimeUtil
+import com.zihany.cloudmusic.util.getTimeNoYMDH
 import com.zihany.cloudmusic.video.mvvm.view.VideoActivity
 import java.util.regex.Pattern
 
@@ -81,7 +82,7 @@ class FeedAdapter constructor(
                 }
             } else if (type == 2) {
                 binding.tvName.text = videoBean.title
-                binding.tvCreator.text = TimeUtil.getTimeNoYMDH(videoBean.duration)
+                binding.tvCreator.text = videoBean.duration.getTimeNoYMDH()
             }
             Glide.with(context)
                     .load(videoBean.coverUrl)

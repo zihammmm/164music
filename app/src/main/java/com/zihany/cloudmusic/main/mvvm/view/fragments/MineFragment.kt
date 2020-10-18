@@ -18,6 +18,7 @@ import com.zihany.cloudmusic.personal.bean.UserPlayListBean
 import com.zihany.cloudmusic.util.ClickUtil
 import com.zihany.cloudmusic.util.LogUtil
 import com.zihany.cloudmusic.util.ToastUtils
+import com.zihany.cloudmusic.util.isFastClick
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MineFragment : BaseFragment<FragmentMineBinding>(R.layout.fragment_mine) {
@@ -117,7 +118,7 @@ class MineFragment : BaseFragment<FragmentMineBinding>(R.layout.fragment_mine) {
     }
 
     override fun onClick(view: View) {
-        if (ClickUtil.isFastClick(1000, view)) {
+        if (view.isFastClick(1000)) {
             return
         }
         val intent = Intent()

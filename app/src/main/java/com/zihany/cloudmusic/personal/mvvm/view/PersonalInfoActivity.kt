@@ -20,10 +20,7 @@ import com.zihany.cloudmusic.personal.mvvm.view.fragment.UserInfoFragment
 import com.zihany.cloudmusic.personal.mvvm.view.fragment.UserPlayListFragment
 import com.zihany.cloudmusic.personal.mvvm.viewmodel.PersonalViewModel
 import com.zihany.cloudmusic.search.bean.UserSearchBean
-import com.zihany.cloudmusic.util.AppBarStateChangeListener
-import com.zihany.cloudmusic.util.ClickUtil
-import com.zihany.cloudmusic.util.DensityUtil
-import com.zihany.cloudmusic.util.GsonUtil
+import com.zihany.cloudmusic.util.*
 import jp.wasabeef.glide.transformations.BlurTransformation
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -66,8 +63,8 @@ class PersonalInfoActivity : BaseActivity() {
 
         pagerAdapter.getItem(0).userVisibleHint = true
 
-        minDistance = DensityUtil.dp2px(this, 85f).toFloat()
-        deltaDistance = DensityUtil.dp2px(this, 200f).toFloat() - minDistance
+        minDistance = dp2px(85f).toFloat()
+        deltaDistance = dp2px(200f).toFloat() - minDistance
     }
 
     override fun initView() {

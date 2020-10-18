@@ -13,10 +13,7 @@ import com.zihany.cloudmusic.dj.bean.DjSubBean
 import com.zihany.cloudmusic.dj.event.RidEvent
 import com.zihany.cloudmusic.dj.mvvm.viewmodel.DjViewModel
 import com.zihany.cloudmusic.main.adapter.MultiFragmentPagerAdapter
-import com.zihany.cloudmusic.util.AppBarStateChangeListener
-import com.zihany.cloudmusic.util.ClickUtil
-import com.zihany.cloudmusic.util.DensityUtil
-import com.zihany.cloudmusic.util.LogUtil
+import com.zihany.cloudmusic.util.*
 import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.activity_radio_detail.*
 import org.greenrobot.eventbus.EventBus
@@ -79,8 +76,8 @@ class RadioActivity: BaseActivity() {
         pagerAdapter.getItem(0).userVisibleHint = true
         binding.tabTitle.setViewPager(binding.vpContainer)
 
-        minDistance = DensityUtil.dp2px(this@RadioActivity, 85f).toFloat()
-        deltaDistance = DensityUtil.dp2px(this@RadioActivity, 250f) - minDistance
+        minDistance = dp2px(85f).toFloat()
+        deltaDistance = dp2px(250f) - minDistance
 
         EventBus.getDefault().postSticky(RidEvent(rid))
     }
@@ -149,7 +146,7 @@ class RadioActivity: BaseActivity() {
 
     inner class DjPresenter {
         fun onClickTvSub(v: View?) {
-            if (ClickUtil.isFastClick(500, v)) {
+            if (v.isFastClick(500)) {
                 return
             }
             showDialog()
@@ -157,7 +154,7 @@ class RadioActivity: BaseActivity() {
         }
 
         fun onClickTvHasSub(v: View?) {
-            if (ClickUtil.isFastClick(500, v)) {
+            if (v.isFastClick(500)) {
                 return
             }
             showDialog()

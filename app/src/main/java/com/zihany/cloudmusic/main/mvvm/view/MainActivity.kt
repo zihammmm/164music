@@ -57,7 +57,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onClick(view: View) {
-        if (ClickUtil.isFastClick(1000, view)) {
+        if (view.isFastClick(1000)) {
             return
         }
         val intent = Intent()
@@ -216,8 +216,7 @@ class MainActivity : BaseActivity() {
     fun onLogoutSuccess() {
         hideDialog()
         PreferenceUtils(AUTH_TOKEN, "").remove(AUTH_TOKEN)
-        ActivityStarter.instance
-                .startLoginActivity(this)
+        startLoginActivity()
         this.finish()
     }
 

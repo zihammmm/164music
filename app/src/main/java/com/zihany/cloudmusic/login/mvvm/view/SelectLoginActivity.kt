@@ -6,9 +6,7 @@ import android.view.View
 import com.zihany.cloudmusic.R
 import com.zihany.cloudmusic.base.BaseActivity
 import com.zihany.cloudmusic.databinding.ActivitySelectLoginBinding
-import com.zihany.cloudmusic.util.ClickUtil
-import com.zihany.cloudmusic.util.ScreenUtils
-import com.zihany.cloudmusic.util.ToastUtils
+import com.zihany.cloudmusic.util.*
 import kotlin.system.exitProcess
 
 class SelectLoginActivity: BaseActivity() {
@@ -20,7 +18,7 @@ class SelectLoginActivity: BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        ScreenUtils.setStatusBarColor(this, Color.parseColor("#Db2C1F"))
+        setStatusBarColor(Color.parseColor("#Db2C1F"))
     }
 
     override fun initData() {
@@ -40,7 +38,7 @@ class SelectLoginActivity: BaseActivity() {
     }
 
     override fun onClick(view: View) {
-        if (ClickUtil.isFastClick(1000, view)) {
+        if (view.isFastClick(1000)) {
             return
         }
         when(view.id) {

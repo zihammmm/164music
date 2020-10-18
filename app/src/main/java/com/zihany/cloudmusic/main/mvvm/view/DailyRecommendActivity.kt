@@ -58,21 +58,21 @@ class DailyRecommendActivity : BaseActivity() {
                     .into(binding.ivBackground)
         }
 
-        binding.tvDay.text = TimeUtil.getDay(System.currentTimeMillis())
-        binding.tvMonth.text = "/${TimeUtil.getMonth(System.currentTimeMillis())}"
+        val currentTime = System.currentTimeMillis()
+        binding.tvDay.text = currentTime.getDay()
+        binding.tvMonth.text = "/${currentTime.getMonth()}"
 
         val updateTime by PreferenceUtils(DAILY_UPDATE_TIME, System.currentTimeMillis())
-        LogUtil.d(TAG, "上次日推更新时间: ${TimeUtil.getTimeStandard(System.currentTimeMillis())}")
-        if (!TimeUtil.isOver7am(updateTime)) {
+        LogUtil.d(TAG, "上次日推更新时间: ${currentTime.getTimeStandard()}")
+        if (!updateTime.isOver7am()) {
             DailyRecommendDaoOp.deleteAllData()
-
-
         } else {
             greenDaoList = DailyRecommendDaoOp.queryAll()
             notifyAdapter(greenDaoList)
         }
-        minDistance = DensityUtil.dp2px(this, 85f)
-        deltaDistance = DensityUtil.dp2px(this, 200f) - minDistance
+
+        minDistance = dp2px(85f)
+        deltaDistance = dp2px(200f) - minDistance
     }
 
     override fun initView() {

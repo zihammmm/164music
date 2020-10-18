@@ -13,6 +13,7 @@ import com.google.android.material.appbar.AppBarLayout
 import com.zihany.cloudmusic.App
 import com.zihany.cloudmusic.R
 import com.zihany.cloudmusic.util.DensityUtil
+import com.zihany.cloudmusic.util.dp2px
 import kotlinx.android.synthetic.main.activity_singer.view.*
 import kotlin.math.max
 import kotlin.math.min
@@ -24,7 +25,7 @@ class SingerAppBarBehavior constructor(
     companion object {
         const val TAG = "SingerAppBarBehavior"
         const val MAX_SCALE = 0.5f
-        val MAX_ZOOM_HEIGHT = DensityUtil.dp2px(App.getContext(), 50f).toFloat()
+        val MAX_ZOOM_HEIGHT = App.getContext().dp2px(50f).toFloat()
     }
 
     private lateinit var imageView: ImageView

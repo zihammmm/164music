@@ -27,8 +27,8 @@ class LoginActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        ScreenUtils.setStatusBarColor(this, Color.parseColor(getString(R.string.colorWhite)))
-        ScreenUtils.setStatusBarDarkFont(this, true)
+        setStatusBarColor(Color.parseColor(getString(R.string.colorWhite)))
+        setStatusBarDarkFont(true)
     }
 
     override fun initView() {
@@ -45,7 +45,7 @@ class LoginActivity : BaseActivity() {
                     LogUtil.d(TAG, "login success")
                     ToastUtils.show("登录成功")
                     hideDialog()
-                    ActivityStarter.instance.startMainActivity(this@LoginActivity)
+                    this@LoginActivity.startMainActivity()
                 }
 
                 it.isError?.let {error ->
@@ -58,7 +58,7 @@ class LoginActivity : BaseActivity() {
 
     @ExperimentalCoroutinesApi
     override fun onClick(view: View) {
-        if (ClickUtil.isFastClick(1000, view)) {
+        if (view.isFastClick(1000)) {
             return
         }
     }

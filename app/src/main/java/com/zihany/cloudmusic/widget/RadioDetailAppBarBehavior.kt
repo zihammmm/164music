@@ -13,6 +13,7 @@ import com.google.android.material.appbar.AppBarLayout
 import com.zihany.cloudmusic.App
 import com.zihany.cloudmusic.databinding.ActivityRadioDetailBinding
 import com.zihany.cloudmusic.util.DensityUtil
+import com.zihany.cloudmusic.util.dp2px
 import kotlin.math.max
 import kotlin.math.min
 
@@ -20,7 +21,7 @@ class RadioDetailAppBarBehavior constructor(context: Context, attrs: AttributeSe
     : AppBarLayout.Behavior(context, attrs) {
     companion object {
         private var MAX_SCALE = 0.8f
-        private val MAX_ZOOM_HEIGHT = DensityUtil.dp2px(App.getContext(), 80f).toFloat()
+        private val MAX_ZOOM_HEIGHT = App.getContext().dp2px(80f).toFloat()
     }
     private var imageViewHeight = 0
     private var appBarHeight = 0

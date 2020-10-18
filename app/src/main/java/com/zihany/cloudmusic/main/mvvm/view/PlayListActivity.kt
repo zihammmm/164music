@@ -25,10 +25,7 @@ import com.zihany.cloudmusic.main.mvvm.viewmodel.PlayListViewModel
 import com.zihany.cloudmusic.main.mvvm.viewmodel.WowViewModel
 import com.zihany.cloudmusic.manager.SongPlayManager
 import com.zihany.cloudmusic.song.mvvm.view.CommentActivity
-import com.zihany.cloudmusic.util.AppBarStateChangeListener
-import com.zihany.cloudmusic.util.DensityUtil
-import com.zihany.cloudmusic.util.LogUtil
-import com.zihany.cloudmusic.util.ToastUtils
+import com.zihany.cloudmusic.util.*
 import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.activity_play_list.*
 import kotlinx.coroutines.Dispatchers
@@ -88,8 +85,9 @@ class PlayListActivity : BaseActivity() {
 
         showDialog()
         viewModel.getPlayListDetail()
-        minDistance = DensityUtil.dp2px(this, 85f)
-        deltaDistance = DensityUtil.dp2px(application.applicationContext, 300f) - minDistance
+
+        minDistance = dp2px(85f)
+        deltaDistance = application.applicationContext.dp2px(300f) - minDistance
     }
 
     override fun initView() {

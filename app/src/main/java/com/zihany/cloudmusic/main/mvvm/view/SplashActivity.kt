@@ -37,7 +37,7 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        ScreenUtils.setStatusBarColor(this, Color.parseColor("#Db2C1F"))
+        setStatusBarColor(Color.parseColor("#Db2C1F"))
     }
 
     private fun startCountDownTime() {
@@ -48,8 +48,8 @@ class SplashActivity : AppCompatActivity() {
 
             override fun onFinish() {
 //                if (TextUtils.isEmpty(password)) {
-                //先统一跳转到登录页面，再进行处理
-                    ActivityStarter.instance.startLoginActivity(this@SplashActivity)
+                //TODO:先统一跳转到登录页面，再进行处理
+                this@SplashActivity.startLoginActivity()
 //                } else {
 //                    ActivityStarter.instance.startMainActivity(this@SplashActivity)
 //                }

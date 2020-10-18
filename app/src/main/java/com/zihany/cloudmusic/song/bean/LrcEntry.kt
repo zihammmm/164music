@@ -51,4 +51,8 @@ class LrcEntry constructor(var time: Long, var text: String) : Comparable<LrcEnt
     override fun compareTo(other: LrcEntry): Int {
         return (time - other.time).toInt()
     }
+
+    override fun toString(): String {
+        return "[$time]$text,$secondText"
+    }
 }

@@ -6,6 +6,41 @@ import com.zihany.cloudmusic.base.SELECTED_LANGUAGE
 import com.zihany.cloudmusic.base.SYSTEM_CURRENT_LOCAL
 import java.util.*
 
+const val TAG = "LocaleManageUtil"
+const val LOCAL_CHINA = 0
+const val LOCAL_ENGLISH = 1
+var selectLanguage by PreferenceUtils(SELECTED_LANGUAGE, LocaleManageUtil.LOCAL_CHINA)
+
+var systemCurrentLocal: Locale by PreferenceUtils(SYSTEM_CURRENT_LOCAL, Locale.CHINESE)
+
+fun Context.setLocal(): Context {
+    return updateResources()
+}
+
+private fun Context.updateResources(locale: Locale): Context {
+    Locale.setDefault(locale)
+
+    val res = resources
+    val config = Configuration(res.configuration)
+    config.setLocale(locale)
+    return createConfigurationContext(config)
+}
+
+fun Context.getSetLanguageLocale(): Locale {
+    return when (selectLanguage) {
+        0 -> Locale.CHINA
+        1 -> Locale.ENGLISH
+        else -> {
+            if (systemCurrentLocal.language.contains("zh") ||
+                    systemCurrentLocal.country.contains("CN")) {
+                Locale.CHINA
+            }else {
+                Locale.ENGLISH
+            }
+        }
+    }
+}
+
 class LocaleManageUtil {
     companion object {
         const val TAG = "LocaleManageUtil"

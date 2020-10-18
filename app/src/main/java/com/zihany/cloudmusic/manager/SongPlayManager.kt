@@ -5,15 +5,22 @@ import com.lzx.starrysky.manager.MusicManager
 import com.lzx.starrysky.manager.OnPlayerEventListener
 import com.lzx.starrysky.model.SongInfo
 import com.zihany.cloudmusic.App
+import com.zihany.cloudmusic.api.ApiService
 import com.zihany.cloudmusic.base.LATEST_SONG
 import com.zihany.cloudmusic.manager.bean.MusicCanPlayBean
+import com.zihany.cloudmusic.manager.event.PauseMusicEvent
 import com.zihany.cloudmusic.manager.event.StopMusicEvent
 import com.zihany.cloudmusic.song.bean.SongDetailBean
+import com.zihany.cloudmusic.util.GsonUtil
 import com.zihany.cloudmusic.util.LogUtil
 import com.zihany.cloudmusic.util.PreferenceUtils
 import com.zihany.cloudmusic.util.ToastUtils
-import okhttp3.Request
+import okhttp3.*
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.greenrobot.eventbus.EventBus
+import java.io.IOException
+import java.nio.charset.Charset
+import java.nio.charset.UnsupportedCharsetException
 import java.util.regex.Pattern
 import kotlin.random.Random
 
@@ -23,7 +30,7 @@ class SongPlayManager private constructor() {
             SongPlayManager()
         }
         const val TAG = "SongPlayManager"
-        private val CHECK_MUSIC_URL = "check/music"
+        const val CHECK_MUSIC_URL = "/check/music"
         const val MODE_LIST_LOOP_PLAY = 0x001
         const val MODE_SINGLE_LOOP_PLAY = 0x002
         const val MODE_RANDOM = 0x003
@@ -73,7 +80,7 @@ class SongPlayManager private constructor() {
 
     fun playPreMusic() {
         cancelPlay()
-        when(mode) {
+        when (mode) {
             MODE_LIST_LOOP_PLAY -> {
                 if (currentSongIndex < songList.size) {
                     if (currentSongIndex == 0) {
@@ -102,7 +109,9 @@ class SongPlayManager private constructor() {
     }
 
     fun checkMusic(songId: String) {
+        LogUtil.d(TAG, "checkMusic: $songId")
         if (musicCanPlayMap[songId] == null) {
+            LogUtil.d(TAG, "music can play map is null")
             setOnSongCanPlayListener(songId, object : OnSongListener {
                 override fun onSongCanPlaySuccess(bean: MusicCanPlayBean) {
                     musicCanPlayMap[songId] = bean.success
@@ -119,10 +128,61 @@ class SongPlayManager private constructor() {
         }
     }
 
-    fun setOnSongCanPlayListener(id: String, listener: OnSongListener) {
-        //TODO
+    private fun setOnSongCanPlayListener(id: String, listener: OnSongListener?) {
         val requestBuilder = Request.Builder()
+        val urlBuilder = (ApiService.BASE_URL + CHECK_MUSIC_URL).toHttpUrlOrNull()!!.newBuilder()
+        urlBuilder.addQueryParameter("id", id)
+        val request = requestBuilder.url(urlBuilder.build()).build()
+        LogUtil.d(TAG, "request 请求头:${request}")
+        val call = OkHttpClient().newCall(request)
+        call.enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.message?.let { listener?.onSongCanPlayFail(it) }
+            }
 
+            override fun onResponse(call: Call, response: Response) {
+                val dstStr = getErrorCodeString(response)
+                LogUtil.d(TAG, "dstStr: $dstStr")
+                val bean = GsonUtil.instance.fromJson<MusicCanPlayBean>(dstStr, MusicCanPlayBean::class.java)
+                if (bean != null) {
+                    listener?.onSongCanPlaySuccess(bean)
+                } else {
+                    listener?.onSongCanPlayFail("response is null")
+                }
+            }
+        })
+    }
+
+    private fun getErrorCodeString(response: Response): String {
+        var res = ""
+        val responseBody = response.body
+        val contentLength = responseBody?.contentLength()
+        if (!bodyEncoded(response.headers)) {
+            val source = responseBody?.source()
+            try {
+                source?.request(Long.MAX_VALUE)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+            val buffer = source?.buffer
+            var charset = Charsets.UTF_8
+            val contentType = responseBody?.contentType()
+            try {
+                charset = contentType?.charset(Charsets.UTF_8)!!
+            } catch (e: UnsupportedCharsetException) {
+                e.message?.let { LogUtil.e(TAG, it) }
+                e.printStackTrace()
+            }
+            if (contentLength != 0L) {
+                res = buffer?.clone()?.readString(charset)!!
+            }
+        }
+        return res
+    }
+
+    private fun bodyEncoded(headers: Headers): Boolean {
+        val contentEncoding = headers["Content-Encoding"]
+        return contentEncoding != null && contentEncoding.equals("identity", true)
     }
 
     fun playMusic() {
@@ -132,6 +192,7 @@ class SongPlayManager private constructor() {
     }
 
     fun playMusic(songId: String) {
+        LogUtil.d(TAG, "playMusic: $songId")
         if (musicCanPlayMap[songId]!! || containsStr(songId)) {
             MusicManager.getInstance().playMusic(songList, currentSongIndex)
             App.getContext().let {
@@ -151,7 +212,7 @@ class SongPlayManager private constructor() {
     fun playNextMusic() {
         LogUtil.d(TAG, "playNextMusic")
         cancelPlay()
-        when(mode) {
+        when (mode) {
             MODE_LIST_LOOP_PLAY -> {
                 if (currentSongIndex < songList.size) {
                     if (currentSongIndex == songList.size - 1) {
@@ -268,31 +329,36 @@ class SongPlayManager private constructor() {
 
     inner class SongPlayListener : OnPlayerEventListener {
         override fun onPlayerStop() {
-            TODO("Not yet implemented")
+            LogUtil.d(TAG, "onPlayerStop")
         }
 
         override fun onMusicSwitch(songInfo: SongInfo?) {
-            TODO("Not yet implemented")
+            LogUtil.d(TAG, "onMusicSwitch")
         }
 
         override fun onPlayCompletion(songInfo: SongInfo?) {
-            TODO("Not yet implemented")
+            LogUtil.d(TAG, "songInfo:$songInfo")
+            playNextMusic()
         }
 
         override fun onPlayerPause() {
-            TODO("Not yet implemented")
+            LogUtil.d(TAG, "onPlayerPause")
+            EventBus.getDefault().post(PauseMusicEvent())
         }
 
         override fun onBuffering() {
-            TODO("Not yet implemented")
+            LogUtil.d(TAG, "onBuffering")
         }
 
         override fun onPlayerStart() {
-            TODO("Not yet implemented")
+            LogUtil.d(TAG, "onPlayerStart")
         }
 
         override fun onError(errorCode: Int, errorMsg: String?) {
-            TODO("Not yet implemented")
+            LogUtil.d(TAG, "onError:$errorCode, msg:$errorMsg")
+            if (errorMsg != null) {
+                ToastUtils.show(errorMsg)
+            }
         }
 
     }

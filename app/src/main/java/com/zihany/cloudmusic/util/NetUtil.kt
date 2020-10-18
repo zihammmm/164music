@@ -7,7 +7,7 @@ import com.zihany.cloudmusic.App
 
 class NetUtil {
     companion object {
-        private val TAG = "NetUtil"
+        const val TAG = "NetUtil"
 
         fun isConnected(): Boolean {
             val connectivity: ConnectivityManager

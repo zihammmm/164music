@@ -20,6 +20,7 @@ import com.zihany.cloudmusic.song.mvvm.view.SongActivity
 import com.zihany.cloudmusic.util.GsonUtil
 import com.zihany.cloudmusic.util.LogUtil
 import com.zihany.cloudmusic.util.TimeUtil
+import com.zihany.cloudmusic.util.getTimeStandardOnlyYMD
 import com.zihany.cloudmusic.video.mvvm.view.VideoActivity
 
 class UserEventAdapter constructor(private val mContext: Context)
@@ -73,7 +74,7 @@ class UserEventAdapter constructor(private val mContext: Context)
                     .load(list[i].user?.avatarUrl)
                     .into(binding.ivAvatar)
             binding.tvNickname.text = list[i].user?.nickname
-            binding.tvPublishTime.text = TimeUtil.getTimeStandardOnlyYMD(list[i].showTime)
+            binding.tvPublishTime.text = list[i].showTime.getTimeStandardOnlyYMD()
             binding.tvRelayoutCount.text = if (list[i].info?.shareCount == 0) {
                 "转发"
             } else {

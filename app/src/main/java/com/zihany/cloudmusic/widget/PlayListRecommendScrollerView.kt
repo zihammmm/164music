@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.widget.ScrollView
 import com.zihany.cloudmusic.util.DensityUtil
+import com.zihany.cloudmusic.util.dp2px
 
 class PlayListRecommendScrollerView constructor(
         private val mContext: Context, attrs: AttributeSet?, defStyleAttr: Int
@@ -17,7 +18,7 @@ class PlayListRecommendScrollerView constructor(
 
     override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
         if (ev?.actionMasked == MotionEvent.ACTION_DOWN) {
-            if (ev.y >= 0 && ev.y <= DensityUtil.dp2px(mContext, 165f)) {
+            if (ev.y >= 0 && ev.y <= mContext.dp2px(165f)) {
                 return true
             }
         }

@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import androidx.viewpager.widget.ViewPager
 import com.zihany.cloudmusic.util.DensityUtil
+import com.zihany.cloudmusic.util.dp2px
 
 class PlayListRecommendViewPager constructor(
         private val mContext: Context, attrs: AttributeSet?
@@ -20,7 +21,7 @@ class PlayListRecommendViewPager constructor(
         val currentItem = currentItem
         if (ev?.actionMasked == MotionEvent.ACTION_DOWN) {
             if (currentItem == 0) {
-                if (ev.y >= 0 && ev.y <= DensityUtil.dp2px(mContext, 165f)) {
+                if (ev.y >= 0 && ev.y <= mContext.dp2px(165f)) {
                     lastY = ev.y
                     return false
                 }

@@ -167,6 +167,7 @@ class LyricView constructor(
         val centerY = height / 2
 
         if (!lrcNotEmpty()) {
+            LogUtil.d(TAG, "lrc is empty")
             lrcPaint.color = currentTextColor
             val staticLayout = StaticLayout.Builder
                     .obtain(defaultLabel, 0, defaultLabel.length, lrcPaint, getLrcWidth().toInt())
@@ -216,7 +217,7 @@ class LyricView constructor(
         canvas.restore()
     }
 
-    private fun lrcNotEmpty(): Boolean = lrcEntryList.isNotEmpty()
+    private fun lrcNotEmpty() = lrcEntryList.isNotEmpty()
 
     private fun reset() {
         endAnimation()
@@ -277,7 +278,7 @@ class LyricView constructor(
         if (parseList != null && parseList.isNotEmpty()) {
             lrcEntryList.addAll(parseList)
         }
-
+        LogUtil.d(TAG, "Lrc list is Empty:${lrcEntryList.isEmpty()}")
         lrcEntryList.sort()
         initEntryList()
         invalidate()

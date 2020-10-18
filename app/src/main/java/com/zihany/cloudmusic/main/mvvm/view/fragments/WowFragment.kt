@@ -18,10 +18,7 @@ import com.zihany.cloudmusic.main.mvvm.view.PlayListActivity
 import com.zihany.cloudmusic.main.mvvm.view.PlayListRecommendActivity
 import com.zihany.cloudmusic.main.mvvm.view.RankActivity
 import com.zihany.cloudmusic.main.mvvm.viewmodel.WowViewModel
-import com.zihany.cloudmusic.util.BannerGlideImageAdapter
-import com.zihany.cloudmusic.util.ClickUtil
-import com.zihany.cloudmusic.util.LogUtil
-import com.zihany.cloudmusic.util.ToastUtils
+import com.zihany.cloudmusic.util.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WowFragment
@@ -75,7 +72,7 @@ class WowFragment
     inner class WowPresenter {
         fun onClickRlDayRec(v: View) {
             LogUtil.d(TAG, "onClickRlDayRec")
-            if (ClickUtil.isFastClick(1000, v)) {
+            if (v.isFastClick(1000)) {
                 return
             }
             startActivity(Intent(activity, DailyRecommendActivity::class.java))
@@ -83,7 +80,7 @@ class WowFragment
 
         fun onClickRlPlayList(v: View) {
             LogUtil.d(TAG, "onClickRlPlayList")
-            if (ClickUtil.isFastClick(1000, v)) {
+            if (v.isFastClick(1000)) {
                 return
             }
             startActivity(Intent(activity, PlayListRecommendActivity::class.java))
@@ -91,28 +88,28 @@ class WowFragment
 
         fun onClickRlRank(v: View) {
             LogUtil.d(TAG, "onClickRlRank")
-            if (ClickUtil.isFastClick(1000, v)) {
+            if (v.isFastClick(1000)) {
                 return
             }
             startActivity(Intent(activity, RankActivity::class.java))
         }
 
         fun onClickRlRadio(v: View) {
-            if (ClickUtil.isFastClick(1000, v)) {
+            if (v.isFastClick(1000)) {
                 return
             }
             startActivity(Intent(activity, RadioRecommendActivity::class.java))
         }
 
         fun onClickRlLive(v: View) {
-            if (ClickUtil.isFastClick(1000, v)) {
+            if (v.isFastClick(1000)) {
                 return
             }
             ToastUtils.show("无服务")
         }
 
         fun onClickPlaylistPlayground(v: View) {
-            if (ClickUtil.isFastClick(1000, v)) {
+            if (v.isFastClick(1000)) {
                 return
             }
             startActivity(Intent(activity, PlayListRecommendActivity::class.java))

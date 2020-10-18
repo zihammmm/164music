@@ -33,7 +33,7 @@ class LrcUtils {
 
         private fun parseLrc(lrcText: String): MutableList<LrcEntry>? {
             val entryList: MutableList<LrcEntry> = ArrayList()
-            val array = lrcText.split("\\n")
+            val array = lrcText.split("\n")
             for (line: String in array) {
                 val list = parseLine(line)
                 list?.let {

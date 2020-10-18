@@ -16,6 +16,8 @@ import com.zihany.cloudmusic.base.BaseAdapter
 import com.zihany.cloudmusic.databinding.ItemAlbumSearchBinding
 import com.zihany.cloudmusic.search.bean.AlbumAdapterBean
 import com.zihany.cloudmusic.util.TimeUtil
+import com.zihany.cloudmusic.util.getTimeNoYMDH
+import com.zihany.cloudmusic.util.getTimeStandardOnlyYMD
 
 class AlbumAdapter constructor(
         private val mContext: Context
@@ -81,10 +83,10 @@ class AlbumAdapter constructor(
                 } else {
                     binding.tvSinger.text = artistName
                 }
-                binding.tvDescription.text = TimeUtil.getTimeStandardOnlyYMD(bean.createTime)
+                binding.tvDescription.text = bean.createTime.getTimeStandardOnlyYMD()
             } else if (type == 2) {
                 binding.tvName.text = bean.albumName
-                binding.tvDescription.text = TimeUtil.getTimeStandardOnlyYMD(bean.createTime) + " 歌曲 " + bean.songCount
+                binding.tvDescription.text = "${bean.createTime.getTimeStandardOnlyYMD()} 歌曲 ${bean.songCount}"
             }
         }
 

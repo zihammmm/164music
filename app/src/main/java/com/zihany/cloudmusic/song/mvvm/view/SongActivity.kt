@@ -56,7 +56,7 @@ class SongActivity : BaseActivity() {
             Runnable {
                 val position = MusicManager.getInstance().playingPosition
                 binding.seekBar.progress = position.toInt()
-                binding.tvPastTime.text = TimeUtil.getTimeNoYMDH(position)
+                binding.tvPastTime.text = position.getTimeNoYMDH()
                 binding.lrc.updateTime(position)
             }
         }
@@ -125,14 +125,18 @@ class SongActivity : BaseActivity() {
             }
 
             ivPlay.setOnClickListener {
+                LogUtil.d(TAG, "click play")
                 when {
                     SongPlayManager.instance.isPlaying() -> {
+                        LogUtil.d(TAG, "pause music")
                         SongPlayManager.instance.pauseMusic()
                     }
                     SongPlayManager.instance.isPaused() -> {
+                        LogUtil.d(TAG, "play music")
                         SongPlayManager.instance.playMusic()
                     }
                     SongPlayManager.instance.isIdle() -> {
+                        LogUtil.d(TAG, "idle: currentSongInfo:${currentSongInfo}")
                         currentSongInfo?.let { it1 -> SongPlayManager.instance.clickASong(it1) }
                     }
                 }
@@ -261,9 +265,7 @@ class SongActivity : BaseActivity() {
                 LogUtil.d(TAG, "$ids song not exist")
                 viewModel.getSongDetail(ids)
             } else {
-                viewModel.songDetail.apply {
-                    postValue(SongPlayManager.instance.getSongDetail(ids))
-                }
+                viewModel.songDetail.postValue(SongPlayManager.instance.getSongDetail(ids))
             }
 
             val duration = currentSongInfo!!.duration
@@ -282,7 +284,7 @@ class SongActivity : BaseActivity() {
                     binding.ivPlayMode.setImageResource(R.drawable.shape_single_cycle)
                 }
             }
-            binding.totalTime.text = TimeUtil.getTimeNoYMDH(duration)
+            binding.totalTime.text = duration.getTimeNoYMDH()
             checkMusicPlaying()
         }
     }

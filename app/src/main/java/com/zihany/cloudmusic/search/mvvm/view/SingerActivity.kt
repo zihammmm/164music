@@ -13,6 +13,7 @@ import com.zihany.cloudmusic.main.adapter.MultiFragmentPagerAdapter
 import com.zihany.cloudmusic.search.mvvm.viewmodel.SingerViewModel
 import com.zihany.cloudmusic.util.AppBarStateChangeListener
 import com.zihany.cloudmusic.util.DensityUtil
+import com.zihany.cloudmusic.util.dp2px
 import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.activity_singer.*
 
@@ -57,8 +58,8 @@ class SingerActivity: BaseActivity() {
         pagerAdapter.getItem(0).userVisibleHint = true
         binding.tabTitle.setViewPager(binding.vpContainer)
 
-        minDistance = DensityUtil.dp2px(this, 85f).toFloat()
-        deltaDistance = DensityUtil.dp2px(this, 250f).toFloat()
+        minDistance = dp2px(85f).toFloat()
+        deltaDistance = dp2px(250f).toFloat()
     }
 
     override fun initView() {

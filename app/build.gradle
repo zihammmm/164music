@@ -76,8 +76,8 @@ dependencies {
 
     implementation 'com.lzx:StarrySkyJava:2.1.9'
     implementation 'com.google.code.gson:gson:2.8.6'
-    implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation 'org.greenrobot:greendao:3.3.0' // add library
 
     implementation 'com.squareup.okhttp3:okhttp:4.8.1'
