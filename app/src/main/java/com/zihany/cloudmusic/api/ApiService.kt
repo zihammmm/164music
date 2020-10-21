@@ -12,7 +12,7 @@ import retrofit2.http.Query
 
 interface ApiService {
     companion object {
-        const val BASE_URL: String = "http://192.168.50.88:3000"
+        const val BASE_URL: String = "http://118.178.89.205:3000"
     }
 
     @GET("login/cellphone")

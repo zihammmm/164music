@@ -77,7 +77,7 @@ class LrcUtils {
             val s = (milli / DateUtils.SECOND_IN_MILLIS) % 60
             val mm = String.format(Locale.getDefault(), "%02d", m)
             val ss = String.format(Locale.getDefault(), "%02d", s)
-            return "$mm;$ss"
+            return "$mm:$ss"
         }
 
         fun resetDurationScale() {

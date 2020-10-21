@@ -379,8 +379,8 @@ class LyricView constructor(
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        if (event!!.actionMasked == MotionEvent.ACTION_UP || event.actionMasked == MotionEvent.ACTION_CANCEL) {
-            isTouching == false
+        if (event?.actionMasked == MotionEvent.ACTION_UP || event?.actionMasked == MotionEvent.ACTION_CANCEL) {
+            isTouching = false
             if (lrcNotEmpty() && isFling) {
                 smoothScrollTo(getCenterLine(), ADJUST_DURATION)
             }
