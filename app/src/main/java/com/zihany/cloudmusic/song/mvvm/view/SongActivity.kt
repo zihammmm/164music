@@ -51,12 +51,11 @@ class SongActivity : BaseActivity() {
 
     private fun initTimerTaskWork() {
         timerTask.setUpdateProgressTask {
-            Runnable {
-                val position = MusicManager.getInstance().playingPosition
-                binding.seekBar.progress = position.toInt()
-                binding.tvPastTime.text = position.getTimeNoYMDH()
-                binding.lrc.updateTime(position)
-            }
+            val position = MusicManager.getInstance().playingPosition
+            binding.seekBar.progress = position.toInt()
+            binding.tvPastTime.text = position.getTimeNoYMDH()
+            LogUtil.d(TAG, "progress: $position")
+            binding.lrc.updateTime(position)
         }
 
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -228,23 +227,21 @@ class SongActivity : BaseActivity() {
             getLyricError.observe(this@SongActivity, Observer {
                 onGetLyricFail(it)
             })
-
-            playState.observe(this@SongActivity, Observer {
-                when(it) {
-                    SongViewModel.PlayState.Playing -> {
-                        LogUtil.d(TAG, "playing music")
-                        binding.ivPlay.setImageResource(R.drawable.shape_pause)
-                    }
-                    SongViewModel.PlayState.Paused -> {
-                        LogUtil.d(TAG, "pause music")
-                        binding.ivPlay.setImageResource(R.drawable.shape_play_white)
-                    }
-                    else -> {
-
-                    }
-                }
-            })
         }
+
+        SongPlayManager.instance.state.observe(this, Observer {
+            when(it) {
+                SongPlayManager.PlayState.Paused, SongPlayManager.PlayState.Idle-> {
+                    binding.ivPlay.setImageResource(R.drawable.shape_play_white)
+                }
+                SongPlayManager.PlayState.Playing -> {
+                    binding.ivPlay.setImageResource(R.drawable.shape_pause)
+                }
+                else -> {
+
+                }
+            }
+        })
     }
 
     override fun onClick(view: View) {

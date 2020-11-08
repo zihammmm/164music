@@ -1,6 +1,7 @@
 package com.zihany.cloudmusic.manager
 
 import android.widget.Toast
+import androidx.lifecycle.MutableLiveData
 import com.lzx.starrysky.manager.MusicManager
 import com.lzx.starrysky.manager.OnPlayerEventListener
 import com.lzx.starrysky.model.SongInfo
@@ -35,6 +36,11 @@ class SongPlayManager private constructor() {
         const val MODE_SINGLE_LOOP_PLAY = 0x002
         const val MODE_RANDOM = 0x003
     }
+
+    enum class PlayState{
+        Playing, Paused, Idle
+    }
+    val state = MutableLiveData<PlayState>(PlayState.Idle)
 
     var mode = MODE_LIST_LOOP_PLAY
     private val songList: MutableList<SongInfo> = ArrayList()
@@ -108,7 +114,7 @@ class SongPlayManager private constructor() {
         }
     }
 
-    fun checkMusic(songId: String) {
+    private fun checkMusic(songId: String) {
         LogUtil.d(TAG, "checkMusic: $songId")
         if (musicCanPlayMap[songId] == null) {
             LogUtil.d(TAG, "music can play map is null")
@@ -188,6 +194,7 @@ class SongPlayManager private constructor() {
     fun playMusic() {
         if (isPaused()) {
             MusicManager.getInstance().playMusic()
+            state.postValue(PlayState.Playing)
         }
     }
 
@@ -198,6 +205,7 @@ class SongPlayManager private constructor() {
             App.getContext().let {
                 lateSong = songList[currentSongIndex]
             }
+            state.postValue(PlayState.Playing)
         } else {
             ToastUtils.show("本歌曲不能播放")
             if (mode != MODE_SINGLE_LOOP_PLAY) {
@@ -242,13 +250,15 @@ class SongPlayManager private constructor() {
     fun pauseMusic() {
         if (isPlaying()) {
             MusicManager.getInstance().pauseMusic()
+            state.postValue(PlayState.Paused)
         }
     }
 
-    fun cancelPlay() {
+    private fun cancelPlay() {
         if (isPlaying() || isPaused()) {
             LogUtil.d(TAG, "cancel play")
             MusicManager.getInstance().stopMusic()
+            state.postValue(PlayState.Idle)
         }
     }
 
@@ -261,7 +271,7 @@ class SongPlayManager private constructor() {
         addSongListAndPlay(songList, position)
     }
 
-    fun addSongListAndPlay(songInfoList: MutableList<SongInfo>, index: Int) {
+    private fun addSongListAndPlay(songInfoList: MutableList<SongInfo>, index: Int) {
         if (songInfoList.isEmpty()) {
             return
         }
@@ -269,7 +279,7 @@ class SongPlayManager private constructor() {
         checkMusic(songInfoList[index].songId)
     }
 
-    fun addSongList(songInfoList: MutableList<SongInfo>, index: Int) {
+    private fun addSongList(songInfoList: MutableList<SongInfo>, index: Int) {
         clearSongList()
         songList.addAll(songInfoList)
         currentSongIndex = if (index >= songInfoList.size) {
@@ -279,7 +289,7 @@ class SongPlayManager private constructor() {
         }
     }
 
-    fun containsStr(cardNum: String): Boolean {
+    private fun containsStr(cardNum: String): Boolean {
         val regex = ".*[a-zA-Z]+.*"
         val m = Pattern.compile(regex).matcher(cardNum)
         return m.matches()

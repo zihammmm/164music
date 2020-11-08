@@ -21,11 +21,6 @@ class SongViewModel(
 
     val songDetail = MutableLiveData<SongDetailBean>()
     val getSongDetailError = MutableLiveData<String>()
-    val playState = MutableLiveData<PlayState>(PlayState.Paused)
-
-    enum class PlayState{
-        Playing, Paused
-    }
 
     fun getSongDetail(ids: Long) {
         songRepository.getSongDetail(ids).subscribeOn(Schedulers.io())
@@ -57,17 +52,15 @@ class SongViewModel(
     fun pauseMusic() {
         LogUtil.d(TAG, "pauseMusic")
         SongPlayManager.instance.pauseMusic()
-        playState.value = PlayState.Paused
+
     }
 
     fun playMusic() {
         LogUtil.d(TAG, "playMusic")
         SongPlayManager.instance.playMusic()
-        playState.value = PlayState.Playing
     }
 
     fun playASong(songInfo: SongInfo) {
         SongPlayManager.instance.clickASong(songInfo)
-        playState.value = PlayState.Playing
     }
 }
